@@ -1,0 +1,104 @@
+body {
+	margin-top: 50px;
+	
+	//cursor: default;
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+#page {
+    //font-family: 'Roboto', 'Work Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Roboto';
+    font-size: 5.0vw;
+    text-align:center;
+    //overflow:hidden;
+    //height:100%;
+    margin:0;
+    padding:0;
+    padding-top: 3vw;
+    min-height:100%;
+    min-width:100%;
+}
+
+.top-spacer {
+	margin-top:15px;
+}
+
+.status-icon {
+	line-height: 20px;
+	font-size: 18px;
+	padding: 15px 15px;
+}
+
+a:link, a:visited, a:active {
+    color:white;
+}
+
+a:hover {
+    color:red;
+}
+
+.ui-panel {
+    margin-top: 3vw;
+    margin-bottom: 3vw;
+    display:none;
+}
+
+.icon {
+	display: none;
+	color: white;
+}
+
+#time {
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+}
+
+#countdown-timer {
+    font-size: 5.0em;
+    line-height: 90%;
+}
+
+.temp {
+    font-size: 10.0em;
+    line-height: 90%;
+    //width:50%;
+    //margin:auto;
+    //color:red;
+}
+
+.thermometer-icon{
+    //width:0.9em;
+    height:1.2em;
+}
+
+.thermometer-temp {
+    display: inline;
+}
+
+.thermometer-time {
+    font-size: 2vw;
+}
+
+#data, #debug {
+    width: 90%;
+    max-width: 90%;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 1.0vw;
+    color:white;
+    text-align: left;
+    margin: 2px auto;
+    padding: 2px;
+    display: none;
+}
+
+#debug {
+    height: 40vh;
+    overflow-y: scroll;
+    border: 1px solid grey;
+}
