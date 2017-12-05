@@ -12,3 +12,8 @@ https://thepi.io/how-to-set-up-a-web-server-on-the-raspberry-pi/
 - sudo git clone https://github.com/Codiad/Codiad /var/www/html/codiad  
 - sudo touch /var/www/html/codiad/config.php  
 - sudo chown www-data:www-data -R /var/www/html/codiad/  
+
+## Setup git
+- Add project in codiad from git repo
+- git config --global user.name "John Doe"
+- git config --global user.email johndoe@example.com
