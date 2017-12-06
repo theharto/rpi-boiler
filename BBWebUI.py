@@ -2,12 +2,13 @@ from gevent import monkey; monkey.patch_all()
 from gevent import wsgi
 from gevent.wsgi import WSGIServer
 import gevent
+
 import time
 from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, flash
-from BBSharedData import *
+import BBSharedData
 import werkzeug.serving
-import copy
+#import copy
 
 def build_JSON_data(d):
 	with d:
@@ -28,7 +29,7 @@ def build_JSON_settings(d):
 
 class BBWebUI:
 	def __init__(self, data, controller):
-		print "BBWebUI.init(", self, ")"
+		print ("BBWebUI.init(", self, ")")
 		self.data = data
 		self.controller = controller
 		self.app = Flask("BerryBoiler")
@@ -59,7 +60,7 @@ class BBWebUI:
 				self.data.settings.test_mode = ("1" == request.args.get("test_mode"))
 				self.data.settings.hysteresis = max(0.2, min(2.0, float(request.args.get("hysteresis"))))
 				self.data.settings.min_switching = max(30, min(600, int(request.args.get("min_switching"))))
-				print "set_settings ", self.data.settings
+				print ("set_settings ", self.data.settings)
 			return build_JSON_settings(self.data)
 		
 		@self.app.route("/get_status")
@@ -128,13 +129,13 @@ class BBWebUI:
 	#reloader does not seem to work
 	#@werkzeug.serving.run_with_reloader
 	def start(self):
-		print "BBWebUI.start()"
+		print ("BBWebUI.start()")
 		#self.app.run(host="0.0.0.0", port=80, debug=False) # runs in this thread
 		
 		# run with gevent server
 		self.http_server = WSGIServer(('', 80), self.app)
 		self.http_server.serve_forever()
-		print "BBWebUI.start() -- ended --"
+		print ("BBWebUI.start() -- ended --")
 
 if __name__ == "__main__":
 	import BBMain

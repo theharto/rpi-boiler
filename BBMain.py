@@ -1,6 +1,7 @@
-from BBSharedData import *
-from BBController import *
-from BBWebUI import *
+#from BBSharedData import *
+import BBSharedData
+import BBController
+import BBWebUI
 
 def go():
 	data = BBSharedData()

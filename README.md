@@ -20,3 +20,6 @@ https://thepi.io/how-to-set-up-a-web-server-on-the-raspberry-pi/
   - git config --global user.email johndoe@example.com  
   - git remote add origin https://theharto:[PASSWORD]@github.com/theharto/rpi-boiler.git  
 
+## Easy backup and restore from GitHub  
+- github_backup.sh  
+- github_restore.sh  

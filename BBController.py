@@ -1,6 +1,6 @@
 import threading
 import time
-from BBSharedData import *
+import BBSharedData
 import RPi.GPIO as GPIO
 from termcolor import colored
 from datetime import datetime
@@ -89,12 +89,12 @@ class BBController(threading.Thread):
 		self.wake_controller_thread()
 	
 	def turn_boiler_on(self):
-		print colored("Boiler on - GPIO " + str(self.GPIO_pin) + " test=" + str(self.data.settings.test_mode), "yellow")
+		print(colored("Boiler on - GPIO " + str(self.GPIO_pin) + " test=" + str(self.data.settings.test_mode), "yellow"))
 		if not self.data.settings.test_mode:
 			GPIO.output(self.GPIO_pin, self.signal_boiler_on)
 
 	def turn_boiler_off(self):
-		print colored("Boiler off - GPIO " + str(self.GPIO_pin) + " test=" + str(self.data.settings.test_mode), "green")
+		print(colored("Boiler off - GPIO " + str(self.GPIO_pin) + " test=" + str(self.data.settings.test_mode), "green"))
 		if not self.data.settings.test_mode:
 			GPIO.output(self.GPIO_pin, self.signal_boiler_off)
 
@@ -104,31 +104,31 @@ class BBController(threading.Thread):
 		
 		while self.running:
 			current_time = int(time.time())
-			print "BBController.run() -- tick -- " + datetime.fromtimestamp(current_time).strftime('%H:%M:%S')
+			print ("BBController.run() -- tick -- " + datetime.fromtimestamp(current_time).strftime('%H:%M:%S'))
 			
 			if not main_thread_running():
-				print colored("Main thread terminated, shuting down", "red")
+				print (colored("Main thread terminated, shuting down", "red"))
 				break;
 			
 			with self.data:
 				if self.data.mode == "switch":
-					print "mode = switch"
+					print ("mode = switch")
 					
 				elif self.data.mode == "count":
-					print "mode = count"
-					print "countdown_off_time = ", self.data.countdown_off_time
-					print "current_time = ", current_time
+					print ( "mode = count")
+					print ("countdown_off_time = ", self.data.countdown_off_time)
+					print ("current_time = ", current_time)
 					self.data.boiler_on = (self.data.countdown_off_time > current_time)
 				
 				elif self.data.mode == "therm":
-					print "mode = therm"
-					print "target_temp = ", self.data.target_temp
-					print "thermometer_temp = ", self.data.thermometer_temp
+					print ("mode = therm")
+					print ("target_temp = ", self.data.target_temp)
+					print ("thermometer_temp = ", self.data.thermometer_temp)
 					self.data.boiler_on = (self.data.target_temp > self.data.thermometer_temp)
 					self.data.boiler_on = False
 					
 				else:
-					print "mode = unknown"
+					print ("mode = unknown")
 					self.data.boiler_on = False
 				
 				boiler_on = self.data.boiler_on
@@ -138,13 +138,13 @@ class BBController(threading.Thread):
 				if self.data.boiler_on != self.previous_boiler_state:
 					if (current_time - self.previous_change_time) < self.data.settings.min_switching:
 						# state change unsuccessful, set pending
-						print colored("Time since last change = " + str(current_time - self.previous_change_time), "blue")
-						print colored("Boiler state change pending to ... " + str(self.data.boiler_on), "blue")
+						print (colored("Time since last change = " + str(current_time - self.previous_change_time), "blue"))
+						print (colored("Boiler state change pending to ... " + str(self.data.boiler_on), "blue"))
 						boiler_on = self.previous_boiler_state
 						self.data.pending = True
 					else:
 						# state change successful
-						print colored("Changing boiler state", "blue")
+						print (colored("Changing boiler state", "blue"))
 						self.previous_boiler_state = self.data.boiler_on
 						self.previous_change_time = current_time
 					
@@ -178,7 +178,7 @@ class BBController(threading.Thread):
 					old_boiler_state = self.status.boiler_active
 				print self.status """
 		
-		print colored("Controller shuting down", "red")		   
+		print(colored("Controller shuting down", "red"))	   
 		# make sure that boiler is off
 		self.turn_boiler_off()
 		GPIO.cleanup()
