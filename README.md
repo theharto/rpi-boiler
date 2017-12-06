@@ -15,5 +15,8 @@ https://thepi.io/how-to-set-up-a-web-server-on-the-raspberry-pi/
 
 ## Setup git
 - Add project in codiad from git repo
-- git config --global user.name "John Doe"
-- git config --global user.email johndoe@example.com
+
+- In terminal plugin
+- - git config --global user.name "John Doe"
+- - git config --global user.email johndoe@example.com
+- - git remote add origin https://theharto:[PASSWORD]@github.com/theharto/rpi-boiler.git
