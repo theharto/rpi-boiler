@@ -5,11 +5,12 @@ class BBSettings:
 	def __init__(self):
 		self.client_refresh = 30
 		self.thermometer_refresh = 300
-		self.controller_tick = 60
+		self.controller_tick = 5
 		self.hysteresis = 0.5
 		self.min_switching = 60
 		self.debug_mode = True
-		self.test_mode = True
+		self.test_mode = False
+		self.gpio = 21
 	
 	def __str__(self):
 		return str(vars(self))
@@ -21,7 +22,8 @@ class BBSettings:
 		json += ' "hysteresis": %.2f,' % (self.hysteresis)
 		json += ' "min_switching": %d,' % (self.min_switching)
 		json += ' "debug_mode": %d,' % (self.debug_mode)
-		json += ' "test_mode": %d }' % (self.test_mode)
+		json += ' "test_mode": %d, ' % (self.test_mode)
+		json += ' "gpio": %d }' % (self.gpio)
 		return json
 
 class BBSharedData:

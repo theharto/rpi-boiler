@@ -15,11 +15,11 @@ class BBController(threading.Thread):
 	def __init__(self, data):
 		threading.Thread.__init__(self)
 		self.data = data
-		self.wake_signal = Condition()
+		self.wake_signal = threading.Condition()
 		self.running = True
 		
 		# set constants
-		self.GPIO_pin = 2
+		self.GPIO_pin = 21
 		self.signal_boiler_on = GPIO.LOW
 		self.signal_boiler_off = GPIO.HIGH
 		

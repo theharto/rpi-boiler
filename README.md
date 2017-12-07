@@ -1,6 +1,6 @@
 # rpi-boiler
 
-## Install python3 and pip3
+## Install python3 and pip3 and pip
 
 ## Install nginx and php
 https://thepi.io/how-to-set-up-a-web-server-on-the-raspberry-pi/  
@@ -23,3 +23,8 @@ https://thepi.io/how-to-set-up-a-web-server-on-the-raspberry-pi/
 ## Easy backup and restore from GitHub  
 - github_backup.sh  
 - github_restore.sh  
+
+
+## Install bjoern  
+- sudo apt install libev-dev
+- sudo pip3 install bjoern

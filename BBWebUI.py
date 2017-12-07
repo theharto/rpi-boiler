@@ -1,13 +1,14 @@
-from gevent import monkey; monkey.patch_all()
-from gevent import wsgi
-from gevent.wsgi import WSGIServer
-import gevent
+#from gevent import monkey; monkey.patch_all()
+#from gevent import wsgi
+#from gevent.wsgi import WSGIServer
+#import gevent
 
 import time
 from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, flash
+import bjoern
 import BBSharedData
-import werkzeug.serving
+#import werkzeug.serving
 #import copy
 
 def build_JSON_data(d):
@@ -130,11 +131,12 @@ class BBWebUI:
 	#@werkzeug.serving.run_with_reloader
 	def start(self):
 		print ("BBWebUI.start()")
+		bjoern.run(self.app, "0.0.0.0", 8000)
 		#self.app.run(host="0.0.0.0", port=80, debug=False) # runs in this thread
 		
 		# run with gevent server
-		self.http_server = WSGIServer(('', 80), self.app)
-		self.http_server.serve_forever()
+		#self.http_server = WSGIServer(('', 80), self.app)
+		#self.http_server.serve_forever()
 		print ("BBWebUI.start() -- ended --")
 
 if __name__ == "__main__":
