@@ -5,6 +5,8 @@ curl http://localhost/shutdown
 
 sleep 2
 
+rm /tmp/rpi-boiler.sock
+
 if [ $# -eq 0 ];
 then
 	echo "starting normally ... "

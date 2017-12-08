@@ -1,15 +1,10 @@
-#from gevent import monkey; monkey.patch_all()
-#from gevent import wsgi
-#from gevent.wsgi import WSGIServer
-#import gevent
 
 import time
+import os
 from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, flash
 import bjoern
 import BBSharedData
-#import werkzeug.serving
-#import copy
 
 def build_JSON_data(d):
 	with d:
@@ -118,27 +113,28 @@ class BBWebUI:
 			
 		@self.app.route("/shutdown")
 		def shutdown():
-			# shutdown via gevent or built-in flask server
-			func = request.environ.get('werkzeug.server.shutdown')
-			if func is None:
-				self.http_server.stop()
-			else:
-				func()
 			self.controller.shutdown()
+			shutdown_server()
 			return "!! SHUTDOWN !!<p><a href='/'>index</a>"
+	
+	
+	NOT BEING CALLES
+		@self.app.before_first_request
+		def allow_access_to_sock(self):
+			print("CHMOD SOCK FILE!!")
+			os.chmod("/tmp/rpi-boiler.sock", 0o777)
 
-	#reloader does not seem to work
-	#@werkzeug.serving.run_with_reloader
+
 	def start(self):
 		print ("BBWebUI.start()")
 		#bjoern.run(self.app, "0.0.0.0", 8000)
+		#os.umask(0)
+		#os.system("umask 0")
+		#os.system("umask")
+		os.system('rm /tmp/rpi-boiler.sock')
 		bjoern.run(self.app, "unix:/tmp/rpi-boiler.sock")
-		#self.app.run(host="0.0.0.0", port=80, debug=False) # runs in this thread
-		
-		# run with gevent server
-		#self.http_server = WSGIServer(('', 80), self.app)
-		#self.http_server.serve_forever()
 		print ("BBWebUI.start() -- ended --")
+		
 
 if __name__ == "__main__":
 	import BBMain

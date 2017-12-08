@@ -2,7 +2,7 @@ import threading
 import time
 import BBSharedData
 import RPi.GPIO as GPIO
-from termcolor import cprint
+from termcolor import cprint, colored
 from datetime import datetime
 #import BBSettings
 
@@ -13,13 +13,13 @@ def main_thread_running():
 	return True
 
 class BBController(threading.Thread):
-	self.RELAY_ON = GPIO.LOW
-	self.RELAY_OFF = GPIO.HIGH
-	self.LED_ON = GPIO.HIGH
-	self.LED_OFF = GPIO.LOW
-	
 	def __init__(self, data):
 		threading.Thread.__init__(self)
+		self.RELAY_ON = GPIO.LOW
+		self.RELAY_OFF = GPIO.HIGH
+		self.LED_ON = GPIO.HIGH
+		self.LED_OFF = GPIO.LOW
+		
 		self.data = data
 		self.wake_signal = threading.Condition()
 		self.running = True
@@ -91,17 +91,12 @@ class BBController(threading.Thread):
 		
 	def __set_boiler(self, on):
 		relay_pin = self.data.settings.get('relay_gpio')
+		test_mode = self.data.settings.get('test_mode')
+		
+		cprint("Set boiler=%d gpio=%d %s" % (on, relay_pin, ("[TEST]" if test_mode else "")), ("red" if on else "blue"))
+		if not test_mode:
+			GPIO.output(relay_pin, (self.RELAY_ON if on else self.RELAY_OFF))
 	
-	def turn_boiler_on(self):
-		print(colored("Boiler on - GPIO " + str(self.GPIO_pin) + " test=" + str(self.data.settings.test_mode), "yellow"))
-		if not self.data.settings.test_mode:
-			GPIO.output(self.GPIO_pin, self.signal_boiler_on)
-
-	def turn_boiler_off(self):
-		print(colored("Boiler off - GPIO " + str(self.GPIO_pin) + " test=" + str(self.data.settings.test_mode), "green"))
-		if not self.data.settings.test_mode:
-			GPIO.output(self.GPIO_pin, self.signal_boiler_off)
-
 	def run(self):
 		self.previous_boiler_state = self.data.boiler_on
 		self.previous_change_time = int(time.time())
@@ -111,7 +106,7 @@ class BBController(threading.Thread):
 			print ("BBController.run() -- tick -- " + datetime.fromtimestamp(current_time).strftime('%H:%M:%S'))
 			
 			if not main_thread_running():
-				print (colored("Main thread terminated, shuting down", "red"))
+				cprint("Main thread terminated, shuting down", "red")
 				break;
 			
 			with self.data:
@@ -140,10 +135,10 @@ class BBController(threading.Thread):
 				
 				# test for state change, only change boiler if dt < min switching
 				if self.data.boiler_on != self.previous_boiler_state:
-					if (current_time - self.previous_change_time) < self.data.settings.min_switching:
+					if (current_time - self.previous_change_time) < self.data.settings.settings['min_switching']:
 						# state change unsuccessful, set pending
-						print (colored("Time since last change = " + str(current_time - self.previous_change_time), "blue"))
-						print (colored("Boiler state change pending to ... " + str(self.data.boiler_on), "blue"))
+						cprint("Time since last change = " + str(current_time - self.previous_change_time), "blue")
+						cprint("Boiler state change pending to ... " + str(self.data.boiler_on), "blue")
 						boiler_on = self.previous_boiler_state
 						self.data.pending = True
 					else:
@@ -151,40 +146,16 @@ class BBController(threading.Thread):
 						print (colored("Changing boiler state", "blue"))
 						self.previous_boiler_state = self.data.boiler_on
 						self.previous_change_time = current_time
-					
-				if boiler_on:
-					self.turn_boiler_on()
-				else:
-					self.turn_boiler_off()
+				
+				self.__set_boiler(boiler_on)
 				
 			# sleep for tick, but wake up if signalled
 			with self.wake_signal:
-				self.wake_signal.wait(self.data.settings.controller_tick)
-			
-					
-					
-				"""	 
-					self.data.boiler_on = False
-					for p in self.data.schedule:
-						if (p.stop < self.status.time):
-							print colored("removing " + str(p), "red")
-							self.status.schedule.remove(p)
-						elif (p.start <= self.status.time) and (p.stop > self.status.time):
-							self.status.boiler_active = True
-					
-					if self.status.boiler_active:
-						self.turn_boiler_on()
-					else:
-						self.turn_boiler_off()
-					
-					if self.status.boiler_active != old_boiler_state:
-						print colored("Boiler turned %d" % self.status.boiler_active, "blue")
-					old_boiler_state = self.status.boiler_active
-				print self.status """
+				self.wake_signal.wait(self.data.settings.get('controller_tick'))
 		
 		print(colored("Controller shuting down", "red"))	   
 		# make sure that boiler is off
-		self.turn_boiler_off()
+		self.__set_boiler(0)
 		GPIO.cleanup()
 
 if __name__ == "__main__":

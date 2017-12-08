@@ -9,7 +9,7 @@ class BBSettings:
 		self.set('hysteresis', 0.5)
 		self.set('min_switching', 60)
 		self.set('debug_mode', True)
-		self.set('test_mode', False)
+		self.set('test_mode', True)
 		self.set('relay_gpio', 21)
 		self.set('led_gpio', 2)
 		
