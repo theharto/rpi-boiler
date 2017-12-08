@@ -131,7 +131,8 @@ class BBWebUI:
 	#@werkzeug.serving.run_with_reloader
 	def start(self):
 		print ("BBWebUI.start()")
-		bjoern.run(self.app, "0.0.0.0", 8000)
+		#bjoern.run(self.app, "0.0.0.0", 8000)
+		bjoern.run(self.app, "unix:/tmp/rpi-boiler.sock")
 		#self.app.run(host="0.0.0.0", port=80, debug=False) # runs in this thread
 		
 		# run with gevent server

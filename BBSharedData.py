@@ -1,30 +1,5 @@
 from threading import Lock, Condition
-from pprint import pprint
-
-class BBSettings:
-	def __init__(self):
-		self.client_refresh = 30
-		self.thermometer_refresh = 300
-		self.controller_tick = 5
-		self.hysteresis = 0.5
-		self.min_switching = 60
-		self.debug_mode = True
-		self.test_mode = False
-		self.gpio = 21
-	
-	def __str__(self):
-		return str(vars(self))
-	   
-	def toJSON(self):
-		json = '{ "client_refresh": %d,' % (self.client_refresh)
-		json += ' "thermometer_refresh": %d,' % (self.thermometer_refresh)
-		json += ' "controller_tick": %d,' % (self.controller_tick)
-		json += ' "hysteresis": %.2f,' % (self.hysteresis)
-		json += ' "min_switching": %d,' % (self.min_switching)
-		json += ' "debug_mode": %d,' % (self.debug_mode)
-		json += ' "test_mode": %d, ' % (self.test_mode)
-		json += ' "gpio": %d }' % (self.gpio)
-		return json
+import BBSettings
 
 class BBSharedData:
 	def __init__(self):
@@ -38,7 +13,7 @@ class BBSharedData:
 		self.thermometer_temp = 99.0
 		self.thermometer_update_time = 0
 		
-		self.settings = BBSettings()
+		self.settings = BBSettings.BBSettings()
 		
 		self.schedule = []
 		self.lock = Lock()

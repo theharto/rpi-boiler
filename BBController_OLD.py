@@ -2,9 +2,9 @@ import threading
 import time
 import BBSharedData
 import RPi.GPIO as GPIO
-from termcolor import cprint
+from termcolor import colored
 from datetime import datetime
-#import BBSettings
+import BBSettings
 
 def main_thread_running():
 	for t in threading.enumerate():
@@ -13,20 +13,20 @@ def main_thread_running():
 	return True
 
 class BBController(threading.Thread):
-	self.RELAY_ON = GPIO.LOW
-	self.RELAY_OFF = GPIO.HIGH
-	self.LED_ON = GPIO.HIGH
-	self.LED_OFF = GPIO.LOW
-	
 	def __init__(self, data):
 		threading.Thread.__init__(self)
 		self.data = data
 		self.wake_signal = threading.Condition()
 		self.running = True
 		
+		# set constants
+		self.GPIO_pin = 21
+		self.signal_boiler_on = GPIO.LOW
+		self.signal_boiler_off = GPIO.HIGH
+		
 		# setup gpio pins
 		GPIO.setmode(GPIO.BCM)
-		GPIO.setup(self.data.settings.get('relay_gpio'), GPIO.OUT, initial=self.RELAY_OFF)
+		GPIO.setup(self.GPIO_pin, GPIO.OUT, initial=self.signal_boiler_off)
 	
 	def wake_controller_thread(self):
 		with self.wake_signal:
@@ -88,9 +88,6 @@ class BBController(threading.Thread):
 	def shutdown(self):
 		self.running = False # assignments are atomic
 		self.wake_controller_thread()
-		
-	def __set_boiler(self, on):
-		relay_pin = self.data.settings.get('relay_gpio')
 	
 	def turn_boiler_on(self):
 		print(colored("Boiler on - GPIO " + str(self.GPIO_pin) + " test=" + str(self.data.settings.test_mode), "yellow"))

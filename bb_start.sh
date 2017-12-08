@@ -8,9 +8,8 @@ sleep 2
 if [ $# -eq 0 ];
 then
 	echo "starting normally ... "
-	sudo python BBMain.py &
+	python3 BBMain.py &
 else
 	echo "starting with nohup ..."
-	sudo nohup python BBMain.py >~/bb.log &
-
+	nohup python3 BBMain.py > bb.log &
 fi

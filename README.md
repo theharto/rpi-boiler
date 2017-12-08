@@ -26,5 +26,11 @@ https://thepi.io/how-to-set-up-a-web-server-on-the-raspberry-pi/
 
 
 ## Install bjoern  
-- sudo apt install libev-dev
-- sudo pip3 install bjoern
+- sudo apt install libev-dev  
+- sudo pip3 install bjoern  
+
+## Add sock file
+- sudo mkdir /run/rpi-boiler
+- sudo chown www-data:www-data /run/rpi-boiler
+- sudo chmod 777 /run/rpi-boiler
+
