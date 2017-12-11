@@ -14,12 +14,8 @@
 	<meta http-equiv="Expires" content="0">
 
 	<script src="static/jquery.js"></script>
-	<script src="static/moment.min.js"></script>
 	<script src="static/bootstrap/js/bootstrap.min.js"></script>
-	<script src="static/bootstrap-switch-master/dist/js/bootstrap-switch.min.js"></script>
-	
 	<link  href="static/bootstrap/css/bootstrap-slate.css" rel="stylesheet">
-	<link  href="static/bootstrap-switch-master/dist/css/bootstrap3/bootstrap-switch.min.css" rel="stylesheet">
 	<link  href="static/style.css?{{ range(1, 1000) | random }}" rel="stylesheet">
 </head>
 <body>
@@ -58,31 +54,22 @@
 			}
 			debug("Settings = ", settings);
 			
+			var option_html_template = '<div class="row top-spacer"><div class="col-xs-6">[1]</div><div class="col-xs-4"><input class="form-control" type="text" id="[2]" value="[3]"></div><div class="col-xs-2"></div></div>';
+			
 			for (var key in settings) {
 				var value = settings[key];
 				debug(key, " : ", value, " is a ", typeof value);
-				//$("#settings-list").
+				
+				var option_html = option_html_template.replace("[1]", key).replace("[2]", key).replace("[3]", value);
+				
+				$("#settings-list").append(option_html);
 			}
 			
-			$("#test-mode-switch").bootstrapSwitch({ size:"large", state:settings.test_mode });
-			$("#debug-mode-switch").bootstrapSwitch({ size:"large", state:settings.debug_mode });
-			$("#client-refresh-input").val(settings.client_refresh);
-			$("#thermometer-refresh-input").val(settings.thermometer_refresh);
-			$("#controller-tick-input").val(settings.controller_tick);
-			$("#hysteresis-input").val(settings.hysteresis);
-			$("#min-switching-input").val(settings.min_switching);
-			
-			$("#save-button").on('click', function(e) {
-				settings.test_mode = $("#test-mode-switch").bootstrapSwitch('state')? 1: 0;
-				settings.debug_mode = $("#debug-mode-switch").bootstrapSwitch('state')? 1: 0;
-				settings.client_refresh = $("#client-refresh-input").val();
-				settings.thermometer_refresh = $("#thermometer-refresh-input").val();
-				settings.controller_tick = $("#controller-tick-input").val();
-				settings.hysteresis = $("#hysteresis-input").val();
-				settings.min_switching = $("#min-switching-input").val();
-				server_ajax_request("/set_settings?" + $.param(settings));
+			$("input").change(function() {
+				server_ajax_request("/save_setting/" + this.id + "/" + this.value);
 			});
 			
+			$("#shutdown-button").click(function() { window.location.href = "/shutdown"; });
 		});
 	</script>
 	
@@ -97,46 +84,9 @@
     
 	<div class="container-fluid">
 		<div id="settings-list"></div>
-		
-		
-		
-		
-	  	<div class="row top-spacer">
-			<div class="col-xs-6">Test mode</div>
-			<div class="col-xs-6"><input class="bootstrap-switch" id="test-mode-switch" type="checkbox"></div>
-		</div>
 		<div class="row top-spacer">
-			<div class="col-xs-6">Debug mode</div>
-			<div class="col-xs-6"><input class="bootstrap-switch" id="debug-mode-switch" type="checkbox"></div>
-		</div>
-		<div class="row top-spacer">
-			<div class="col-xs-6">Client refresh (s)</div>
-			<div class="col-xs-4"><input class="form-control" type="text" id="client-refresh-input"></div>
-			<div class="col-xs-2"></div>
-		</div>
-		<div class="row top-spacer">
-			<div class="col-xs-6">Controller tick (s)</div>
-			<div class="col-xs-4"><input class="form-control" type="text" id="controller-tick-input"></div>
-			<div class="col-xs-2"></div>
-		</div>
-		<div class="row top-spacer">
-			<div class="col-xs-6">Thermometer refresh (s)</div>
-			<div class="col-xs-4"><input class="form-control" type="text" id="thermometer-refresh-input"></div>
-			<div class="col-xs-2"></div>
-		</div>
-		<div class="row top-spacer">
-			<div class="col-xs-6">Hysteresis (deg)</div>
-			<div class="col-xs-4"><input class="form-control" type="text" id="hysteresis-input"></div>
-			<div class="col-xs-2"></div>
-		</div>
-		<div class="row top-spacer">
-			<div class="col-xs-6">Minimum time between switching (s)</div>
-			<div class="col-xs-4"><input class="form-control" type="text" id="min-switching-input"></div>
-			<div class="col-xs-2"></div>
-		</div>
-		<div class="row top-spacer">
+			<div class="col-xs-4"><button type="button" id="shutdown-button" class="btn btn-default btn-block">Shutdown</button></div>
 			<div class="col-xs-4"></div>
-			<div class="col-xs-4"><button type="button" id="save-button" class="btn btn-default btn-block">Save</button></div>
 			<div class="col-xs-4"></div>
 		</div>
 		<div id="debug"></div>

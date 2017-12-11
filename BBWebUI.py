@@ -1,9 +1,7 @@
 from datetime import datetime
 import flask
 import time, os, signal, sys, threading, bjoern
-import urllib.request
 import BBSharedData
-
 from termcolor import cprint
 
 def build_JSON_data(d):
@@ -22,10 +20,6 @@ def build_JSON_data(d):
 def build_JSON_settings(d):
 	with d:
 		return d.settings.toJSON()
-		
-def shutting_down():
-	print("Shutting down...")
-	urllib.request.urlopen("http://127.0.0.1/instant_shutdown")
 
 class BBWebUI:
 	def __init__(self, data, controller):
@@ -34,18 +28,11 @@ class BBWebUI:
 		self.controller = controller
 		self.app = flask.Flask("BerryBoiler")
 		self.app.secret_key = 'josephine'
+		self.app.config['TEMPLATES_AUTO_RELOAD'] = True
 		
 		@self.app.before_request
 		def before_request():
 			cprint(flask.request, "yellow")
-			flask.request.bb_shutdown = False
-		
-		@self.app.teardown_request
-		def teardown_request(e=None):
-			if flask.request.bb_shutdown:
-				cprint("Shuting down...", "yellow")
-				time.sleep(0.1) #yield to controller thread to cleanup gpios
-				#os.kill(os.getpid(), signal.SIGINT)
 
 		@self.app.route("/")
 		def index():
@@ -61,19 +48,11 @@ class BBWebUI:
 				'json_settings' : build_JSON_settings(self.data),
 			}
 			return flask.render_template("settings.html", **context)
-		
-		@self.app.route("/set_settings")
-		def set_settings():
-			with self.data:
-				self.data.settings.client_refresh = max(5, min(600, int(request.args.get("client_refresh"))))
-				self.data.settings.thermometer_refresh = max(5, min(3600, int(request.args.get("thermometer_refresh"))))
-				self.data.settings.controller_tick = max(1, min(600, int(request.args.get("controller_tick"))))
-				self.data.settings.debug_mode = ("1" == request.args.get("debug_mode"))
-				self.data.settings.test_mode = ("1" == request.args.get("test_mode"))
-				self.data.settings.hysteresis = max(0.2, min(2.0, float(request.args.get("hysteresis"))))
-				self.data.settings.min_switching = max(30, min(600, int(request.args.get("min_switching"))))
-				print ("set_settings ", self.data.settings)
-			return build_JSON_settings(self.data)
+			
+		@self.app.route("/save_setting/<string:key>/<value>")
+		def save_setting(key, value):
+			self.data.settings.set(key, value)
+			return "ok"
 		
 		@self.app.route("/get_status")
 		def get_status():
@@ -130,16 +109,18 @@ class BBWebUI:
 		@self.app.route("/shutdown")
 		def shutdown():
 			self.controller.shutdown()
-			cprint("/shutdown...", "yellow")
+			cprint("Shutting down...", "yellow")
 			time.sleep(0.1) #yield to controller thread to cleanup gpios
-			os.kill(os.getpid(), signal.SIGINT)
-			return "<p>Shutting down...<p><a href='/'>/index</a>"
-
+			os.kill(os.getpid(), signal.SIGINT) #signal bjoern to shutdown with cleanup
+			return "<p>Shutting down...<p><a href='/'>/index</a><br><a href='/settings'>/settings</a>"
 
 	def start(self):
-		print ("Starting bjoern server")
-		bjoern.run(self.app, "0.0.0.0", 8001)
-		print ("BBWebUI.start() -- ended --")
+		cprint("Starting bjoern server", "yellow")
+		try:
+			bjoern.run(self.app, "0.0.0.0", 8001)
+		except:
+			pass
+		cprint("Ending bjoern server", "yellow")
 
 if __name__ == "__main__":
 	import BBMain

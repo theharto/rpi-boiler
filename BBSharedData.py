@@ -23,17 +23,3 @@ class BBSharedData:
 		
 	def __exit__(self, type, value, traceback):
 		self.lock.release()
-
-bbp_id = 0
-class BBPeriod:
-	def __init__(self, start, stop, temperature=20, recurring=False):
-		global bbp_id
-		bbp_id += 1
-		self.id = bbp_id
-		self.start = start
-		self.stop = stop
-		self.temperature = 20
-		self.recurring = recurring
-
-	def __repr__(self):
-		return "<BBPeriod id=%d start=%d, stop=%d, temperature=%d, recurring=%d>" % (self.id, self.start, self.stop, self.temperature, self.recurring)

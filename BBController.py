@@ -3,7 +3,7 @@ import time
 import BBSharedData
 import RPi.GPIO as GPIO
 from termcolor import cprint, colored
-from datetime import datetime
+from datetime import datetime, date
 #import BBSettings
 
 def main_thread_running():
@@ -11,6 +11,38 @@ def main_thread_running():
 		if t.name == "MainThread" and t.is_alive() == False:
 			return False
 	return True
+
+# Time of day in seconds
+def tod(h, m=0, s=0):
+	return (h*3600) + (m*60) + s
+	
+def tod_str(s):
+	h = int(s / 3600)
+	s -= h * 3600
+	m = int(s / 60)
+	s -= m * 60
+	return str(h) + ":" + str(m) + ":" + str(s)
+	
+def tod_now():
+	now = datetime.now()
+	midnight = datetime(now.year, now.month, now.day)
+	return (now - midnight).seconds
+	
+id_count = 0
+class BBEvent:
+	def __init__(self, start, end, temp):
+		global id_count
+		self.start_time = start
+		self.end_time = end
+		self.temp = temp
+		self.id = id_count
+		id_count += 1
+	
+	def __str__(self):
+		return "(BBEvent%d %s, %s, %d)" % (self.id, tod_str(self.start_time), tod_str(self.end_time), self.temp)
+		
+	def __repr__(self):
+		return self.__str__()
 
 class BBController(threading.Thread):
 	def __init__(self, data):
@@ -27,6 +59,18 @@ class BBController(threading.Thread):
 		# setup gpio pins
 		GPIO.setmode(GPIO.BCM)
 		GPIO.setup(self.data.settings.get('relay_gpio'), GPIO.OUT, initial=self.RELAY_OFF)
+		
+		self.thermometer_temp = 20.0
+		self.event_queue = [BBEvent(tod(10, 0, 0), tod(16, 0, 0), 0), BBEvent(tod(0, 0, 0), tod(24, 0, 0), 25.0)]
+		self.event_queue.append(BBEvent(tod(11), tod(17), 17))
+		
+		print(self.event_queue)
+		
+		self.event_queue.sort(key=lambda e: e.start_time)
+		
+		print(self.event_queue)
+		
+		self.overide_event_queue = []
 	
 	def wake_controller_thread(self):
 		with self.wake_signal:
@@ -85,6 +129,11 @@ class BBController(threading.Thread):
 		self.data.thermometer_update_time = time.time()
 		self.wake_controller_thread()
 
+
+
+
+
+
 	def shutdown(self):
 		self.running = False # assignments are atomic
 		self.wake_controller_thread()
@@ -110,6 +159,14 @@ class BBController(threading.Thread):
 				cprint("Main thread terminated, shuting down", "red")
 				break;
 			
+			# check override events first
+			
+			self.event_queue.sort(key=lambda e: e.start_time)
+			#for e in self.event_queue:
+			
+			
+			
+			"""
 			with self.data:
 				if self.data.mode == "switch":
 					print ("mode = switch")
@@ -148,8 +205,8 @@ class BBController(threading.Thread):
 						self.previous_boiler_state = self.data.boiler_on
 						self.previous_change_time = current_time
 				
-				self.__set_boiler(boiler_on)
-				
+				self.__set_boiler(boiler_on)"""
+			
 			# sleep for tick, but wake up if signalled
 			with self.wake_signal:
 				self.wake_signal.wait(self.data.settings.get('controller_tick'))

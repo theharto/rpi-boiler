@@ -1,11 +1,9 @@
 #!/bin/bash
 
 echo "terminating..."
-curl http://localhost/shutdown
+curl http://localhost/shutdown > /dev/null 2>&1
 
-sleep 2
-
-rm /tmp/rpi-boiler.sock
+sleep 1
 
 if [ $# -eq 0 ];
 then

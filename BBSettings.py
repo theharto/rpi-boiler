@@ -13,7 +13,7 @@ class BBSettings:
 		self.set('test_mode', 1)
 		self.set('relay_gpio', 21)
 		self.set('led_gpio', 2)
-		self.set('meta_bools', "blah blah")
+		#self.set('meta_bools', "blah blah")
 		
 	def __str__(self):
 		return str(self.settings)
@@ -43,6 +43,7 @@ class BBSettings:
 			# type is important, so cast to original type
 			t = type(self.settings[key])
 			value = t(value)
+		print("SETTINGS.set:", key, value)
 		self.settings[key] = value
 		
 	def get(self, key):
@@ -56,7 +57,6 @@ if __name__ == "__main__":
 	s = BBSettings()
 	print(s)
 	print("")
-	
 	
 	s.set('keyb', 100)
 	s.set('keya', 200)
