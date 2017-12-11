@@ -1,10 +1,10 @@
-
-import time
-import os
 from datetime import datetime
-from flask import Flask, render_template, request, redirect, url_for, flash
-import bjoern
+import flask
+import time, os, signal, sys, threading, bjoern
+import urllib.request
 import BBSharedData
+
+from termcolor import cprint
 
 def build_JSON_data(d):
 	with d:
@@ -22,29 +22,45 @@ def build_JSON_data(d):
 def build_JSON_settings(d):
 	with d:
 		return d.settings.toJSON()
+		
+def shutting_down():
+	print("Shutting down...")
+	urllib.request.urlopen("http://127.0.0.1/instant_shutdown")
 
 class BBWebUI:
 	def __init__(self, data, controller):
 		print ("BBWebUI.init(", self, ")")
 		self.data = data
 		self.controller = controller
-		self.app = Flask("BerryBoiler")
+		self.app = flask.Flask("BerryBoiler")
 		self.app.secret_key = 'josephine'
 		
+		@self.app.before_request
+		def before_request():
+			cprint(flask.request, "yellow")
+			flask.request.bb_shutdown = False
+		
+		@self.app.teardown_request
+		def teardown_request(e=None):
+			if flask.request.bb_shutdown:
+				cprint("Shuting down...", "yellow")
+				time.sleep(0.1) #yield to controller thread to cleanup gpios
+				#os.kill(os.getpid(), signal.SIGINT)
+
 		@self.app.route("/")
 		def index():
 			context = {
 				'json_data' : build_JSON_data(self.data),
 				'json_settings' : build_JSON_settings(self.data),
 			}
-			return render_template("index.html", **context)
+			return flask.render_template("index.html", **context)
 		
 		@self.app.route("/settings")
 		def settings():
 			context = {
 				'json_settings' : build_JSON_settings(self.data),
 			}
-			return render_template("settings.html", **context)
+			return flask.render_template("settings.html", **context)
 		
 		@self.app.route("/set_settings")
 		def set_settings():
@@ -114,27 +130,16 @@ class BBWebUI:
 		@self.app.route("/shutdown")
 		def shutdown():
 			self.controller.shutdown()
-			shutdown_server()
-			return "!! SHUTDOWN !!<p><a href='/'>index</a>"
-	
-	
-	NOT BEING CALLES
-		@self.app.before_first_request
-		def allow_access_to_sock(self):
-			print("CHMOD SOCK FILE!!")
-			os.chmod("/tmp/rpi-boiler.sock", 0o777)
+			cprint("/shutdown...", "yellow")
+			time.sleep(0.1) #yield to controller thread to cleanup gpios
+			os.kill(os.getpid(), signal.SIGINT)
+			return "<p>Shutting down...<p><a href='/'>/index</a>"
 
 
 	def start(self):
-		print ("BBWebUI.start()")
-		#bjoern.run(self.app, "0.0.0.0", 8000)
-		#os.umask(0)
-		#os.system("umask 0")
-		#os.system("umask")
-		os.system('rm /tmp/rpi-boiler.sock')
-		bjoern.run(self.app, "unix:/tmp/rpi-boiler.sock")
+		print ("Starting bjoern server")
+		bjoern.run(self.app, "0.0.0.0", 8001)
 		print ("BBWebUI.start() -- ended --")
-		
 
 if __name__ == "__main__":
 	import BBMain

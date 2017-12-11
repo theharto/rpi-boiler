@@ -98,6 +98,7 @@ class BBController(threading.Thread):
 			GPIO.output(relay_pin, (self.RELAY_ON if on else self.RELAY_OFF))
 	
 	def run(self):
+		cprint("Controller thread started", "red")
 		self.previous_boiler_state = self.data.boiler_on
 		self.previous_change_time = int(time.time())
 		
@@ -152,11 +153,11 @@ class BBController(threading.Thread):
 			# sleep for tick, but wake up if signalled
 			with self.wake_signal:
 				self.wake_signal.wait(self.data.settings.get('controller_tick'))
-		
-		print(colored("Controller shuting down", "red"))	   
+
 		# make sure that boiler is off
 		self.__set_boiler(0)
 		GPIO.cleanup()
+		cprint("Controller thread ended", "red")
 
 if __name__ == "__main__":
 	import BBMain

@@ -1,3 +1,4 @@
+import json
 
 class BBSettings:
 	def __init__(self):
@@ -8,28 +9,34 @@ class BBSettings:
 		self.set('controller_tick', 5)
 		self.set('hysteresis', 0.5)
 		self.set('min_switching', 60)
-		self.set('debug_mode', True)
-		self.set('test_mode', True)
+		self.set('debug_mode', 1)
+		self.set('test_mode', 1)
 		self.set('relay_gpio', 21)
 		self.set('led_gpio', 2)
+		self.set('meta_bools', "blah blah")
 		
 	def __str__(self):
 		return str(self.settings)
 	   
 	def toJSON(self):
-		json = '{\n'
+		"""
+		json = '{ '
 		for k, v in self.settings.items():
+			
 			t = type(v)
 			if t == int:
-				json += '"%s":[%d, "int"],\n' % (k, v)
+				json += '"%s":%d ' % (k, v)
 			elif t == float:
-				json += '"%s":[%.2f, "float"],\n' % (k, v)
+				json += '"%s":[%.2f, "float"], ' % (k, v)
 			elif t == bool:
-				json += '"%s":[%d, "bool"],\n' % (k, v)
+				json += '"%s":[%d, "bool"], ' % (k, v)
 			elif t == str:
-				json += '"%s":["%s", "str"],\n' % (k, v)
-		json += '}'
-		return json
+				json += '"%s":["%s", "str"], ' % (k, v)
+		json += '"null", 0 }'
+		json = str(self.settings)
+		json = '{ "name":"John", "age":31, "city":"New York" }'
+		"""
+		return json.dumps(self.settings)
 	
 	def set(self, key, value):
 		if (key in self.settings):

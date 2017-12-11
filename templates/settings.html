@@ -25,21 +25,43 @@
 <body>
 	<script>
 		var settings = JSON.parse('{{ json_settings|safe }}');
-		console.log(settings);
+
+		function debug() {
+			var t = "";
+			
+			if (!settings.debug_mode)
+				return;
+
+			for (var i = 0; i < arguments.length; i++) {
+				if (typeof arguments[i] == 'object')
+					t += JSON.stringify(arguments[i]);
+				else
+					t += arguments[i];
+			}
+			$('#debug').prepend("<div class='debug-text'>" + t + "</div>");
+			console.log(t);
+		}
 		
 		function server_ajax_request(url) {
-			console.log("ajax : ", url);
+			debug("ajax : ", url);
 			$.get(url, function(r) {
-				console.log("Settings saved ", r);
+				debug("Settings saved ", r);
 			}).fail(function(a, b, c) {
-				console.log("Save settings failed ", a, b, c);
+				debug("Save settings failed ", a, b, c);
 			});
 		}
+		
 		
 		$(document).ready(function() {
 			if (settings.debug_mode) {
 				$("#debug").css("display", "block");
-				$("#debug").text(JSON.stringify(settings));
+			}
+			debug("Settings = ", settings);
+			
+			for (var key in settings) {
+				var value = settings[key];
+				debug(key, " : ", value, " is a ", typeof value);
+				//$("#settings-list").
 			}
 			
 			$("#test-mode-switch").bootstrapSwitch({ size:"large", state:settings.test_mode });
@@ -69,11 +91,16 @@
          	<button type="button" class="navbar-toggle pull-left" style="margin-right:0;margin-left:10px">
             	<a href="/">Back</a>
         	</button>
-          	<a class="navbar-brand" href="/">Settings</a>
+          	<a class="navbar-brand" href="/settings">Settings</a>
         </div>
     </nav>
-
+    
 	<div class="container-fluid">
+		<div id="settings-list"></div>
+		
+		
+		
+		
 	  	<div class="row top-spacer">
 			<div class="col-xs-6">Test mode</div>
 			<div class="col-xs-6"><input class="bootstrap-switch" id="test-mode-switch" type="checkbox"></div>
