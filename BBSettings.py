@@ -12,7 +12,7 @@ class BBSettings:
 		self.set('debug_mode', 1)
 		self.set('test_mode', 1)
 		self.set('relay_gpio', 21)
-		self.set('led_gpio', 2)
+		self.set('led_gpio', 20)
 		#self.set('meta_bools', "blah blah")
 		
 	def __str__(self):

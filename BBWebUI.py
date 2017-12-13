@@ -108,7 +108,7 @@ class BBWebUI:
 			
 		@self.app.route("/shutdown")
 		def shutdown():
-			self.controller.shutdown()
+			#self.controller.shutdown()
 			cprint("Shutting down...", "yellow")
 			time.sleep(0.1) #yield to controller thread to cleanup gpios
 			os.kill(os.getpid(), signal.SIGINT) #signal bjoern to shutdown with cleanup
@@ -118,7 +118,7 @@ class BBWebUI:
 		cprint("Starting bjoern server", "yellow")
 		try:
 			bjoern.run(self.app, "0.0.0.0", 8001)
-		except:
+		except KeyboardInterrupt:
 			pass
 		cprint("Ending bjoern server", "yellow")
 
