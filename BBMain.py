@@ -1,12 +1,9 @@
-#from BBSharedData import *
-import BBSharedData
 import BBController
 import BBWebUI
 
 def go():
-	data = BBSharedData.BBSharedData()
-	controller = BBController.BBController(data)
-	wui = BBWebUI.BBWebUI(data, controller)
+	controller = BBController.BBController()
+	wui = BBWebUI.BBWebUI(controller)
 	
 	controller.start() # runs in new thread
 	wui.start() # runs in this (main) thread

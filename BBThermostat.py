@@ -23,6 +23,6 @@ if __name__ == "__main__":
     while True:
         time.sleep(2)
         temp = read_temp()
-        r = urllib2.urlopen("http://192.168.0.19/thermostat/" + str(temp)).read()
+        r = urllib2.urlopen("http://192.168.0.19/thermometer/" + str(temp)).read()
         print temp, r
         # do somekind of test on r and logging

@@ -27,10 +27,14 @@
 
 	<script>
 		var TIME_FORMAT_STRING = "ddd DD MMM HH:mm:ss";
-		
-		var data = JSON.parse('{{ json_data|safe }}');
+		var COUNTDOWN_FORMAT_STRING = "HH:mm";
+		var INITIAL_JSON_DATA = '{{ json_data|safe }}';
+		var data = JSON.parse(INITIAL_JSON_DATA);
 		var settings = JSON.parse('{{ json_settings|safe }}');
 		var ajax_count = 0;
+
+		var touch_start_x = 0;
+		var touch_start_time = 0;
 
 		function debug() {
 			var t = "";
@@ -47,13 +51,20 @@
 			$('#debug').prepend("<div class='debug-text'>" + t + "</div>");
 			console.log(t);
 		}
+		
+		function countdown_time() {
+			t = 59 + data.countdown_off_time - data.server_time;
+			if (t<0)
+				t = 0;
+			return moment(t * 1000).format(COUNTDOWN_FORMAT_STRING);
+		}
 
 		function set_data(json_string) {
 			data = JSON.parse(json_string);
 			data.local_time = parseInt(new Date().getTime() / 1000);
 
 			$("#data").text("Data: " + JSON.stringify(data));
-			//$("#data").append("<br>Settings: " + JSON.stringify(settings))
+			$("#data").append("<br>Settings: " + JSON.stringify(settings))
 			
 			if (data.boiler_on)
 				$("#icon-boiler-on").show();
@@ -64,12 +75,32 @@
 				$("#icon-pending").show();
 			else
 				$("#icon-pending").hide();
-				
-			$("#header_time").html("" + data.server_time);
-				
-			$("#boiler-status").html("Boiler = " + data.boiler_on + "<br>Thermometer = " + data.thermometer_temp.toFixed(1) + "&deg")
+
+			$("#time").text(moment(data.server_time * 1000).format(TIME_FORMAT_STRING));
 			
-			
+			// reset ui-panels and menu
+			$(".ui-panel").hide();
+			$("#navbar-collapse li").removeClass("active");
+
+			switch (data.mode) {
+				case "count":
+					$("#nav-count").addClass("active");
+					$("#count-timer").text(countdown_time());
+					$("#count-ui").show();
+					break;
+
+				case "therm":
+					$("#nav-therm").addClass("active");
+					$("#therm-ui").show();
+					break;
+
+				case "switch":
+				default:
+					$("#nav-switch").addClass("active");
+					$("#switch-switch").bootstrapSwitch('state', data.boiler_on, true); // 3rd argument skips event trigger
+					$("#switch-ui").show();
+					break;
+			}
 			$(".thermometer-temp").html(data.thermometer_temp.toFixed(1) + "&deg");
 			var s = parseInt(data.server_time - data.thermometer_update_time);
 			$(".thermometer-time").text("Thermometer updated " + s + " seconds ago");
@@ -100,15 +131,21 @@
 			var h = $("body").height();
 			debug("Body[", w, ", ", h, "]");
 			
-			$("#boiler-on-button").click(function() {
-				server_ajax_request("/set_override_event/0:0:0/23:59:59/100.0");
+			
+			$("#navbar-collapse li").on("click", function(e) {
+				$("#navbar-collapse").collapse('hide');
+				switch(this.id) {
+					case "nav-switch":
+						server_ajax_request("/set_mode/switch");
+						break;
+					case "nav-count":
+						server_ajax_request("/set_mode/count");
+						break;
+					case "nav-therm":
+						server_ajax_request("/set_mode/therm");
+						break;
+				}
 			});
-			$("#boiler-off-button").click(function() {
-				server_ajax_request("/set_override_event/0:0:0/23:59:59/0.0");	
-			});
-			
-			
-			
 			
 			$("#switch-switch").bootstrapSwitch({ size:"large", state:data.boiler_on });
 			//$("#switch").bootstrapSwitch({ size:"large", state:data.boiler_on });
@@ -152,7 +189,7 @@
 					$("#value").text("mu");
 				});
 
-			set_data('{{ json_data|safe }}');
+			set_data(INITIAL_JSON_DATA);
 			setInterval(server_ajax_request, 1000 * settings.client_refresh, "/get_status");
 		});
 	</script>
@@ -163,7 +200,6 @@
                 <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
             </button> 
             <a class="navbar-brand" href="/">RPi Boiler</a>
-            <span id="header-time">time</span>
             <div class="pull-right status-icon">
             	<span id="icon-boiler-on" class="glyphicon glyphicon-fire icon"></span>
             	<span id="icon-test-mode" class="glyphicon glyphicon-wrench icon"></span>
@@ -173,31 +209,57 @@
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="/settings">Settings</a></li>
-                <li><a href="/restart">Restart</a></li>
-                <li><a href="/shutdown">Shutdown</a></li>
+            	<li id="nav-switch"><a href="#">Switch</a></li>
+                <li id="nav-count"><a href="#">Countdown</a></li>
+                <li id="nav-therm"><a href="#">Thermometer</a></li>
+                <li id="nav-sched"><a href="#">Schedule</a></li>
+                <li style="border-top: 2px groove #343434"><a href="/settings">Settings ...</a></li>
             </ul>
         </div>
     </nav>
-    
-    
-    <div class="container-fluid">
-		<div class="row top-spacer">
-			<div class="col-xs-4"><div id="boiler-status"></div></div>
+	
+	<div id="page">
+		<div id="time">time</div>
+		<!--<input class="bootstrap-switch" id="switch" type="checkbox">-->
+		<div id="switch-ui" class="ui-panel">
+			<input class="bootstrap-switch" id="switch-switch" type="checkbox">
+			<!--<input class="bootstrap-switch" id="switch" type="checkbox">-->
+			<div class="thermometer">
+				<img src="static/thermometer.svg" class="thermometer-icon">
+				<div class="thermometer-temp"></div>
+				<div class="thermometer-time"></div>
+			</div>
 		</div>
-		<div class="row top-spacer">
-			<div class="col-xs-4"><button type="button" id="boiler-on-button" class="btn btn-default btn-block">Turn boiler on</button></div>
-			<div class="col-xs-4"></div>
-			<div class="col-xs-4"></div>
+
+		<div id="count-ui" class="ui-panel">
+			<div id="count-timer">countdown</div>
+			<button id="count-sub" type="button" class="btn btn-default btn-lg">
+				- 10 mins
+			</button>
+			&nbsp;
+			<button id="count-add" type="button" class="btn btn-default btn-lg">
+				+ 10 mins
+			</button>
+			<div class="thermometer">
+				<img src="static/thermometer.svg" class="thermometer-icon">
+				<div class="thermometer-temp"></div>
+				<div class="thermometer-time"></div>
+			</div>
 		</div>
-		<div class="row top-spacer">
-			<div class="col-xs-4"><button type="button" id="boiler-off-button" class="btn btn-default btn-block">Turn boiler off</button></div>
-			<div class="col-xs-4"></div>
-			<div class="col-xs-4"></div>
+
+		<div id="therm-ui" class="ui-panel">
+			<!--<div class="target_temp">therm-temp</div>-->
+			<input type="text" id="therm-target-temp">
+
+			<div class="thermometer">
+				<img src="static/thermometer.svg" class="thermometer-icon">
+				<div class="thermometer-temp"></div>
+				<div class="thermometer-time"></div>
+			</div>
 		</div>
 		<div id="data"></div>
 		<div id="debug"></div>
-    </div>
+	</div>
 </body>
 
 </html>

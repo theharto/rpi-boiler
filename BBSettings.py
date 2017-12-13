@@ -1,12 +1,14 @@
 import json
+import threading
 
 class BBSettings:
 	def __init__(self):
-		self.settings = {}
+		self.__settings = {}
+		self.__lock = threading.Lock()
 		
 		self.set('client_refresh', 30)
 		self.set('thermometer_refresh', 300)
-		self.set('controller_tick', 5)
+		self.set('controller_tick', 20)
 		self.set('hysteresis', 0.5)
 		self.set('min_switching', 60)
 		self.set('debug_mode', 1)
@@ -19,7 +21,7 @@ class BBSettings:
 	def __str__(self):
 		return str(self.settings)
 	   
-	def toJSON(self):
+	def get_json(self):
 		"""
 		json = '{ '
 		for k, v in self.settings.items():
@@ -37,33 +39,23 @@ class BBSettings:
 		json = str(self.settings)
 		json = '{ "name":"John", "age":31, "city":"New York" }'
 		"""
-		return json.dumps(self.settings)
+		with self.__lock:
+			return json.dumps(self.__settings)
 	
 	def set(self, key, value):
-		if (key in self.settings):
-			# type is important, so cast to original type
-			t = type(self.settings[key])
-			value = t(value)
-		print("SETTINGS.set:", key, value)
-		self.settings[key] = value
+		with self.__lock:
+			if (key in self.__settings):
+				# type is important, so cast to original type
+				t = type(self.__settings[key])
+				value = t(value)
+			print("SETTINGS.set:", key, value)
+			self.__settings[key] = value
 		
 	def get(self, key):
-		return self.settings[key]
+		with self.__lock:
+			return self.__settings[key]
 		
 	def remove(self, key):
-		if key in self.settings:
-			self.settings.pop(key, None)
-
-if __name__ == "__main__":
-	s = BBSettings()
-	print(s)
-	print("")
-	
-	s.set('keyb', 100)
-	s.set('keya', 200)
-	print(s.toJSON())
-	
-	s.set('keya', '300')
-	s.set('keyd', 10.10)
-	s.set('keye', True)
-	print(s.toJSON())
+		with self.__lock:
+			if key in self.__settings:
+				self.__settings.pop(key, None)
