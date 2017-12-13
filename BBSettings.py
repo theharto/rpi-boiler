@@ -13,7 +13,8 @@ class BBSettings:
 		self.set('test_mode', 1)
 		self.set('relay_gpio', 21)
 		self.set('led_gpio', 20)
-		#self.set('meta_bools', "blah blah")
+		#self.set('meta_bools', ['debug_mode', 'test_mode'])
+		#self.set('meta_restart', ['relay_gpio', 'led_gpio'])
 		
 	def __str__(self):
 		return str(self.settings)

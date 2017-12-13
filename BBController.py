@@ -7,11 +7,6 @@ from datetime import datetime, date
 #import BBSettings
 import BBLed
 
-def main_thread_running():
-	for t in threading.enumerate():
-		if t.name == "MainThread" and t.is_alive() == False:
-			return False
-	return True
 
 # Time of day in seconds
 def tod(h, m=0, s=0):
@@ -61,26 +56,12 @@ class BBController(threading.Thread):
 		threading.Thread.__init__(self)
 		self.RELAY_ON = GPIO.LOW
 		self.RELAY_OFF = GPIO.HIGH
-		self.LED_ON = GPIO.HIGH
-		self.LED_OFF = GPIO.LOW
 		
 		self.data = data
 		self.wake_signal = threading.Condition()
-		self.running = True
-		
-		# setup gpio pins
-		GPIO.setmode(GPIO.BCM)
-		GPIO.setup(self.data.settings.get('relay_gpio'), GPIO.OUT, initial=self.RELAY_OFF)
-		
-		self.led = BBLed.BBLed(21)
-		self.led.start()
-		
+		self.led = BBLed.BBLed(self.data.settings.get('led_gpio'))
+		self.relay_pin = self.data.settings.get('relay_gpio')
 		self.main_thread = threading.current_thread()
-		print(self.main_thread)
-		for t in threading.enumerate():
-			if t.name == "MainThread":
-				self.main_thread = t
-		print(self.main_thread)
 		
 		self.thermometer_temp = 20.0
 		self.override_event_queue = []
@@ -112,31 +93,35 @@ class BBController(threading.Thread):
 			self.wake_signal.notify()
 
 	def shutdown(self):
-		self.led.stop()
 		self.running = False # assignments are atomic
 		self.wake_controller_thread()
 		
 	def __set_boiler(self, on):
-		relay_pin = self.data.settings.get('relay_gpio')
 		test_mode = self.data.settings.get('test_mode')
 		
-		cprint("Set boiler=%d gpio=%d %s" % (on, relay_pin, ("[TEST]" if test_mode else "")), ("red" if on else "blue"))
+		cprint("Set boiler=%d gpio=%d %s" % (on, self.relay_pin, ("[TEST]" if test_mode else "")), ("red" if on else "blue"))
+		self.led.on(on)
 		if not test_mode:
-			GPIO.output(relay_pin, (self.RELAY_ON if on else self.RELAY_OFF))
+			GPIO.output(self.relay_pin, (self.RELAY_ON if on else self.RELAY_OFF))
 	
 	def run(self):
 		cprint("Controller thread started", "red")
 		self.previous_boiler_state = self.data.boiler_on
 		self.previous_change_time = int(time.time())
 		
+		GPIO.setmode(GPIO.BCM)
+		GPIO.setup(self.data.settings.get('relay_gpio'), GPIO.OUT, initial=self.RELAY_OFF)
+		
+		self.running = True
 		while self.running:
 			current_time = int(time.time())
 			print ("BBController.run() -- tick -- " + datetime.fromtimestamp(current_time).strftime('%H:%M:%S'))
-			self.led.flash()
 			
 			if not self.main_thread.is_alive():
 				cprint("Main thread terminated! Shuting down...", "red")
 				break
+			
+			self.led.flash()
 			
 			active_event = None
 			now = tod_now()
@@ -206,6 +191,10 @@ class BBController(threading.Thread):
 				self.__set_boiler(boiler_on)"""
 		# make sure that boiler is off
 		self.__set_boiler(0)
+		
+		self.led.stop()
+		self.led.join()
+		
 		GPIO.cleanup()
 		cprint("Controller thread ended", "red")
 
