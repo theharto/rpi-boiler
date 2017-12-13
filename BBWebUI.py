@@ -57,53 +57,17 @@ class BBWebUI:
 		@self.app.route("/get_status")
 		def get_status():
 			return build_JSON_data(self.data)
-		
-		@self.app.route("/set_mode/<mode>")
-		def set_mode(mode):
-			self.controller.set_mode(mode)
-			return build_JSON_data(self.data)
-		
-		@self.app.route("/switch/<string:s>")
-		def switch(s):
-			self.controller.switch(s == "on")
-			return build_JSON_data(self.data)
-		
-		@self.app.route("/count/<int:off_time>")
-		def count(off_time):
-			self.controller.count(off_time)
-			return build_JSON_data(self.data)
-		
-		@self.app.route("/therm/<int:temp>")
-		@self.app.route("/therm/<float:temp>")
-		def therm(temp):
-			self.controller.therm(temp)
-			return build_JSON_data(self.data)
-		
-		"""    
-		@self.app.route("/add_schedule/<int:on>/<int:off>")
-		def add_schedule(on, off):
-			flash("on = %d, off = %d" % (on, off))
-			#todo - test valid on, off values
-			with self.status.lock:
-				self.status.schedule.append(BBPeriod(on, off))
-			self.wake_controller_thread()
-			return redirect(url_for("index"))
-		
-		@self.app.route("/del_schedule/<int:id>")
-		def del_schedule(id):
-			with self.status.lock:
-				for p in self.status.schedule:
-					if p.id == id:
-						self.status.schedule.remove(p)
-						flash("removed active period [%d]" % id)
-			return redirect(url_for("index"))
-		"""
+			
+		@self.app.route("/boiler_on/<int:on>")
+		def boiler_on(on):
+			t = 100.0 if on else 0
+			self.controller.add_event("0:0:0", "23:59:59", t, override=True)
 	
 		@self.app.route("/thermometer/<int:temp>")
 		@self.app.route("/thermometer/<float:temp>")
 		def thermostat(temp):
 			temp = float(temp)
-			self.controller.thermometer(temp)
+			self.controller.set_thermometer_temp(temp)
 			return str(self.data.settings.thermometer_refresh)
 			
 		@self.app.route("/shutdown")
@@ -118,10 +82,7 @@ class BBWebUI:
 		cprint("Starting bjoern server", "yellow")
 		try:
 			bjoern.run(self.app, "0.0.0.0", 8001)
-		except KeyboardInterrupt:
+		except (KeyboardInterrupt, TypeError):
+			cprint("CTRL-C", "magenta")
 			pass
 		cprint("Ending bjoern server", "yellow")
-
-if __name__ == "__main__":
-	import BBMain
-	BBMain.go()

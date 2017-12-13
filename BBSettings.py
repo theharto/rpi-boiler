@@ -11,8 +11,8 @@ class BBSettings:
 		self.set('min_switching', 60)
 		self.set('debug_mode', 1)
 		self.set('test_mode', 1)
-		self.set('relay_gpio', 21)
-		self.set('led_gpio', 20)
+		self.set('relay_gpio', 20)
+		self.set('led_gpio', 21)
 		#self.set('meta_bools', ['debug_mode', 'test_mode'])
 		#self.set('meta_restart', ['relay_gpio', 'led_gpio'])
 		

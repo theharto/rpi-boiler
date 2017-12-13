@@ -10,40 +10,30 @@ class BBLed(threading.Thread):
 		self.__led_on = False
 		self.__led_flash = False
 		self.__wake_signal = threading.Condition()
-		self.flash_num = 5
-		self.flash_rate = 0.04
-		
-	def set_pin(self, pin):
-		print("set pin")
-		GPIO.setup(self.__pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-		self.__pin = pin
-		GPIO.setup(self.__pin, GPIO.OUT, initial=0)
-
-	def wake(self):
-		with self.__wake_signal:
-			self.__wake_signal.notify()
+		self.flash_num = 2
+		self.flash_rate = 0.1
 
 	def flash(self):
-		print("flash")
-		self.__led_flash = True
-		self.wake()
-	
+		with self.__wake_signal:
+			self.__led_flash = True
+			self.__wake_signal.notifyAll()
+
 	def on(self, b):
-		print("on ", b)
-		self.__led_on = bool(b)
-	
+		with self.__wake_signal:
+			self.__led_on = bool(b)
+			self.__wake_signal.notifyAll()
+
 	def stop(self):
-		print("led stop")
-		self.__running = False
-	
+		with self.__wake_signal:
+			self.__running = False
+			self.__wake_signal.notifyAll()
+
 	def run(self):
 		GPIO.setmode(GPIO.BCM)
 		GPIO.setup(self.__pin, GPIO.OUT, initial=0)
 		
 		self.__running = True
-		while self.__running:
-			print("Led awake")
-			
+		while True:
 			if self.__led_flash:
 				for i in range(0, self.flash_num):
 					GPIO.output(self.__pin, 1)
@@ -55,7 +45,10 @@ class BBLed(threading.Thread):
 			GPIO.output(self.__pin, self.__led_on)
 			
 			with self.__wake_signal:
-				self.__wake_signal.wait()
-			
+				if self.__running:
+					self.__wake_signal.wait()
+				else:
+					break
+		
 		# set pin back to output
 		GPIO.setup(self.__pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
