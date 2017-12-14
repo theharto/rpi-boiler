@@ -1,4 +1,4 @@
-import time, threading
+import time, threading, json
 import RPi.GPIO as GPIO
 from termcolor import cprint
 from datetime import datetime, date
@@ -43,6 +43,9 @@ class BBEvent:
 		
 		cprint("new event %d %d %d %d" % (self.id, self.start_time, self.end_time, self.temp), "green")
 	
+	def is_active(self, t):
+		return (self.start_time <= t) and (self.end_time > t)
+	
 	# sort by id descending
 	def __lt__(self, other):
 		return (self.id > other.id)
@@ -52,6 +55,9 @@ class BBEvent:
 		
 	def __repr__(self):
 		return self.__str__()
+	
+	def to_json(self):
+		return ""
 
 class BBController(threading.Thread):
 	def __init__(self):
@@ -72,7 +78,6 @@ class BBController(threading.Thread):
 		
 		self.add_event("0:0:0", "18:0:0", 18.5)
 		self.add_event("1:45:30", "1:59:59", 30)
-		self.set_override_event("5:0:0", "19:0:0", 18)
 
 	def __enter__(self):
 		self.__wake_signal.acquire()
@@ -90,6 +95,10 @@ class BBController(threading.Thread):
 	def set_override_event(self, start, end, temp):
 		with self:
 			self.__override_event = BBEvent(start, end, temp)
+			
+	def remove_override_event(self):
+		with self:
+			self.__override_event = None
 
 	def del_event(self, e_id):
 		# lock and check override & queue
@@ -103,8 +112,12 @@ class BBController(threading.Thread):
 					return
 				
 	def get_status_json(self):
-		r = '{"server_time":%d,"boiler_on":%d,"thermometer_temp":%.2f}' % (tod_now(), self.__boiler_on, self.__thermometer_temp) 
-		return r
+		status = {}
+		status['server_time'] = time.time()
+		status['boiler_on'] = self.__boiler_on
+		status['thermometer_temp'] = self.__thermometer_temp
+		status['override_event'] = self.__override_event
+		return json.dumps(status)
 
 	def shutdown(self):
 		with self:
@@ -127,13 +140,12 @@ class BBController(threading.Thread):
 		
 		with self.__wake_signal:
 			if self.__override_event:
-				e = self.__override_event
-				if (e.start_time <= now) and (e.end_time > now):
-					return e
+				if self.__override_event.is_active(self.__current_time):
+					return self.__override_event
 			
 			self.__event_queue.sort()
 			for e in self.__event_queue:
-				if (e.start_time <= now) and (e.end_time > now):
+				if e.is_active(now):
 					return e
 		return None
 	
@@ -149,8 +161,8 @@ class BBController(threading.Thread):
 		self.__boiler_on = False
 		self.__running = True
 		while True:
-			current_time = int(time.time())
-			print ("BBController.run() -- tick -- " + datetime.fromtimestamp(current_time).strftime('%H:%M:%S'))
+			self.__current_time = int(time.time())
+			print ("BBController.run() -- tick -- " + datetime.fromtimestamp(self.__current_time).strftime('%H:%M:%S'))
 			
 			# Check main thread still alive
 			if not self.__main_thread.is_alive():
@@ -162,7 +174,7 @@ class BBController(threading.Thread):
 			# do stuff inside lock, so that vars cannot be changed while awake
 			with self.__wake_signal:
 				active_event = self.__get_active_event()
-				cprint("Active event = " + str(active_event), "blue")
+				cprint("Active event = " + str(active_event), "cyan")
 				
 				if active_event:
 					# Adjust target temperature for hystersis

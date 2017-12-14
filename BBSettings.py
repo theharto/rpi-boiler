@@ -6,7 +6,7 @@ class BBSettings:
 		self.__settings = {}
 		self.__lock = threading.Lock()
 		
-		self.set('client_refresh', 30)
+		self.set('client_refresh', 10)
 		self.set('thermometer_refresh', 300)
 		self.set('controller_tick', 20)
 		self.set('hysteresis', 0.5)

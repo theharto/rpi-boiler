@@ -27,10 +27,13 @@
 
 	<script>
 		var TIME_FORMAT_STRING = "ddd DD MMM HH:mm:ss";
-		
 		var data = JSON.parse('{{ json_data|safe }}');
 		var settings = JSON.parse('{{ json_settings|safe }}');
 		var ajax_count = 0;
+		
+		function time_in_secs(h, m, s) {
+			return parseInt((h*3600) + (m*60) + s)
+		}
 
 		function debug() {
 			var t = "";
@@ -55,6 +58,8 @@
 			$("#data").text("Data: " + JSON.stringify(data));
 			//$("#data").append("<br>Settings: " + JSON.stringify(settings))
 			
+			$("#header-time").text(moment(data.server_time * 1000).format(TIME_FORMAT_STRING));
+			
 			if (data.boiler_on)
 				$("#icon-boiler-on").show();
 			else 
@@ -65,7 +70,7 @@
 			else
 				$("#icon-pending").hide();
 				
-			$("#header_time").html("" + data.server_time);
+			//$("#header_time").html("" + data.server_time);
 				
 			$("#boiler-status").html("Boiler = " + data.boiler_on + "<br>Thermometer = " + data.thermometer_temp.toFixed(1) + "&deg")
 			
@@ -87,7 +92,7 @@
 				// SHOW ALERT ICON?
 			});
 		}
-
+		
 		$(document).ready(function() {
 			if (settings.debug_mode) {
 				$("#data").css("display", "block");
@@ -101,57 +106,21 @@
 			debug("Body[", w, ", ", h, "]");
 			
 			$("#boiler-on-button").click(function() {
-				server_ajax_request("/set_override_event/0:0:0/23:59:59/100.0");
+				var end_time = data.server_time + time_in_secs(6, 0, 0);
+				server_ajax_request("/set_override_event/" + data.server_time + "/" + end_time +  "/100.0");
 			});
 			$("#boiler-off-button").click(function() {
-				server_ajax_request("/set_override_event/0:0:0/23:59:59/0.0");	
+				var end_time = data.server_time + time_in_secs(6, 0, 0);
+				server_ajax_request("/set_override_event/" + data.server_time + "/" + end_time +  "/0.0");
 			});
 			
-			
-			
-			
-			$("#switch-switch").bootstrapSwitch({ size:"large", state:data.boiler_on });
-			//$("#switch").bootstrapSwitch({ size:"large", state:data.boiler_on });
-			$("#switch-switch").on('switchChange.bootstrapSwitch', function(e, state) {
-				if (state)
-					server_ajax_request("/switch/on");
-				else 
-					server_ajax_request("/switch/off");
+			$(window).bind('focus', function() {
+				debug('window focus');
+				server_ajax_request("/get_status");
+			}).bind('blur', function() {
+				console.log('focus lost');
 			});
 			
-			$("#count-add").on('click', function(e) {
-				if (data.countdown_off_time < data.server_time)
-					data.countdown_off_time = data.server_time
-				t = data.countdown_off_time + (10 * 60);
-				server_ajax_request("/count/" + t);
-			});
-			
-			$("#count-sub").on('click', function(e) {
-				t = data.countdown_off_time - (10 * 60);
-				if (t<0) t=0;
-				server_ajax_request("/count/" + t);
-			});
-			
-
-			$("#countdown-timer")
-				.on('mousedown touchstart', function(e) {
-					$(this).data('touched', true);
-					$(this).data('x', e.pageX);
-					debug("mousedown");
-					$("#value").text("md");
-				})
-				.on('mousemove touchmove', function(e) {
-					$("#value").text("mv " + e.pageX);
-					if ($(this).data('touched')) {
-						$("#value").text(e.pageX);
-					}
-				})
-				.on('mouseup touchend', function(e) {
-					$(this).data('touched', false);
-					debug("mouseup");
-					$("#value").text("mu");
-				});
-
 			set_data('{{ json_data|safe }}');
 			setInterval(server_ajax_request, 1000 * settings.client_refresh, "/get_status");
 		});

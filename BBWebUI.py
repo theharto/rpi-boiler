@@ -14,7 +14,7 @@ class BBWebUI:
 		
 		@self.app.before_request
 		def before_request():
-			cprint(flask.request, "yellow")
+			cprint(flask.request.environ['HTTP_X_REAL_IP'] + ":" + flask.request, "yellow")
 
 		@self.app.route("/")
 		def index():
@@ -46,7 +46,7 @@ class BBWebUI:
 			self.controller.set_override_event("0:0:0", "23:59:59", t)
 			return self.controller.get_status_json()
 		
-		@self.app.route("/set_override_event/<start>/<end>/<float:temp>")
+		@self.app.route("/set_override_event/<int:start>/<int:end>/<float:temp>")
 		def set_override_event(start, end, temp):
 			self.controller.set_override_event(start, end, temp)
 			return self.controller.get_status_json()
