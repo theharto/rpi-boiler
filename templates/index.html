@@ -47,13 +47,13 @@
 				else
 					t += arguments[i];
 			}
-			$('#debug').prepend("<div class='debug-text'>" + t + "</div>");
+			$("<div class='debug-text'></div>").text(t).prependTo('#debug');
 			console.log(t);
 		}
 
 		function set_data(json_string) {
 			data = JSON.parse(json_string);
-			data.local_time = parseInt(new Date().getTime() / 1000);
+			data.server_time = parseInt(new Date().getTime() / 1000);
 
 			$("#data").text("Data: " + JSON.stringify(data));
 			//$("#data").append("<br>Settings: " + JSON.stringify(settings))

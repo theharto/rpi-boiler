@@ -113,10 +113,11 @@ class BBController(threading.Thread):
 				
 	def get_status_json(self):
 		status = {}
-		status['server_time'] = time.time()
+		status['server_time'] = int(time.time())
 		status['boiler_on'] = self.__boiler_on
 		status['thermometer_temp'] = self.__thermometer_temp
-		status['override_event'] = self.__override_event
+		if self.__override_event:
+			status['override_event'] = self.__override_event.__dict__
 		return json.dumps(status)
 
 	def shutdown(self):
@@ -223,7 +224,6 @@ class BBController(threading.Thread):
 		# make sure that boiler is off
 		self.__set_boiler(0)
 		
-		#cprint("closingn led thread", "red")
 		self.__led.stop()
 		self.__led.join()
 		

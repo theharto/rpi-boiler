@@ -14,7 +14,7 @@ class BBWebUI:
 		
 		@self.app.before_request
 		def before_request():
-			cprint(flask.request.environ['HTTP_X_REAL_IP'] + ":" + flask.request, "yellow")
+			cprint(flask.request.environ['HTTP_X_REAL_IP'] + ":" + str(flask.request), "yellow")
 
 		@self.app.route("/")
 		def index():
@@ -40,12 +40,6 @@ class BBWebUI:
 		def get_status():
 			return self.controller.get_status_json()
 			
-		@self.app.route("/set_boiler_on/<int:on>")
-		def set_boiler_on(on):
-			t = 100.0 if on else 0
-			self.controller.set_override_event("0:0:0", "23:59:59", t)
-			return self.controller.get_status_json()
-		
 		@self.app.route("/set_override_event/<int:start>/<int:end>/<float:temp>")
 		def set_override_event(start, end, temp):
 			self.controller.set_override_event(start, end, temp)
@@ -60,9 +54,9 @@ class BBWebUI:
 			
 		@self.app.route("/shutdown")
 		def shutdown():
-			#self.controller.shutdown()
+			self.controller.shutdown()
 			cprint("Shutting down...", "yellow")
-			time.sleep(0.1) #yield to controller thread to cleanup gpios
+			self.controller.join()
 			os.kill(os.getpid(), signal.SIGINT) #signal bjoern to shutdown with cleanup
 			return "<p>Shutting down...<p><a href='/'>/index</a><br><a href='/settings'>/settings</a>"
 
