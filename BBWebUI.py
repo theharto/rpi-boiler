@@ -40,16 +40,14 @@ class BBWebUI:
 		def get_status():
 			return self.controller.get_status_json()
 			
-		@self.app.route("/set_override_event/<int:start>/<int:end>/<float:temp>")
+		@self.app.route("/set_override_event/<int:start>/<int:end>/<temp>")
 		def set_override_event(start, end, temp):
-			self.controller.set_override_event(start, end, temp)
+			self.controller.set_override_event(start, end, float(temp))
 			return self.controller.get_status_json()
 	
-		@self.app.route("/thermometer/<int:temp>")
-		@self.app.route("/thermometer/<float:temp>")
-		def thermostat(temp):
-			temp = float(temp)
-			self.controller.set_thermometer_temp(temp)
+		@self.app.route("/therm/<string:id>/<t>/<h>")
+		def thermostat(id, t, h):
+			self.controller.set_thermometer_temp(float(t))
 			return str(self.controller.settings.get('thermometer_refresh'))
 			
 		@self.app.route("/shutdown")

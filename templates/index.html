@@ -106,15 +106,54 @@
 				server_ajax_request("/set_override_event/" + data.server_time + "/" + end_time +  "/0.0");
 			});
 			$("#override-button").click(function() {
-				var start_time = moment($("#override-start").val(), "HH:mm");
-				var end_time = moment($("#override-end").val(), "HH:mm");
+				var start_time = moment($("#override-start").val(), "HH:mm").unix();
+				var end_time = moment($("#override-end").val(), "HH:mm").unix();
 				var temp = parseFloat($("#override-temp").val()).toFixed(1);
+				
+				debug(">>>>");				
+				debug("server_time = " + data.server_time + " " + moment(data.server_time * 1000).format());
+				debug("\nstart_time = " + start_time + " " + moment(start_time * 1000).format());
+				debug("end_time = " + end_time + " " + moment(end_time * 1000).format());
+				
+				// if start time in last 5 minutes - count that as now
+				// if start time in past add 24h
+				if (start_time < data.server_time) {
+					if (start_time > (data.server_time - tod(0, 5, 0)))
+						start_time = data.server_time;
+					else
+						start_time += tod(24, 0, 0);
+				}
+				
+				// if end time in past add 24h
+				if (end_time < data.server_time)
+					end_time += tod(24, 0, 0);
+				
+				debug("\nstart_time = " + start_time + " " + moment(start_time * 1000).format());
+				debug("end_time = " + end_time + " " + moment(end_time * 1000).format());
+				debug("duration = " + (end_time - start_time));
+				debug("<<<<");
+				
+				if (end_time <= start_time) {
+					alert("ERROR - start not before end");
+					return;
+				}
+				
+				if ((end_time - start_time) > tod(14, 0, 0)) {
+					alert("Override duration too long");
+					return;
+				}
 				
 				// on time in past could mean tomorrow or lagged - ?putin some kind of 'has_changed'?
 				// end time in past - ?always assume tomorrow?
 				// end_time.add(1, 'd');
 				
-				debug("button! " + start_time.format() + " " + end_time.format() + temp);
+				
+				// if start time over 14h in future - give error  23:59 @ 00:01
+				
+				// if end time not in future add 24h
+				
+				// if end time < start time give error
+								
 				//server_ajax_request("/set_override_event/" + start_time + "/" + end_time + "/" + temp);
 			});
 			
