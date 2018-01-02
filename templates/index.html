@@ -30,9 +30,18 @@
 		var data = JSON.parse('{{ json_data|safe }}');
 		var settings = JSON.parse('{{ json_settings|safe }}');
 		var ajax_count = 0;
+		var interval_timer = 0;
 		
-		function time_in_secs(h, m, s) {
-			return parseInt((h*3600) + (m*60) + s)
+		function tod(h, m, s) {
+			return parseInt((h*3600) + (m*60) + s);
+		}
+		
+		function tod_to_str(s) {
+			var h = parseInt(s / 3600);
+			s -= h * 3600;
+			var m = parseInt(s / 60);
+			s -= m * 60;
+			return h + ":" + m + ":" + s;
 		}
 
 		function debug() {
@@ -53,40 +62,23 @@
 
 		function set_data(json_string) {
 			data = JSON.parse(json_string);
-			data.server_time = parseInt(new Date().getTime() / 1000);
-
-			$("#data").text("Data: " + JSON.stringify(data));
-			//$("#data").append("<br>Settings: " + JSON.stringify(settings))
+			var now = moment(data.server_time * 1000);
 			
-			$("#header-time").text(moment(data.server_time * 1000).format(TIME_FORMAT_STRING));
-			
-			if (data.boiler_on)
-				$("#icon-boiler-on").show();
-			else 
-				$("#icon-boiler-on").hide();
-			
-			if (data.pending)
-				$("#icon-pending").show();
-			else
-				$("#icon-pending").hide();
-				
-			//$("#header_time").html("" + data.server_time);
-				
+			$("#data").text("data " + JSON.stringify(data, null, 4));			
+			$("#header-time").text(now.format(TIME_FORMAT_STRING));
 			$("#boiler-status").html("Boiler = " + data.boiler_on + "<br>Thermometer = " + data.thermometer_temp.toFixed(1) + "&deg")
 			
-			
-			$(".thermometer-temp").html(data.thermometer_temp.toFixed(1) + "&deg");
-			var s = parseInt(data.server_time - data.thermometer_update_time);
-			$(".thermometer-time").text("Thermometer updated " + s + " seconds ago");
+			data.boiler_on? $("#icon-boiler-on").show(): $("#icon-boiler-on").hide();
+			data.pending? $("#icon-pending").show(): $("#icon-pending").hide();
 		}
 
 		function server_ajax_request(url) {
 			var local_count = ++ajax_count;
 			debug(local_count, "> ", url);
 
-			$.get(url, function(json) {
-				debug(local_count + "< " + json);
-				set_data(json);
+			$.get(url, function(return_string) {
+				debug(local_count + "< " + return_string);
+				set_data(return_string);
 			}).fail(function(a, b, c) {
 				debug(local_count + "< fail ", a, b, c);
 				// SHOW ALERT ICON?
@@ -106,23 +98,43 @@
 			debug("Body[", w, ", ", h, "]");
 			
 			$("#boiler-on-button").click(function() {
-				var end_time = data.server_time + time_in_secs(6, 0, 0);
+				var end_time = data.server_time + tod(6, 0, 0);
 				server_ajax_request("/set_override_event/" + data.server_time + "/" + end_time +  "/100.0");
 			});
 			$("#boiler-off-button").click(function() {
-				var end_time = data.server_time + time_in_secs(6, 0, 0);
+				var end_time = data.server_time + tod(6, 0, 0);
 				server_ajax_request("/set_override_event/" + data.server_time + "/" + end_time +  "/0.0");
 			});
+			$("#override-button").click(function() {
+				var start_time = moment($("#override-start").val(), "HH:mm");
+				var end_time = moment($("#override-end").val(), "HH:mm");
+				var temp = parseFloat($("#override-temp").val()).toFixed(1);
+				
+				// on time in past could mean tomorrow or lagged - ?putin some kind of 'has_changed'?
+				// end time in past - ?always assume tomorrow?
+				// end_time.add(1, 'd');
+				
+				debug("button! " + start_time.format() + " " + end_time.format() + temp);
+				//server_ajax_request("/set_override_event/" + start_time + "/" + end_time + "/" + temp);
+			});
+			
+			var now = moment(data.server_time * 1000);
+			$("#override-start").val(now.format("HH:mm"));
+			$("#override-end").val(now.add(1, "h").format("HH:mm"));
 			
 			$(window).bind('focus', function() {
-				debug('window focus');
+				debug('Window focused ' + interval_timer);
 				server_ajax_request("/get_status");
+				if (interval_timer == 0) 
+					interval_timer = setInterval(server_ajax_request, 1000 * settings.client_refresh, "/get_status");
 			}).bind('blur', function() {
-				console.log('focus lost');
+				debug('Window blurred ' + interval_timer);
+				clearInterval(interval_timer);
+				interval_timer = 0;
 			});
 			
 			set_data('{{ json_data|safe }}');
-			setInterval(server_ajax_request, 1000 * settings.client_refresh, "/get_status");
+			interval_timer = setInterval(server_ajax_request, 1000 * settings.client_refresh, "/get_status");
 		});
 	</script>
 	
@@ -152,20 +164,38 @@
     
     <div class="container-fluid">
 		<div class="row top-spacer">
-			<div class="col-xs-4"><div id="boiler-status"></div></div>
+			<div class="col-xs-12"><div id="boiler-status"></div></div>
 		</div>
 		<div class="row top-spacer">
 			<div class="col-xs-4"><button type="button" id="boiler-on-button" class="btn btn-default btn-block">Turn boiler on</button></div>
+			<div class="col-xs-8"></div>
+		</div>
+		<div class="row top-spacer">
+			<div class="col-xs-4"><button type="button" id="boiler-off-button" class="btn btn-default btn-block">Turn boiler off</button></div>
+			<div class="col-xs-8"></div>
+		</div>
+		<div class="row top-spacer">
+			<div class="col-xs-4">Start</div>
+			<div class="col-xs-8"><input type="time" id="override-start"></div>
+		</div>
+		<div class="row top-spacer">
+			<div class="col-xs-4">End</div>
+			<div class="col-xs-8"><input type="time" id="override-end"></div>
+		</div>
+		<div class="row top-spacer">
+			<div class="col-xs-4">Temperature</div>
+			<div class="col-xs-8"><input type="text" id="override-temp" value="17.5"></div>
+		</div>
+		<div class="row top-spacer">
+			<div class="col-xs-4"><button type="button" id="override-button" class="btn btn-default btn-block">Set override</button></div>
 			<div class="col-xs-4"></div>
 			<div class="col-xs-4"></div>
 		</div>
 		<div class="row top-spacer">
-			<div class="col-xs-4"><button type="button" id="boiler-off-button" class="btn btn-default btn-block">Turn boiler off</button></div>
-			<div class="col-xs-4"></div>
-			<div class="col-xs-4"></div>
-		</div>
-		<div id="data"></div>
-		<div id="debug"></div>
+			<div class="col-xs-12">
+				<div id="data"></div>
+				<div id="debug"></div>
+			</div>
     </div>
 </body>
 

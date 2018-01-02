@@ -66,9 +66,9 @@ class BBController(threading.Thread):
 		self.RELAY_OFF = GPIO.HIGH
 		
 		self.settings = BBSettings.BBSettings()
+		self.__led = BBLed.BBLed(self.settings.get('led_gpio'))
 		self.__wake_signal = threading.Condition()
 		self.__running = False
-		self.__led = BBLed.BBLed(self.settings.get('led_gpio'))
 		self.__relay_pin = self.settings.get('relay_gpio')
 		self.__main_thread = threading.current_thread()
 		self.__boiler_on = False
@@ -76,8 +76,7 @@ class BBController(threading.Thread):
 		self.__override_event = None
 		self.__event_queue = []
 		
-		self.add_event("0:0:0", "18:0:0", 18.5)
-		self.add_event("1:45:30", "1:59:59", 30)
+		self.add_event("0:0:0", "24:0:0", 12.0)
 
 	def __enter__(self):
 		self.__wake_signal.acquire()
@@ -95,7 +94,7 @@ class BBController(threading.Thread):
 	def set_override_event(self, start, end, temp):
 		with self:
 			self.__override_event = BBEvent(start, end, temp)
-			
+
 	def remove_override_event(self):
 		with self:
 			self.__override_event = None
@@ -110,14 +109,22 @@ class BBController(threading.Thread):
 				if e_id == e.id:
 					self.__event_queue.remove(e)
 					return
-				
+
 	def get_status_json(self):
-		status = {}
-		status['server_time'] = int(time.time())
-		status['boiler_on'] = self.__boiler_on
-		status['thermometer_temp'] = self.__thermometer_temp
-		if self.__override_event:
-			status['override_event'] = self.__override_event.__dict__
+		with self.__wake_signal:
+			status = {}
+			status['server_time'] = int(time.time())
+			status['boiler_on'] = self.__boiler_on
+			status['thermometer_temp'] = self.__thermometer_temp
+			
+			if self.__override_event:
+				status['override_event'] = self.__override_event.__dict__
+			
+			status['event_queue'] = []
+			self.__event_queue.sort()
+			for e in self.__event_queue:
+				status['event_queue'].append(e.__dict__)
+				
 		return json.dumps(status)
 
 	def shutdown(self):
