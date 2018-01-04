@@ -1,7 +1,17 @@
 import BBController
 import BBWebUI
+import os
 
-def go():
+if __name__ == "__main__":
+	## change working directory to where script is
+	os.chdir(os.path.dirname(os.path.abspath(__file__)))
+	
+	print("\n------------------")
+	print("-- berry_boiler --")
+	print("------------------")
+	
+	print("pwd =", os.getcwd())
+	
 	controller = BBController.BBController()
 	wui = BBWebUI.BBWebUI(controller)
 	
@@ -11,5 +21,3 @@ def go():
 	# send shutdown to controller
 	controller.shutdown()
 	
-if __name__ == "__main__":
-	go()

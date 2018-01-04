@@ -24,13 +24,21 @@ https://thepi.io/how-to-set-up-a-web-server-on-the-raspberry-pi/
 - github_backup.sh  
 - github_restore.sh  
 
-
 ## Install bjoern  
 - sudo apt install libev-dev  
 - sudo pip3 install bjoern  
 
-## Add sock file
-- sudo mkdir /run/rpi-boiler
-- sudo chown www-data:www-data /run/rpi-boiler
-- sudo chmod 777 /run/rpi-boiler
 
+## run as a service
+http://www.diegoacuna.me/how-to-run-a-script-as-a-service-in-raspberry-pi-raspbian-jessie/
+[Unit]
+Description=rpi-boiler
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /home/pi/rpi-boiler/BBMain.py
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target

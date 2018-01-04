@@ -6,14 +6,14 @@ class BBSettings:
 		self.__settings = {}
 		self.__lock = threading.Lock()
 		
-		self.set('client_refresh', 10)
+		self.set('client_refresh', 30)
 		self.set('thermometer_refresh', 300)
-		self.set('controller_tick', 20)
+		self.set('controller_tick', 60)
 		self.set('hysteresis', 0.5)
-		self.set('min_switching', 60)
+		self.set('min_switching', 60) #'rest' ?
 		self.set('debug_mode', 1)
 		self.set('test_mode', 1)
-		self.set('relay_gpio', 20)
+		self.set('relay_gpio', 15)
 		self.set('led_gpio', 21)
 		#self.set('meta_bools', ['debug_mode', 'test_mode'])
 		#self.set('meta_restart', ['relay_gpio', 'led_gpio'])

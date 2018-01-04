@@ -157,6 +157,11 @@ class BBController(threading.Thread):
 					return e
 		return None
 	
+	
+	#
+	# TODO - delete expired override event
+	# TODO - guard against frequent toggling
+	#
 	def run(self):
 		cprint("Controller thread started", "red")
 		self.previous_boiler_state = self.__boiler_on
@@ -195,19 +200,20 @@ class BBController(threading.Thread):
 					cprint("event_temp = %f" % (active_event.temp), "cyan")
 					cprint("adj_t_temp = %f" % (adj_target_temp), "cyan")
 					cprint("therm_temp = %f" % (self.__thermometer_temp), "cyan")
-				
+					
 					self.__boiler_on = self.__thermometer_temp < adj_target_temp
 				else:
 					self.__boiler_on = False
-		
+				
 				self.__set_boiler(self.__boiler_on)
 				
-				# sleep for tick, but wake up if signalled
-				if self.__running:
-					self.__wake_signal.wait(self.settings.get('controller_tick'))
-				else:
+				# break while loop if not running
+				if not self.__running:
 					break
-			
+				
+				# sleep for tick, but wake up if signalled
+				self.__wake_signal.wait(self.settings.get('controller_tick'))
+				
 			"""
 				boiler_on = self.data.boiler_on
 				self.data.pending = False

@@ -45,10 +45,9 @@ class BBLed(threading.Thread):
 			GPIO.output(self.__pin, self.__led_on)
 			
 			with self.__wake_signal:
-				if self.__running:
-					self.__wake_signal.wait()
-				else:
+				if not self.__running:
 					break
+				self.__wake_signal.wait()
 		
 		# set pin back to output
 		GPIO.setup(self.__pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
