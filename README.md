@@ -11,7 +11,8 @@ https://thepi.io/how-to-set-up-a-web-server-on-the-raspberry-pi/
 - sudo mkdir /var/www/html/codiad
 - sudo git clone https://github.com/Codiad/Codiad /var/www/html/codiad  
 - sudo touch /var/www/html/codiad/config.php  
-- sudo chown www-data:www-data -R /var/www/html/codiad/  
+- sudo chown www-data:www-data -R /var/www/html/codiad/
+- add link from /var/www/html/codiad/workspace/rpi-boiler to rpi-boiler directory
 
 ## Setup git  
 - Add project in codiad from git repo  
@@ -42,3 +43,8 @@ Restart=on-abort
 
 [Install]
 WantedBy=multi-user.target
+
+## Or run from cron
+crontab -e -u www-data
+@reboot python3 /.../.../BBMain.py &
+
