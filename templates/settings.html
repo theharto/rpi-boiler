@@ -30,16 +30,16 @@
 
 			for (var i = 0; i < arguments.length; i++) {
 				if (typeof arguments[i] == 'object')
-					t += JSON.stringify(arguments[i]);
+					t += JSON.stringify(arguments[i], null, 4);
 				else
 					t += arguments[i];
 			}
-			$('#debug').prepend("<div class='debug-text'>" + t + "</div>");
+			$("<div class='debug-text'></div>").text(t).prependTo('#debug');
 			console.log(t);
 		}
 		
 		function server_ajax_request(url) {
-			debug("ajax : ", url);
+			debug("ajax: ", url);
 			$.get(url, function(r) {
 				debug("Settings saved ", r);
 			}).fail(function(a, b, c) {
@@ -57,11 +57,7 @@
 			var option_html_template = '<div class="row top-spacer"><div class="col-xs-6">[1]</div><div class="col-xs-4"><input class="form-control" type="text" id="[2]" value="[3]"></div><div class="col-xs-2"></div></div>';
 			
 			for (var key in settings) {
-				var value = settings[key];
-				debug(key, " : ", value, " is a ", typeof value);
-				
-				var option_html = option_html_template.replace("[1]", key).replace("[2]", key).replace("[3]", value);
-				
+				var option_html = option_html_template.replace("[1]", key).replace("[2]", key).replace("[3]", settings[key]);				
 				$("#settings-list").append(option_html);
 			}
 			
@@ -69,7 +65,9 @@
 				server_ajax_request("/save_setting/" + this.id + "/" + this.value);
 			});
 			
-			$("#shutdown-button").click(function() { window.location.href = "/shutdown"; });
+			$("#shutdown-button").click(function() { 
+				window.location.href = "/shutdown"; 
+			});
 		});
 	</script>
 	
