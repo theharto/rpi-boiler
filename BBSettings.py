@@ -1,10 +1,7 @@
 import json, threading, logging
 import collections # NB python3.6 uses ordered dictionary, so won't need this in future
 
-logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)
-
-
 SETTINGS_FNAME = "settings.json"
 
 class BBSettings:
@@ -32,17 +29,17 @@ class BBSettings:
 		try:
 			with self.__lock, open('settings.json', 'w') as f:
 				f.write(json.dumps(self.__settings, indent=4))
-			log.info("Settings saved to %s", SETTINGS_FNAME)
+			log.info("Saved to %s", SETTINGS_FNAME)
 		except IOError:
-			log.error("Error saving settings to %s", SETTINGS_FNAME)
+			log.exception("Error saving to %s", SETTINGS_FNAME)
 	
 	def __load_settings(self):
 		try:
 			with self.__lock, open(SETTINGS_FNAME, 'r') as f:
 				self.__settings = json.load(f, object_pairs_hook=collections.OrderedDict)
-			log.info("Settings loaded from %s", SETTINGS_FNAME)
+			log.info("Loaded from %s", SETTINGS_FNAME)
 		except IOError:
-			log.warning("Error loading settings from %s", SETTINGS_FNAME)
+			log.warning("Error loading from %s", SETTINGS_FNAME)
 	
 	def get_json(self):
 		with self.__lock:

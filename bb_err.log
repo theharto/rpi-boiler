@@ -1,0 +1,931 @@
+got controller lock
+released controller lock
+[31mController thread started[0m
+BBController.run() -- tick -- 19:34:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 19:35:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 19:36:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 19:37:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 19:38:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 19:39:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 19:40:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 19:41:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 19:42:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 19:43:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 19:44:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 19:45:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 19:46:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 19:47:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 19:48:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 19:49:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 19:50:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 19:51:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 19:52:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 19:53:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 19:54:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 19:55:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 19:56:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 19:57:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 19:58:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 19:59:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:00:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:01:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:02:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:03:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:04:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:05:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:06:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:07:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:08:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:09:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:10:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:11:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:12:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:13:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:14:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:15:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:16:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:17:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:18:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:19:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:20:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:21:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:22:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:23:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:24:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:25:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:26:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:27:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:28:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:29:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:30:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:31:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:32:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:33:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:34:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:35:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:36:55
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:37:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:38:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:39:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:40:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:41:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:42:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:43:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:44:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:45:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:46:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:47:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:48:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:49:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:50:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:51:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:52:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:53:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:54:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:55:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:56:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:57:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:58:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 20:59:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:00:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:01:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:02:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:03:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:04:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:05:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:06:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:07:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:08:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:09:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:10:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:11:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:12:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:13:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:14:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:15:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:16:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:17:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:18:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:19:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:20:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:21:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:22:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:23:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:24:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:25:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:26:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:27:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:28:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:29:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:30:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:31:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:32:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:33:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:34:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:35:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:36:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:37:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:38:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:39:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:40:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:41:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:42:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:43:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:44:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:45:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m
+[36madj_t_temp = -0.500000[0m
+[36mtherm_temp = 25.000000[0m
+[34mSet boiler=0 gpio=15 [TEST][0m
+BBController.run() -- tick -- 21:46:56
+[36mActive event = (BBEvent0 0:0:0, 24:0:0, 0)[0m
+[36mboiler_on  = 0[0m
+[36mevent_temp = 0.000000[0m

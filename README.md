@@ -29,22 +29,10 @@ https://thepi.io/how-to-set-up-a-web-server-on-the-raspberry-pi/
 - sudo apt install libev-dev  
 - sudo pip3 install bjoern  
 
+## Run from cron
+sudo crontab -e -u www-data
+@reboot /home/pi/rpi-boiler/rpi_d.sh start
 
-## run as a service
-http://www.diegoacuna.me/how-to-run-a-script-as-a-service-in-raspberry-pi-raspbian-jessie/
-[Unit]
-Description=rpi-boiler
-After=multi-user.target
-
-[Service]
-Type=simple
-ExecStart=/usr/bin/python3 /home/pi/rpi-boiler/BBMain.py
-Restart=on-abort
-
-[Install]
-WantedBy=multi-user.target
-
-## Or run from cron
-crontab -e -u www-data
-@reboot python3 /.../.../BBMain.py &
+sudo crontab -e
+@reboot sudo /home/pi/rpi-boiler/power_control.sh &>> /home/pi/pc.log
 

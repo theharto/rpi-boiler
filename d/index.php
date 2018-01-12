@@ -2,41 +2,32 @@
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+ini_set('error_reporting', E_ALL);
+//ini_set('display_startup_errors', 1);
 
-$command = "";
+define('DIR', '/home/pi/rpi-boiler/');
+
+$commands = [
+	'start'		=> ['Start rpi-boiler', DIR . 'rpi_d.sh start'],
+	'stop'		=> ['Stop rpi-boiler', DIR . 'rpi_d.sh stop'],
+	'ps'		=> ['List own processes', 'ps u -u pi,www-data'],
+	'ps_all'	=> ['List all processes', 'ps aux'],
+	'log'		=> ['Show log', 'cat ' . DIR . 'bb.log'],
+	'elog'		=> ['Show error log', 'cat ' . DIR . 'bb_err.log'],
+	'del_logs'	=> ['Wipe logs', 'echo "" > ' . DIR . 'bb.log 2>&1; echo "" > ' . DIR . 'bb_err.log 2>&1; ls -l ' . DIR . '*.log'],
+	'fix_log'	=> ['Fix log permissions', 'chmod g+w ' . DIR . '*.log 2>&1; ls -l ' . DIR . '*.log'],
+	'reboot'	=> ['Reboot rpi', 'echo reboot | nc -w 0 localhost 5511'],
+	'poweroff'	=> ['Poweroff rpi', 'echo poweroff | nc -w 0 localhost 5511'],
+	'ls'		=> ['ls', 'ls -l ' . DIR],
+	'settings'  => ['Show settings', 'cat ' . DIR . 'settings.json'],
+	'del_settings'	=> ['Delete settings', 'rm ' . DIR . 'settings.json'],
+	'fix_settings'	=> ['Fix settings permission', 'chmod g+w ' . DIR . 'settings.json 2>&1; ls -l ' . DIR . 'settings.json']
+];
 
 if (isset($_REQUEST['a'])) {
-	switch($_REQUEST['a']) {
-		case 'start':
-			$command = "/home/pi/rpi-boiler/rpi_d.sh start nohup";
-			break;
-		case 'stop':
-			$command = "/home/pi/rpi-boiler/rpi_d.sh stop";
-			break;
-		case 'ps':
-			$command = "ps u -u pi,www-data";
-			break;
-		case 'psa':
-			$command = "ps aux";
-			break;
-		case 'kill':
-			$command = "kill " . $_REQUEST['pid'] . " 2>&1";
-			break;
-		case 'log':
-			$command = "cat /var/www/html/codiad/workspace/rpi-boiler/bb.log";
-			break;
-		case 'reboot':
-			$command = "echo reboot | nc -w 0 localhost 5511";
-			break;
-		case 'poweroff':
-			$command = "echo poweroff | nc -w 0 localhost 5511";
-			break;
-	}
-}
-
-if ($command) {
-	echo "Command = " . $command . "\n\n";
-	system($command, $ret);
+	$c = $commands[$_REQUEST['a']][1];
+	echo "Command = $c\n";
+	system($c . ' 2>&1');
 	exit(0);
 }
 
@@ -44,26 +35,26 @@ if ($command) {
 
 <html>
 <head>
-	<title>rpi-boiler daemon</title>
+	<title>rpi-boiler utils</title>
 
-<script src="jquery-3.2.1.min.js"></script>
+<script src='jquery-3.2.1.min.js'></script>
 <script>
-
-function command(params) {
-	var url = "?" + $.param(params);
-	
-	$("#return-value").text("loading ...");
-	
-	$.get(url, function(return_string) {
-		//success
-		$("#return-value").text(return_string);
-	}).fail(function(a, b, c) {
-		// fail
-		$("#return-value").text("Ajax fail");
-	});
-}
-
+	function command(params) {
+		var url = '?' + $.param(params);
+		
+		$('#return-value').text('loading ...');
+		console.log("AJAX call to", url);
+		
+		$.get(url, function(return_string) {
+			//success
+			$('#return-value').text(return_string);
+		}).fail(function(a, b, c) {
+			// fail
+			$('#return-value').text('Ajax fail');
+		});
+	}
 </script>
+
 <style>
 	button {
 		margin:2px;
@@ -74,23 +65,18 @@ function command(params) {
 </style>
 
 </head>
-
 <body>
-<h1><a href="/d/">rpi-boiler daemon</a></h1>
+<h1><a href='/d/'>rpi-boiler utils</a></h1>
 <ul>
-	<li><button onclick="command({ a:'start' })">Start rpi-boiler</button></li>
-	<li><button onclick="command({ a:'stop' })">Stop rpi-boiler</button></li>
-	<li><button onclick="command({ a:'ps' })">List own processes </button></li>
-	<li><button onclick="command({ a:'psa' })">List all processes</button></li>
-	<li><button onclick="command({ a:'kill', pid:$('#pid').val() })">kill pid</button>
-		<input onchange="command({ a:'kill', pid:$('#pid').val() })" type="text" id="pid" value=""></li>
-	<li><button onclick="command({ a:'log' })">Show log</button></li>
-	<li><button onclick="command({ a:'reboot' })">Reboot rpi</button></li>
-	<li><button onclick="command({ a:'poweroff' })">Poweroff rpi</button></li>
+<?php
+	foreach ($commands as $k => $v) {
+		echo "\t<li><button onclick='command({ a:\"$k\" })'>$v[0]</button></li>\n";
+	}
+?>
 </ul>
 
 <pre>
-	<div id="return-value"></div>
+	<div id='return-value'></div>
 </pre>
 
 </body>

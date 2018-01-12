@@ -1,12 +1,11 @@
-from datetime import datetime
-import time, os, signal, sys, threading, bjoern, flask
-from termcolor import cprint
+import logging
+log = logging.getLogger(__name__)
 
+import os, bjoern, flask
 import BBSettings, BBController
 
 class BBWebUI:
 	def __init__(self, controller):
-		print ("BBWebUI.init(", self, ")")
 		self.controller = controller
 		self.app = flask.Flask("BerryBoiler")
 		self.app.secret_key = 'josephine'
@@ -14,8 +13,8 @@ class BBWebUI:
 		
 		@self.app.before_request
 		def before_request():
-			cprint(flask.request.environ['HTTP_X_REAL_IP'] + ":" + str(flask.request), "yellow")
-
+			log.info("%s from %s", str(flask.request), flask.request.environ['HTTP_X_REAL_IP'])
+		
 		@self.app.route("/")
 		def index():
 			context = {
@@ -39,30 +38,30 @@ class BBWebUI:
 		@self.app.route("/get_status")
 		def get_status():
 			return self.controller.get_status_json()
-			
+		
 		@self.app.route("/set_override_event/<int:start>/<int:end>/<temp>")
 		def set_override_event(start, end, temp):
 			self.controller.set_override_event(start, end, float(temp))
 			return self.controller.get_status_json()
-	
+		
+		@self.app.route("/therm/<string:id>/<t>")
 		@self.app.route("/therm/<string:id>/<t>/<h>")
-		def thermostat(id, t, h):
+		def thermostat(id, t, h=0):
 			self.controller.set_thermometer_temp(float(t))
 			return str(self.controller.settings.get('thermometer_refresh'))
-			
+		
 		@self.app.route("/shutdown")
 		def shutdown():
-			self.controller.shutdown()
-			cprint("Shutting down...", "yellow")
-			self.controller.join()
-			os.kill(os.getpid(), signal.SIGINT) #signal bjoern to shutdown with cleanup
+			log.info("Shutdown received")
+			os.kill(os.getpid(), 2) #send SIGINT (ctrl-c) bjoern to shutdown with cleanup
 			return "<p>Shutting down...<p><a href='/'>/index</a><br><a href='/settings'>/settings</a>"
-
+	
 	def start(self):
-		cprint("Starting bjoern server", "yellow")
+		log.info("Starting bjoern server")
 		try:
-			bjoern.run(self.app, "0.0.0.0", 8001)
+			bjoern.run(self.app, "127.0.0.1", 8001)
 		except (KeyboardInterrupt, TypeError):
-			cprint("CTRL-C", "magenta")
-			pass
-		cprint("Ending bjoern server", "yellow")
+			log.info("bjoern received ctrl-c")
+		except Exception as e:
+			log.exception("bjoern threw exception")
+		log.info("Ending bjoern server")

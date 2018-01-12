@@ -1,3 +1,6 @@
+import logging
+log = logging.getLogger(__name__)
+
 import time, threading, json
 import RPi.GPIO as GPIO
 from termcolor import cprint
@@ -41,7 +44,7 @@ class BBEvent:
 		self.id = id_count
 		id_count += 1
 		
-		cprint("new event %d %d %d %d" % (self.id, self.start_time, self.end_time, self.temp), "green")
+		log.info("new " + str(self))
 	
 	def is_active(self, t):
 		return (self.start_time <= t) and (self.end_time > t)
@@ -68,15 +71,15 @@ class BBController(threading.Thread):
 		self.settings = BBSettings.BBSettings()
 		self.__led = BBLed.BBLed(self.settings.get('led_gpio'))
 		self.__wake_signal = threading.Condition()
+		self.__main_thread = threading.current_thread()
 		self.__running = False
 		self.__relay_pin = self.settings.get('relay_gpio')
-		self.__main_thread = threading.current_thread()
 		self.__boiler_on = False
-		self.__thermometer_temp = 17.9
+		self.__thermometer_temp = 25
 		self.__override_event = None
 		self.__event_queue = []
 		
-		self.add_event("0:0:0", "24:0:0", 12.0)
+		self.add_event("0:0:0", "24:0:0", 0)
 
 	def __enter__(self):
 		self.__wake_signal.acquire()
@@ -105,7 +108,7 @@ class BBController(threading.Thread):
 			if e_id == self.__override_event.id:
 				self.__override_event = None
 				return
-			for e in self.__event_queue[:]: #note: makes copy to search
+			for e in self.__event_queue[:]: #note: makes copy of list to search
 				if e_id == e.id:
 					self.__event_queue.remove(e)
 					return
@@ -126,15 +129,15 @@ class BBController(threading.Thread):
 				status['event_queue'].append(e.__dict__)
 				
 		return json.dumps(status)
-
-	def shutdown(self):
-		with self:
-			self.__running = False
-			
+	
 	def set_thermometer_temp(self, t):
 		with self:
 			self.__thermometer_temp = float(t)
-
+	
+	def shutdown(self):
+		with self:
+			self.__running = False
+	
 	def __set_boiler(self, on):
 		test_mode = self.settings.get('test_mode')
 		
@@ -142,7 +145,7 @@ class BBController(threading.Thread):
 		self.__led.on(on)
 		if not test_mode:
 			GPIO.output(self.__relay_pin, (self.RELAY_ON if on else self.RELAY_OFF))
-
+	
 	def __get_active_event(self):
 		now = tod_now()
 		
@@ -156,8 +159,7 @@ class BBController(threading.Thread):
 				if e.is_active(now):
 					return e
 		return None
-	
-	
+		
 	#
 	# TODO - delete expired override event
 	# TODO - guard against frequent toggling
