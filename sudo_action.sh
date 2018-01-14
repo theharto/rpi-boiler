@@ -1,16 +1,18 @@
 #!/bin/bash
 
 while true; do
-	r=$(nc -l localhost 5511)
+	r=$(nc -l 127.0.0.1 5511)
+	
+	echo -n `date +"%D %T"`
 	
 	if [[ $r == "poweroff" ]]; then
-		echo `date +"%D %T"` poweroff
+		echo " poweroff"
 		sudo shutdown -P now
 	elif [[ $r == "reboot" ]]; then
-		echo `date +"%D %T"` reboot
+		echo " reboot"
 		sudo shutdown -r now
 	else
-		echo -n `date +"%D %T"` "Unknown command: "
+		echo -n " Unknown command: "
 		echo $r
 	fi
 done

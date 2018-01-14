@@ -34,5 +34,4 @@ sudo crontab -e -u www-data
 @reboot /home/pi/rpi-boiler/rpi_d.sh start
 
 sudo crontab -e
-@reboot sudo /home/pi/rpi-boiler/power_control.sh &>> /home/pi/pc.log
-
+@reboot sudo /home/pi/rpi-boiler/sudo_action.sh &>> /home/pi/rpi-boiler/sa.log

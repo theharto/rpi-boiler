@@ -3,30 +3,34 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 ini_set('error_reporting', E_ALL);
-//ini_set('display_startup_errors', 1);
+ini_set('display_startup_errors', 1);
 
-define('DIR', '/home/pi/rpi-boiler/');
+$dir = '/home/pi/rpi-boiler';
 
 $commands = [
-	'start'		=> ['Start rpi-boiler', DIR . 'rpi_d.sh start'],
-	'stop'		=> ['Stop rpi-boiler', DIR . 'rpi_d.sh stop'],
+	'start'		=> ['Start rpi-boiler', "$dir/rpi_d.sh start"],
+	'stop'		=> ['Stop rpi-boiler', "$dir/rpi_d.sh stop"],
 	'ps'		=> ['List own processes', 'ps u -u pi,www-data'],
 	'ps_all'	=> ['List all processes', 'ps aux'],
-	'log'		=> ['Show log', 'cat ' . DIR . 'bb.log'],
-	'elog'		=> ['Show error log', 'cat ' . DIR . 'bb_err.log'],
-	'del_logs'	=> ['Wipe logs', 'echo "" > ' . DIR . 'bb.log 2>&1; echo "" > ' . DIR . 'bb_err.log 2>&1; ls -l ' . DIR . '*.log'],
-	'fix_log'	=> ['Fix log permissions', 'chmod g+w ' . DIR . '*.log 2>&1; ls -l ' . DIR . '*.log'],
+	'ls'		=> ['ls', "ls -l $dir"],
+	'br_1'		=> ['<BR>'],
+	'log'		=> ['Show bb.log', "cat $dir/bb.log"],
+	'elog'		=> ['Show bb_err.log', "cat $dir/bb_err.log"],
+	'salog'		=> ['Show sa.log', "cat $dir/sa.log"],
+	'del_logs'	=> ['Wipe logs', "echo '' > $dir/bb.log 2>&1; echo '' > $dir/bb_err.log 2>&1; ls -l $dir/*.log"],
+	'fix_log'	=> ['Fix log permissions', "chmod g+w $dir/*.log 2>&1; ls -l $dir/*.log"],
+	'br_2'		=> ['<BR>'],
+	'settings'  => ['Show settings', "cat $dir/settings.json"],
+	'del_sets'	=> ['Delete settings', "rm $dir/settings.json"],
+	'fix_sets'	=> ['Fix settings permission', "chmod g+w $dir/settings.json 2>&1; ls -l $dir/settings.json"],
+	'br_3'		=> ['<BR>'],
 	'reboot'	=> ['Reboot rpi', 'echo reboot | nc -w 0 localhost 5511'],
-	'poweroff'	=> ['Poweroff rpi', 'echo poweroff | nc -w 0 localhost 5511'],
-	'ls'		=> ['ls', 'ls -l ' . DIR],
-	'settings'  => ['Show settings', 'cat ' . DIR . 'settings.json'],
-	'del_settings'	=> ['Delete settings', 'rm ' . DIR . 'settings.json'],
-	'fix_settings'	=> ['Fix settings permission', 'chmod g+w ' . DIR . 'settings.json 2>&1; ls -l ' . DIR . 'settings.json']
+	'poweroff'	=> ['Poweroff rpi', 'echo poweroff | nc -w 0 localhost 5511']
 ];
 
 if (isset($_REQUEST['a'])) {
 	$c = $commands[$_REQUEST['a']][1];
-	echo "Command = $c\n";
+	echo "Command = $c\n\n";
 	system($c . ' 2>&1');
 	exit(0);
 }
@@ -70,7 +74,10 @@ if (isset($_REQUEST['a'])) {
 <ul>
 <?php
 	foreach ($commands as $k => $v) {
-		echo "\t<li><button onclick='command({ a:\"$k\" })'>$v[0]</button></li>\n";
+		if ($v[0] == '<BR>')
+			echo "<br>\n";
+		else
+			echo "\t<li><button onclick='command({ a:\"$k\" })'>$v[0]</button></li>\n";
 	}
 ?>
 </ul>

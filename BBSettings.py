@@ -1,7 +1,9 @@
-import json, threading, logging
+import logging
+log = logging.getLogger(__name__)
+
+import json, threading
 import collections # NB python3.6 uses ordered dictionary, so won't need this in future
 
-log = logging.getLogger(__name__)
 SETTINGS_FNAME = "settings.json"
 
 class BBSettings:
@@ -17,11 +19,11 @@ class BBSettings:
 			self.__settings['hysteresis'] = 0.5
 			self.__settings['min_switching'] = 60 #'rest' ?
 			self.__settings['debug_mode'] = 1
-			self.__settings['test_mode'] =  1
+			self.__settings['live_mode'] =  0
 			self.__settings['relay_gpio'] = 15
 			self.__settings['led_gpio'] = 21
 			#self.__settings['meta_bools'] = ['debug_mode', 'test_mode']
-			#self.__settings['meta_restart'] = ['relay_gpio', 'led_gpio']
+			#self.__settings['meta_requires_restart'] = ['relay_gpio', 'led_gpio']
 		
 		self.__load_settings()
 	
