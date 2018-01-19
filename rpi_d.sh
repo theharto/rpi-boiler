@@ -8,17 +8,16 @@ if [[ $# -eq 0 ]]; then
 fi
 
 echo "Terminating existing process..."
-curl http://localhost/shutdown &> /dev/null
+curl https://homefire.cf/shutdown &> /dev/null
 
-cd /home/pi/rpi-boiler
 
 if [[ $1 == 'start' ]]; then
 	sleep 1
-	if [[ $2 == 'stdout' ]]; then
-		echo "Starting - output to stdout ..."
-		python3 BBMain.py &
-	else
-		echo "Starting ..."
-		python3 BBMain.py &> bb_err.log &
-	fi
+	cd /home/pi/rpi-boiler
+	echo "creating wireless link..."
+	ln -s -f /proc/net/wireless
+	echo "Starting..."
+	python3 BBMain.py $2 $3 &
 fi
+
+echo "-- exit rpi-boiler startup script --"

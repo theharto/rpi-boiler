@@ -4,7 +4,8 @@ import time, threading
 class BBLed(threading.Thread):
 	
 	def __init__(self, pin):
-		threading.Thread.__init__(self)
+		threading.Thread.__init__(self, name="BBLed_" + str(pin))
+		#self.setName('BBLed_' + str(pin))
 		self.__pin = pin
 		self.__running = False
 		self.__led_on = False

@@ -1,0 +1,13 @@
+{
+	"short_name" : "Berry Boiler",
+	"name" : "Berry Boiler Central Heating Controller",
+	"start_url" : "/",
+	"background_color" : "#000000",
+	"display" : "standalone",
+	"orientation" : "portrait",
+	"permissions": {
+		"desktop-notification": {
+			"description": "Needed for creating system notifications."
+		}
+	}
+}

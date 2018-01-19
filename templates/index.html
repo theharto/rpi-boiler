@@ -3,9 +3,10 @@
 
 <head>
 	<title>RPi Boiler</title>
-	<link href="static/favicon.ico" rel="shortcut icon">
+	<link href="/static/favicon.ico" rel="shortcut icon">
 	<link href='//fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
-	<link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+	<link href="//fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+	<link rel="manifest" href="/static/manifest.json?5a">
 
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -24,13 +25,16 @@
 </head>
 
 <body>
-
 	<script>
-		var TIME_FORMAT_STRING = "ddd DD MMM HH:mm:ss";
+		const TIME_FORMAT_STRING = "ddd DD MMM HH:mm:ss";
 		var data = JSON.parse('{{ json_data|safe }}');
 		var settings = JSON.parse('{{ json_settings|safe }}');
 		var ajax_count = 0;
 		var interval_timer = 0;
+		var swr = null;
+		const APP_PUBLIC_KEY = "BE7r63OP8ElMToEKBGbWdV3tPFdLfvnchkNFulx-ygWT5TtAYuq45BU7bNanipjhkc46DEyT8hYqtkJixaNFuoI";
+		
+		//private key = 2NPFuZlohuyjzmplHKlMd-St5JNUIUBSBOt5uerq0uo
 		
 		function tod(h, m, s) {
 			return parseInt((h*3600) + (m*60) + s);
@@ -66,7 +70,7 @@
 			
 			$("#data").text("data " + JSON.stringify(data, null, 4));			
 			$("#header-time").text(now.format(TIME_FORMAT_STRING));
-			$("#boiler-status").html("Boiler = " + data.boiler_on + "<br>Thermometer = " + data.thermometer_temp.toFixed(1) + "&deg")
+			$("#boiler-status").html("Boiler = " + data.boiler_on + "<br>Thermometer = " + data.therm_temp.toFixed(1) + "&deg")
 			
 			data.boiler_on? $("#icon-boiler-on").show(): $("#icon-boiler-on").hide();
 			data.pending? $("#icon-pending").show(): $("#icon-pending").hide();
@@ -85,17 +89,65 @@
 			});
 		}
 		
+		function notify(mess) {
+			console.log("notify ", mess, swr);
+			if (swr != null) {
+				const title = 'Homefire';
+				const options = {
+					body: mess,
+					icon: 'images/icon.png',
+					badge: 'images/badge.png'
+				};
+				swr.showNotification(title, options)
+			}
+		}
+		
+		function urlBase64ToUint8Array(base64String) {
+			const padding = '='.repeat((4 - base64String.length % 4) % 4);
+			const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
+			const rawData = window.atob(base64);
+			return Uint8Array.from([...rawData].map((char) => char.charCodeAt(0)));
+		}
+		
 		$(document).ready(function() {
 			if (settings.debug_mode) {
 				$("#data").css("display", "block");
 				$("#debug").css("display", "block")
 			}
-			if (settings.test_mode)
+			if (!settings.live_mode)
 				$("#icon-test-mode").show();
 			
-			var w = $("body").width();
-			var h = $("body").height();
-			debug("Body[", w, ", ", h, "]");
+			//var w = $("body").width();
+			//var h = $("body").height();
+			//debug("Body[", w, ", ", h, "]");
+			if ('serviceWorker' in navigator) {
+				navigator.serviceWorker.register('/static/service_worker.js').then(reg => { 
+					console.log("sw register -", reg); 
+					swr = reg;
+					
+					if ('Notification' in window) {
+						//console.log(Notification);
+						Notification.requestPermission();
+					}
+				
+					if ('PushManager' in window) {
+						const sub_options = {
+							userVisibleOnly : true,
+							applicationServerKey : urlBase64ToUint8Array(APP_PUBLIC_KEY)
+						};
+						reg.pushManager.subscribe(sub_options).then(sub => {
+							console.log("subscription = ", sub);
+							$.post("/push_subscribe", { sub_json : JSON.stringify(sub) });
+						});
+					}
+				})
+				.catch(err => console.log("sw catch ", err));
+			}
+			
+			$("#test-button").click(function() {
+				$("#test-button").blur();
+				$.get("/do_a_push");
+			});
 			
 			$("#boiler-on-button").click(function() {
 				var end_time = data.server_time + tod(6, 0, 0);
@@ -227,6 +279,11 @@
 		</div>
 		<div class="row top-spacer">
 			<div class="col-xs-4"><button type="button" id="override-button" class="btn btn-default btn-block">Set override</button></div>
+			<div class="col-xs-4"></div>
+			<div class="col-xs-4"></div>
+		</div>
+		<div class="row top-spacer">
+			<div class="col-xs-4"><button type="button" id="test-button" class="btn btn-default btn-block">Whats this button?</button></div>
 			<div class="col-xs-4"></div>
 			<div class="col-xs-4"></div>
 		</div>

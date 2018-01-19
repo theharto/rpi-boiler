@@ -14,7 +14,7 @@ class BBSettings:
 		# Set default values
 		with self.__lock:
 			self.__settings['client_refresh'] = 30
-			self.__settings['thermometer_refresh'] = 300
+			self.__settings['therm_refresh'] = 300
 			self.__settings['controller_tick'] = 60
 			self.__settings['hysteresis'] = 0.5
 			self.__settings['min_switching'] = 60 #'rest' ?
@@ -54,7 +54,7 @@ class BBSettings:
 				t = type(self.__settings[key])
 				value = t(value)
 			self.__settings[key] = value
-		log.info("settings.set %s:%s", key, value)
+		log.info("Set ['%s'] = %s", key, value)
 		self.__save_settings()
 	
 	def get(self, key):
@@ -67,9 +67,4 @@ class BBSettings:
 				self.__settings.pop(key, None)
 		self.__save_settings()
 
-if __name__ == "__main__":
-	s = BBSettings()
-	print(s.get_json())
-	s.set("newstr", "bs")
-	s.set("newint", 10)
 	

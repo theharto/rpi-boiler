@@ -1,10 +1,8 @@
+import time, threading, json, datetime
+import RPi.GPIO as GPIO
+
 import logging
 log = logging.getLogger(__name__)
-
-import time, threading, json
-import RPi.GPIO as GPIO
-from termcolor import cprint
-from datetime import datetime
 
 import BBSettings, BBLed, BBMonitor
 
@@ -24,11 +22,8 @@ def str_to_tod(s):
 	return tod(int(t[0]), int(t[1]), int(t[2]))
 
 def tod_now():
-	now = datetime.now()
-	midnight = datetime(now.year, now.month, now.day)
-	now = now - midnight
-	info.info("tod_now %s => %d", str(now), tod(now.hours, now.minutes, now.seconds))
-	return tod(now.hours, now.minutes, now.seconds)
+	now = datetime.datetime.now()
+	return tod(now.hour, now.minute, now.second)
 
 id_count = 0
 class BBEvent:
@@ -70,7 +65,7 @@ class BBEvent:
 class BBController(threading.Thread):
 
 	def __init__(self):
-		threading.Thread.__init__(self)
+		threading.Thread.__init__(self, name='BBController')
 		self.RELAY_ON = GPIO.LOW
 		self.RELAY_OFF = GPIO.HIGH
 		
@@ -90,12 +85,10 @@ class BBController(threading.Thread):
 
 	def __enter__(self):
 		self.__wake_signal.acquire()
-		log.info("Controller locked")
 
 	def __exit__(self, type, value, traceback):
 		self.__wake_signal.notifyAll()
 		self.__wake_signal.release()
-		log.info("Controller unlocked")
 
 	#
 	# add_event()
@@ -103,6 +96,7 @@ class BBController(threading.Thread):
 	def add_event(self, start, end, temp):
 		with self:
 			self.__event_queue.insert(0, BBEvent(start, end, temp))
+			self.__evaluate()
 	
 	#
 	# set_override_event()
@@ -110,6 +104,7 @@ class BBController(threading.Thread):
 	def set_override_event(self, start, end, temp):
 		with self:
 			self.__override_event = BBEvent(start, end, temp)
+			self.__evaluate()
 
 	#
 	# remove_override_event()
@@ -117,6 +112,7 @@ class BBController(threading.Thread):
 	def remove_override_event(self):
 		with self:
 			self.__override_event = None
+			self.__evaluate()
 
 	#
 	# del_event()
@@ -125,10 +121,12 @@ class BBController(threading.Thread):
 		with self:
 			if e_id == self.__override_event.id:
 				self.__override_event = None
+				self.__evaluate()
 				return
 			for e in self.__event_queue[:]: #note: makes copy of list to search
 				if e_id == e.id:
 					self.__event_queue.remove(e)
+					self.__evaluate()
 					return
 
 	#
@@ -170,7 +168,7 @@ class BBController(threading.Thread):
 	#
 	def __get_active_event(self):
 		now = int(time.time())
-		tod_now = tod_now()
+		t_now = tod_now()
 		
 		with self.__wake_signal:
 			if self.__override_event:
@@ -182,32 +180,30 @@ class BBController(threading.Thread):
 			
 			self.__event_queue.sort()
 			for e in self.__event_queue:
-				if e.is_active(tod_now):
+				if e.is_active(t_now):
 					return e
 		return None
 	
 	#
-	# __evaluate_status()
+	# __evaluate()
 	#
-	def __evaluate_status(self):
+	def __evaluate(self):
 		with self.__wake_signal:
-			log.info("eval")
-			active_event = self.__get_active_event()
-			log.info("Active event = %s" + str(active_event))
+			e = self.__get_active_event()
+			#log.info("__evaluate() e = " + str(e))
 			
-			if active_event:
-				# Adjust target temperature for hystersis
+			if e:
+				target_temp = e.temp
+				h = self.settings.get('hysteresis')
+				
 				if self.__boiler_on:
-					adj_target_temp = active_event.temp + self.settings.get('hysteresis')
+					target_temp += h
 				else:
-					adj_target_temp = active_event.temp - self.settings.get('hysteresis')
+					target_temp -= h
 				
-				cprint("boiler_on  = %d" % (self.__boiler_on), "cyan")
-				cprint("event_temp = %f" % (active_event.temp), "cyan")
-				cprint("adj_t_temp = %f" % (adj_target_temp), "cyan")
-				cprint("therm_temp = %f" % (self.__thermometer_temp), "cyan")
-				
-				self.__boiler_on = self.__therm_temp < adj_target_temp
+				prev_on_state = self.__boiler_on
+				self.__boiler_on = self.__therm_temp < target_temp
+				#log.info("__evaluate() on=%d, e.temp=%.1f, target=%.1f, therm=%.1f -> %d", prev_on_state, e.temp, target_temp, self.__therm_temp, self.__boiler_on) 
 			else:
 				self.__boiler_on = False
 	
@@ -227,7 +223,7 @@ class BBController(threading.Thread):
 		self.__boiler_on = False
 		self.__running = True
 		while True:
-			log.info("Tick")
+			log.info("Tick start (%d)", self.__boiler_on)
 						
 			# pulse led on tick
 			self.__led.flash()
@@ -238,11 +234,12 @@ class BBController(threading.Thread):
 				break
 			
 			# Check if network is connected
-			s = BBMonitor.wifi_strength()
-			if s == 0:
-				log.warn("Wifi signal lost, launching monitor")
-				BBMonitor.BBMonitor(self.__led).start()
-			log.info("Wifi strength = %d", s)
+			if not BBMonitor.is_active:
+				s = BBMonitor.wifi_strength()
+				if s == 0:
+					log.warn("Wifi signal lost, launching monitor")
+					BBMonitor.BBMonitor(self.__led).start()
+				log.info("Wifi strength = %d%%", s)
 			
 			# do stuff inside lock, so that vars cannot be changed while awake
 			with self.__wake_signal:
@@ -251,7 +248,7 @@ class BBController(threading.Thread):
 				if not self.__running:
 					break
 				
-				self.__evaluate_status()
+				self.__evaluate()
 				
 				# Turn on/off led and relay
 				self.__led.on(self.__boiler_on)
@@ -259,6 +256,7 @@ class BBController(threading.Thread):
 					GPIO.output(self.__relay_pin, (self.RELAY_ON if self.__boiler_on else self.RELAY_OFF))
 				
 				# sleep for tick, but wake up if signalled
+				log.info("Tick end (%d)", self.__boiler_on)
 				self.__wake_signal.wait(self.settings.get('controller_tick'))
 				
 			"""
@@ -284,7 +282,7 @@ class BBController(threading.Thread):
 		
 		# Shutdown ...
 		# make sure that boiler is off
-		self.__set_boiler(0)
+		GPIO.output(self.__relay_pin, self.RELAY_OFF)
 		
 		self.__led.stop()
 		self.__led.join()

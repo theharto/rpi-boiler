@@ -1,8 +1,8 @@
 import logging
 log = logging.getLogger(__name__)
 
-import os, bjoern, flask
-import BBSettings, BBController
+import os, bjoern, flask, json
+import BBSettings, BBController, BBUtils
 
 class BBWebUI:
 	def __init__(self, controller):
@@ -47,14 +47,27 @@ class BBWebUI:
 		@self.app.route("/therm/<string:id>/<t>")
 		@self.app.route("/therm/<string:id>/<t>/<h>")
 		def thermostat(id, t, h=0):
-			self.controller.set_thermometer_temp(float(t))
-			return str(self.controller.settings.get('thermometer_refresh'))
+			self.controller.set_therm_temp(float(t))
+			return str(self.controller.settings.get('therm_refresh'))
 		
 		@self.app.route("/shutdown")
 		def shutdown():
 			log.info("Shutdown received")
 			os.kill(os.getpid(), 2) #send SIGINT (ctrl-c) bjoern to shutdown with cleanup
 			return "<p>Shutting down...<p><a href='/'>/index</a><br><a href='/settings'>/settings</a>"
+			
+		@self.app.route("/push_subscribe", methods=['POST'])
+		def push_subscribe():
+			log.info("push subscribe")
+			sub = json.loads(flask.request.form['sub_json'])
+			print("endpoint=", sub['endpoint'])
+			print("keys=", sub['keys'])
+			return "ok"
+		
+		@self.app.route("/do_a_push")
+		def do_a_push():
+			log.info("do a push")
+			return "ok"
 	
 	def start(self):
 		log.info("Starting bjoern server")

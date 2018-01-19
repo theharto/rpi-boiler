@@ -1,79 +1,63 @@
 import logging
 log = logging.getLogger(__name__)
 
-import time, threading
+import time, threading, sys, os
 import BBLed, BBUtils
 
 def wifi_strength(max_strength=70.0):
-	with open("/proc/net/wireless") as f:
-		f.readline()
-		f.readline()
-		l = f.readline().split()
-		if not l:
-			return 0
-		#return 0
-		return int(100.0 * (float(l[2]) / max_strength))
-
-class LedFlasher:
-	def __init__(self, led):
-		self.__led = led
-		
-	def __enter__(self):
-		log.info("enter")
-		self.__led.flashing(1)
-
-	def __exit__(self, type, value, traceback):
-		log.info("exit")
-		self.__led.flashing(0)
+#	with open("/proc/net/wireless") as f:
+	try:
+		with open("wireless") as f:
+			f.readline()
+			f.readline()
+			l = f.readline().split()
+			if not l:
+				return 0
+			#return 0
+			return int(100.0 * (float(l[2]) / max_strength))
+	except IOError:
+		log.warn("Unable to open 'wireless'")
+	return 0
+	
+is_active = False
 
 class BBMonitor(threading.Thread):
 	
 	def __init__(self, led):
 		threading.Thread.__init__(self)
 		self.__led = led
-		self.RECON_ATTEMPTS = 1
-		self.RECON_WAIT_TIME = 1
+		self.RECON_ATTEMPTS = 5
+		self.RECON_WAIT_TIME = 20
 		
-		log.info("BBMonitor(%s)", str(led))
+	def wait_reconnection(self):
+		for i in range(0, self.RECON_ATTEMPTS):
+			s = wifi_strength()
+			log.info("%d. Wifi strength = %d%%", i, s)
+			if s > 0:
+				log.info("Monitor ending - Wifi back up")
+				return True
+			time.sleep(self.RECON_WAIT_TIME)
+		return False
 	
 	def run(self):
+		global is_active
+		is_active = True
 		log.info("BBMonitor started")
+		self.__led.flashing(1)
 		
-		s = 0
-		with LedFlasher(self.__led):
-			for i in range(0, self.RECON_ATTEMPTS):
-				s = wifi_strength()
-				log.info("%d. Wifi strength = %d", i, s)
-				if s > 100:
-					log.info("Monitor ending - Wifi back up")
-					return
-				time.sleep(self.RECON_WAIT_TIME)
-			
-			### if it gets to here then what next? restart networking? reboot machine
+		if not self.wait_reconnection():
+			### if it gets to here then what next? restart networking? reboot machine?
 			BBUtils.sudo_action("stop_net")
-			time.sleep(1)
+			time.sleep(30)
 			BBUtils.sudo_action("start_net")
-			time.sleep(1)
-			#BBUtils.sudo_action("reboot")
+			time.sleep(20)
 			s = wifi_strength()
-			log.info("Wifi strength = %d", s)
+			log.info("Wifi strength = %d%%", s)
+			if not s > 0:
+				log.warn("Unable to reconnect wifi, rebooting ... ")
+				BBUtils.sudo_action("reboot")
 		
 		log.info("BBMonitor ended")
+		self.__led.flashing(0)
+		is_active = False
 		
-if __name__ == '__main__':
-	logging.basicConfig(level=logging.DEBUG)
-	log.info("BBMonitor test")
-	
-	if (wifi_strength() >= 0):
-		led = BBLed.BBLed(21)
-		led.start()
-		log.info("flash")
-		led.flash()
-		log.info("sleep 2")
-		time.sleep(2)	
-		m = BBMonitor(led)
-		m.start()
-		m.join()
-		led.stop()
-		led.join()
-	log.info("End of test")
