@@ -41,6 +41,7 @@ if (isset($_REQUEST['a'])) {
 <html>
 <head>
 	<title>rpi-boiler utils</title>
+	<link href="/static/favicon.ico" rel="shortcut icon">
 
 <script src='jquery-3.2.1.min.js'></script>
 <script>

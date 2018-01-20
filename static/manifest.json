@@ -1,13 +1,26 @@
 {
 	"short_name" : "Berry Boiler",
 	"name" : "Berry Boiler Central Heating Controller",
-	"start_url" : "/",
+	"start_url" : "/?sw",
 	"background_color" : "#000000",
+	"theme_color": "#000000",
 	"display" : "standalone",
 	"orientation" : "portrait",
-	"permissions": {
-		"desktop-notification": {
-			"description": "Needed for creating system notifications."
+	"icons": [
+		{
+			"src" : "/static/icon-192.png",
+			"type" : "image/png",
+			"sizes" : "192x192"
+		},
+		{
+			"src" : "/static/icon-512.png",
+			"type" : "image/png",
+			"sizes" : "512x512"
+		},
+		{
+			"src" : "/static/icon-144.png",
+			"type" : "image/png",
+			"sizes" : "144x144"
 		}
-	}
+	]
 }

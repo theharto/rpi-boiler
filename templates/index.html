@@ -3,10 +3,15 @@
 
 <head>
 	<title>RPi Boiler</title>
-	<link href="/static/favicon.ico" rel="shortcut icon">
 	<link href='//fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
 	<link href="//fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
-	<link rel="manifest" href="/static/manifest.json?5a">
+	
+	<link rel="manifest" href="/static/manifest.json?7">
+	
+	<link href="/static/favicon.ico" rel="shortcut icon">
+	<link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+	<meta name="theme-color" content="#ffffff">
 
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -33,9 +38,7 @@
 		var interval_timer = 0;
 		var swr = null;
 		const APP_PUBLIC_KEY = "BE7r63OP8ElMToEKBGbWdV3tPFdLfvnchkNFulx-ygWT5TtAYuq45BU7bNanipjhkc46DEyT8hYqtkJixaNFuoI";
-		
-		//private key = 2NPFuZlohuyjzmplHKlMd-St5JNUIUBSBOt5uerq0uo
-		
+				
 		function tod(h, m, s) {
 			return parseInt((h*3600) + (m*60) + s);
 		}
@@ -66,11 +69,21 @@
 
 		function set_data(json_string) {
 			data = JSON.parse(json_string);
-			var now = moment(data.server_time * 1000);
+			var now = moment.unix(data.server_time);
 			
 			$("#data").text("data " + JSON.stringify(data, null, 4));			
 			$("#header-time").text(now.format(TIME_FORMAT_STRING));
-			$("#boiler-status").html("Boiler = " + data.boiler_on + "<br>Thermometer = " + data.therm_temp.toFixed(1) + "&deg")
+			$("#boiler-status").html("Boiler = " + data.boiler_on + "<br>Thermometer = " + data.therm_temp.toFixed(1) + "&deg");
+			
+			if (data.override_event) {
+				var start = moment.unix(data.override_event.start_time).format(TIME_FORMAT_STRING);
+				var end = moment.unix(data.override_event.end_time).format(TIME_FORMAT_STRING);
+				$("#override-event-info").html("Override<br>Start = " + start + "<br>End = " + end + "<br>Temp = " + data.override_event.temp + "&deg;");
+				$("#override-event-info").show()
+			}
+			else {
+				$("#override-event-info").hide()
+			}
 			
 			data.boiler_on? $("#icon-boiler-on").show(): $("#icon-boiler-on").hide();
 			data.pending? $("#icon-pending").show(): $("#icon-pending").hide();
@@ -114,6 +127,7 @@
 				$("#data").css("display", "block");
 				$("#debug").css("display", "block")
 			}
+			
 			if (!settings.live_mode)
 				$("#icon-test-mode").show();
 			
@@ -121,7 +135,7 @@
 			//var h = $("body").height();
 			//debug("Body[", w, ", ", h, "]");
 			if ('serviceWorker' in navigator) {
-				navigator.serviceWorker.register('/static/service_worker.js').then(reg => { 
+				navigator.serviceWorker.register('/sw.js').then(reg => { 
 					console.log("sw register -", reg); 
 					swr = reg;
 					
@@ -146,7 +160,7 @@
 			
 			$("#test-button").click(function() {
 				$("#test-button").blur();
-				$.get("/do_a_push");
+				$.get("/do_push");
 			});
 			
 			$("#boiler-on-button").click(function() {
@@ -256,6 +270,9 @@
     <div class="container-fluid">
 		<div class="row top-spacer">
 			<div class="col-xs-12"><div id="boiler-status"></div></div>
+		</div>
+		<div class="row top-spacer">
+			<div class="col-xs-12"><div id="override-event-info"></div></div>
 		</div>
 		<div class="row top-spacer">
 			<div class="col-xs-4"><button type="button" id="boiler-on-button" class="btn btn-default btn-block">Turn boiler on</button></div>

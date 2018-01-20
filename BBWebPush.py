@@ -1,23 +1,32 @@
 from pywebpush import webpush, WebPushException
-'''
-try:
-	webpush(
-		subscription_info = {
-			"endpoint": "https://push.example.com/v1/12345",
-			"keys": {
-				"p256dh": "0123abcde...",
-				"auth": "abc123..."
-			}},
-			data="Mary had a little lamb, with a nice mint jelly",
-			vapid_private_key="path/to/vapid_private.pem",
-			vapid_claims={
-			"sub": "YourNameHere@example.org",
-		}
-	)
-except WebPushException as ex:
-	print("I'm sorry, Dave, but I can't do that: {}", repr(ex))
+import logging
+log = logging.getLogger(__name__)
+
+VAPID_PUBLIC = "BE7r63OP8ElMToEKBGbWdV3tPFdLfvnchkNFulx-ygWT5TtAYuq45BU7bNanipjhkc46DEyT8hYqtkJixaNFuoI"
+VAPID_PRIVATE = "2NPFuZlohuyjzmplHKlMd-St5JNUIUBSBOt5uerq0uo"
+
+subscriptions = []
 	
-	'''
-	
-def set_subscription(endpoint, keys):
+def add_subscription(endpoint, auth, p256dh):
+	sub = {}
+	sub['endpoint'] = endpoint
+	sub['keys'] = {}
+	sub['keys']['auth'] = auth
+	sub['keys']['p256dh'] = p256dh
+	subscriptions.append(sub)
+	#log.info("subs = %s", str(subscriptions))
 	return
+
+def push():
+	log.info("push")
+	for sub in subscriptions:
+		try:
+			r = webpush(sub, data="test push", vapid_private_key=VAPID_PRIVATE, vapid_claims={"sub":"mailto:info@homefire.cf"})
+			print("pushed ", r)
+		except WebPushException as ex:
+			print("Push exception {}", repr(ex))
+
+
+
+
+

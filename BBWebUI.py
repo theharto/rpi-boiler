@@ -2,7 +2,7 @@ import logging
 log = logging.getLogger(__name__)
 
 import os, bjoern, flask, json
-import BBSettings, BBController, BBUtils
+import BBSettings, BBController, BBWebPush
 
 class BBWebUI:
 	def __init__(self, controller):
@@ -14,6 +14,11 @@ class BBWebUI:
 		@self.app.before_request
 		def before_request():
 			log.info("%s from %s", str(flask.request), flask.request.environ['HTTP_X_REAL_IP'])
+		
+		@self.app.route("/sw.js")
+		def server_worker():
+			log.info("here")
+			return flask.send_file("templates/sw.js")
 		
 		@self.app.route("/")
 		def index():
@@ -58,17 +63,15 @@ class BBWebUI:
 			
 		@self.app.route("/push_subscribe", methods=['POST'])
 		def push_subscribe():
-			log.info("push subscribe")
 			sub = json.loads(flask.request.form['sub_json'])
-			print("endpoint=", sub['endpoint'])
-			print("keys=", sub['keys'])
+			BBWebPush.add_subscription(sub['endpoint'], sub['keys']['auth'], sub['keys']['p256dh'])
 			return "ok"
 		
-		@self.app.route("/do_a_push")
-		def do_a_push():
-			log.info("do a push")
+		@self.app.route("/do_push")
+		def do_push():
+			#BBWebPush.push()
 			return "ok"
-	
+			
 	def start(self):
 		log.info("Starting bjoern server")
 		try:

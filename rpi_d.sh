@@ -8,14 +8,14 @@ if [[ $# -eq 0 ]]; then
 fi
 
 echo "Terminating existing process..."
-curl https://homefire.cf/shutdown &> /dev/null
+curl https://homefire.cf/shutdown &> /dev/null &
 
 
 if [[ $1 == 'start' ]]; then
 	sleep 1
 	cd /home/pi/rpi-boiler
 	echo "creating wireless link..."
-	ln -s -f /proc/net/wireless
+	ln -s -f /proc/net/wireless &
 	echo "Starting..."
 	python3 BBMain.py $2 $3 &
 fi

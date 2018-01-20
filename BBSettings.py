@@ -15,7 +15,7 @@ class BBSettings:
 		with self.__lock:
 			self.__settings['client_refresh'] = 30
 			self.__settings['therm_refresh'] = 300
-			self.__settings['controller_tick'] = 60
+			self.__settings['controller_tick'] = 120
 			self.__settings['hysteresis'] = 0.5
 			self.__settings['min_switching'] = 60 #'rest' ?
 			self.__settings['debug_mode'] = 1
@@ -41,7 +41,7 @@ class BBSettings:
 				self.__settings = json.load(f, object_pairs_hook=collections.OrderedDict)
 			log.info("Loaded from %s", SETTINGS_FNAME)
 		except IOError:
-			log.warning("Error loading from %s", SETTINGS_FNAME)
+			log.warning("Unable to load %s", SETTINGS_FNAME)
 	
 	def get_json(self):
 		with self.__lock:
