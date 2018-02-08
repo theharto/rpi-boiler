@@ -34,7 +34,7 @@ sudo crontab -e -u www-data
 @reboot /home/pi/rpi-boiler/rpi_d.sh start
 
 sudo crontab -e
-@reboot sudo /home/pi/rpi-boiler/sudo_action.sh >> /home/pi/rpi-boiler/sa.log 2>&1
+@reboot sudo /home/pi/rpi-boiler/sudo_action.sh >> /home/pi/rpi-boiler/logs/sa.log 2>&1
 
 ## add link to wireless
 ln -s -f /proc/net/wireless wireless

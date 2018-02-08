@@ -20,7 +20,7 @@ for arg in sys.argv:
 log_format = '%(asctime)s %(levelname)s %(name)s: %(message)s'
 log_level = logging.INFO
 log_datefmt = '%m/%d/%y %H:%M:%S'
-log_handlers = [logging.FileHandler("bb.log")]
+log_handlers = [logging.FileHandler("logs/bb.log")]
 if log_to_stdout:
 	log_handlers.append(logging.StreamHandler())
 logging.basicConfig(format = log_format, level = log_level, datefmt = log_datefmt, handlers = log_handlers)

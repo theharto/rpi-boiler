@@ -7,17 +7,22 @@ if [[ $# -eq 0 ]]; then
 	exit 1
 fi
 
-echo "Terminating existing process..."
-curl https://homefire.cf/shutdown &> /dev/null &
-
+echo "Terminating existing process ..."
+curl https://homefire.cf/shutdown > /dev/null 2>&1
 
 if [[ $1 == 'start' ]]; then
 	sleep 1
 	cd /home/pi/rpi-boiler
 	echo "creating wireless link..."
 	ln -s -f /proc/net/wireless &
-	echo "Starting..."
-	python3 BBMain.py $2 $3 &
+	
+	if [[ $2 == 'null_out' ]]; then
+		echo "Starting (null_out) ..."
+		python3 BBMain.py $2 $3 > /dev/null 2>&1 &
+	else
+		echo "Starting ..."
+		python3 BBMain.py $2 $2 &
+	fi
 fi
 
 echo "-- exit rpi-boiler startup script --"

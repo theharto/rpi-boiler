@@ -18,7 +18,7 @@ class BBWebUI:
 		@self.app.route("/sw.js")
 		def server_worker():
 			log.info("here")
-			return flask.send_file("templates/sw.js")
+			return flask.send_file("static/sw.js")
 		
 		@self.app.route("/")
 		def index():
@@ -67,8 +67,8 @@ class BBWebUI:
 			BBWebPush.add_subscription(sub['endpoint'], sub['keys']['auth'], sub['keys']['p256dh'])
 			return "ok"
 		
-		@self.app.route("/do_push")
-		def do_push():
+		@self.app.route("/button")
+		def button():
 			#BBWebPush.push()
 			return "ok"
 			
