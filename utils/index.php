@@ -18,7 +18,7 @@ $authenticated = false;
 if ($json = file_get_contents($DIR . $SETTINGS_FILENAME)) {
 	$settings_data = json_decode($json, true);
 	$crypto_key = $settings_data['crypto_key'];
-//	$client_ip = 
+//	$client_ip = k
 	echo "<plaintext>";
 	print_r($_SERVER);
 }
