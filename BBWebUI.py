@@ -1,23 +1,72 @@
 import logging
 log = logging.getLogger(__name__)
 
-import os, bjoern, flask, json
-import BBSettings, BBController, BBWebPush
+import os, bjoern, flask, json, random
+import BBSettings, BBController, BBWebPush, BBUtils
+
+SESSION_COOKIE_NAME = "rpi-boiler_session"
+SESSION_COOKIE_AGE = 30 * 24 * 60 * 60 # 30 days
 
 class BBWebUI:
 	def __init__(self, controller):
 		self.controller = controller
 		self.app = flask.Flask("BerryBoiler")
-		self.app.secret_key = 'josephine'
-		self.app.config['TEMPLATES_AUTO_RELOAD'] = True
+		self.app.config['TEMPLATES_AUTO_RELOAD'] = True		
+		self.authorised_sessions = {}
 		
 		@self.app.before_request
 		def before_request():
-			log.info("%s from %s", str(flask.request), flask.request.environ['HTTP_X_REAL_IP'])
+			client_ip = flask.request.environ['HTTP_X_REAL_IP']
+			log.info("%s from %s", str(flask.request), client_ip)
+			
+			if client_ip == "127.0.0.1" or flask.request.path.startswith(("/login", "/static", "/logout")):
+				return None
+			
+			log.info("cookies = %s", str(flask.request.cookies))
+			log.info("auth_sess = %s", str(self.authorised_sessions))
+			
+			session = flask.request.cookies.get(SESSION_COOKIE_NAME)
+			log.info("Session = %s", session)
+			
+			if not session:
+				log.info("No session, redirected")
+				return flask.redirect("/login", code=302)
+			
+			if session not in self.authorised_sessions:
+				log.info("Session not authorised, redirected")
+				return flask.redirect("/login", code=302)
+				
+			if self.authorised_sessions[session] != client_ip:
+				log.info("Client IP does not match login")
+				return flask.redirect("/login")
+			
+			log.info("Authorised " + session)
+		
+		@self.app.route("/login", methods=['GET', 'POST'])
+		def login():
+			context = {}
+			
+			if 'pw' in flask.request.form:
+				if flask.request.form['pw'] == self.controller.settings.get('session_password'):
+					client_ip = flask.request.environ['HTTP_X_REAL_IP']
+					session_hash = BBUtils.session_hash(self.controller.settings.get('crypto_key'), client_ip)
+					self.authorised_sessions[session_hash] = client_ip
+					resp = flask.redirect("/")
+					resp.set_cookie(SESSION_COOKIE_NAME, session_hash, SESSION_COOKIE_AGE)
+					print("resp? = %s", str(resp))
+					return resp
+				else:
+					context['error'] = "Wrong password"
+			
+			return flask.render_template("login.html", **context)
+		
+		@self.app.route("/logout")
+		def logout():
+			self.authorised_sessions = []
+			return flask.redirect("/login")
 		
 		@self.app.route("/sw.js")
 		def server_worker():
-			log.info("here")
 			return flask.send_file("static/sw.js")
 		
 		@self.app.route("/")
@@ -47,6 +96,11 @@ class BBWebUI:
 		@self.app.route("/set_override_event/<int:start>/<int:end>/<temp>")
 		def set_override_event(start, end, temp):
 			self.controller.set_override_event(start, end, float(temp))
+			return self.controller.get_status_json()
+		
+		@self.app.route("/del_override_event")
+		def del_override_event():
+			self.controller.del_override_event()
 			return self.controller.get_status_json()
 		
 		@self.app.route("/therm/<string:id>/<t>")

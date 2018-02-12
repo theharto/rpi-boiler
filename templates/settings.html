@@ -65,17 +65,16 @@
 				server_ajax_request("/save_setting/" + this.id + "/" + this.value);
 			});
 			
-			$("#shutdown-button").click(function() { 
-				window.location.href = "/shutdown"; 
-			});
 		});
 	</script>
 	
 	<nav class="navbar navbar-default navbar-fixed-top">
         <div class="navbar-header">
-         	<button type="button" class="navbar-toggle pull-left" style="margin-right:0;margin-left:10px">
-            	<a href="/">Back</a>
+         	<a href="/">
+         	<button type="button" class="btn btn-default top-spacer pull-left" style="margin-right:0;margin-left:10px">
+            	Back
         	</button>
+        	</a>
           	<a class="navbar-brand" href="/settings">Settings</a>
         </div>
     </nav>
@@ -83,9 +82,14 @@
 	<div class="container-fluid">
 		<div id="settings-list"></div>
 		<div class="row top-spacer">
-			<div class="col-xs-4"><button type="button" id="shutdown-button" class="btn btn-default btn-block">Shutdown</button></div>
-			<div class="col-xs-4"></div>
-			<div class="col-xs-4"></div>
+			<div class="col-xs-4">
+				<a href="/utils/">
+					<button type="button" class="btn btn-default btn-block">Utils</button>
+				</a>
+			</div>
+		</div>
+		<div class="row top-spacer">
+			<div class="col-xs-4"><a href="/logout"><button type="button" class="btn btn-default btn-block">Logout</button></a></div>
 		</div>
 		<div id="debug"></div>
     </div>

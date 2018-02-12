@@ -1,8 +1,15 @@
 import socket
-import sys, os
+import sys, os, random, hashlib
 
 import logging
 log = logging.getLogger(__name__)
+
+def random_token(n):
+	return ''.join(random.SystemRandom().choice("abcdefghijklmnopqrstuvwxyz0123456789") for _ in range(n))
+
+def session_hash(key, ip4):
+	data = (key + ip4).encode()
+	return hashlib.sha512(data).hexdigest()[:64]
 
 #
 #

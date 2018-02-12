@@ -3,6 +3,7 @@ log = logging.getLogger(__name__)
 
 import json, threading
 import collections # NB python3.6 uses ordered dictionary, so won't need this in future
+import BBUtils
 
 SETTINGS_FNAME = "settings.json"
 
@@ -22,14 +23,15 @@ class BBSettings:
 			self.__settings['live_mode'] =  0
 			self.__settings['relay_gpio'] = 15
 			self.__settings['led_gpio'] = 21
+			self.__settings['session_password'] = 'changeme'
+			self.__settings['crypto_key'] = BBUtils.random_token(32)
 			#self.__settings['meta_bools'] = ['debug_mode', 'test_mode']
 			#self.__settings['meta_requires_restart'] = ['relay_gpio', 'led_gpio']
-		
 		self.__load_settings()
 	
 	def __save_settings(self):
 		try:
-			with self.__lock, open('settings.json', 'w') as f:
+			with self.__lock, open(SETTINGS_FNAME, 'w') as f:
 				f.write(json.dumps(self.__settings, indent=4))
 			log.info("Saved to %s", SETTINGS_FNAME)
 		except IOError:

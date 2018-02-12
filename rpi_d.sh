@@ -8,7 +8,7 @@ if [[ $# -eq 0 ]]; then
 fi
 
 echo "Terminating existing process ..."
-curl https://homefire.cf/shutdown > /dev/null 2>&1
+curl http://127.0.0.1/shutdown > /dev/null 2>&1
 
 if [[ $1 == 'start' ]]; then
 	sleep 1
@@ -18,10 +18,10 @@ if [[ $1 == 'start' ]]; then
 	
 	if [[ $2 == 'null_out' ]]; then
 		echo "Starting (null_out) ..."
-		python3 BBMain.py $2 $3 > /dev/null 2>&1 &
+		python3 BBMain.py $3 $4 > /dev/null 2>&1 &
 	else
 		echo "Starting ..."
-		python3 BBMain.py $2 $2 &
+		python3 BBMain.py $2 $3 &
 	fi
 fi
 

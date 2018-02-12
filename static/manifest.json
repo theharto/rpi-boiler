@@ -1,7 +1,6 @@
 {
 	"short_name" : "Berry Boiler",
-	"name" : "Berry Boiler Central Heating Controller",
-	"start_url" : "/?sw",
+	"name" : "Berry Boiler\nCentral Heating Controller",
 	"background_color" : "#000000",
 	"theme_color": "#000000",
 	"display" : "standalone",

@@ -7,7 +7,7 @@ log_to_stdout = False
 stderr_to_log = True
 for arg in sys.argv:
 	if arg == '-h':
-		print('useage:\n\t-h (help)\n\t-l (log to stdout)\n\t-e (do not send stderr to log)')
+		print('usage:\n\t-h (help)\n\t-l (log to stdout)\n\t-e (do not send stderr to log)')
 		sys.exit(0)
 	if arg == '-l':
 		log_to_stdout = True

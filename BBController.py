@@ -107,9 +107,9 @@ class BBController(threading.Thread):
 			self.__evaluate()
 
 	#
-	# remove_override_event()
+	# del_override_event()
 	#
-	def remove_override_event(self):
+	def del_override_event(self):
 		with self:
 			self.__override_event = None
 			self.__evaluate()

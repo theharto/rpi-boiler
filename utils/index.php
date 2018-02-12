@@ -6,6 +6,27 @@ ini_set('error_reporting', E_ALL);
 ini_set('display_startup_errors', 1);
 
 $dir = '/home/pi/rpi-boiler';
+$DIR = '/home/pi/rpi-boiler';
+$SESSION_COOKIE_NAME = "";
+$SETTINGS_FILENAME = "/settings.json";
+
+//
+// Check authenication
+//
+$authenticated = false;
+
+if ($json = file_get_contents($DIR . $SETTINGS_FILENAME)) {
+	$settings_data = json_decode($json, true);
+	$crypto_key = $settings_data['crypto_key'];
+//	$client_ip = 
+	echo "<plaintext>";
+	print_r($_SERVER);
+}
+
+if (!$authenticated) {
+	die("not authorised");	
+}
+
 
 $commands = [
 	'start'		=> ['Start rpi-boiler', "$dir/rpi_d.sh start null_out"],
@@ -76,7 +97,8 @@ if (isset($_REQUEST['a'])) {
 
 </head>
 <body>
-<h1><a href='/d/'>rpi-boiler utils</a></h1>
+<h1><a href='/utils/'>rpi-boiler utils</a></h1>
+<a href="/">Back</a>
 <ul>
 <?php
 	foreach ($commands as $k => $v) {
@@ -90,10 +112,17 @@ if (isset($_REQUEST['a'])) {
 	}
 ?>
 </ul>
-
 <pre>
+	<?php print_r($_COOKIE); echo "version = " . phpversion(); ?>
+	
+	<?php
+		echo hash("sha512", "test123");
+	
+	
+	?>
+	
+	
 	<div id='return-value'></div>
 </pre>
-
 </body>
 </html>
