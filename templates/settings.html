@@ -16,27 +16,13 @@
 	<script src="static/jquery.js"></script>
 	<script src="static/bootstrap/js/bootstrap.min.js"></script>
 	<link  href="static/bootstrap/css/bootstrap-slate.css" rel="stylesheet">
-	<link  href="static/style.css?{{ range(1, 1000) | random }}" rel="stylesheet">
+	
+	<link  href="static/style.css?{{random_token}}" rel="stylesheet">
+	<script src="static/hf.js"></script>
 </head>
 <body>
 	<script>
-		var settings = JSON.parse('{{ json_settings|safe }}');
-
-		function debug() {
-			var t = "";
-			
-			if (!settings.debug_mode)
-				return;
-
-			for (var i = 0; i < arguments.length; i++) {
-				if (typeof arguments[i] == 'object')
-					t += JSON.stringify(arguments[i], null, 4);
-				else
-					t += arguments[i];
-			}
-			$("<div class='debug-text'></div>").text(t).prependTo('#debug');
-			console.log(t);
-		}
+		var settings = JSON.parse('{{!json_settings}}');
 		
 		function server_ajax_request(url) {
 			debug("ajax: ", url);
@@ -47,22 +33,37 @@
 			});
 		}
 		
-		
 		$(document).ready(function() {
-			if (settings.debug_mode) {
-				$("#debug").css("display", "block");
-			}
 			debug("Settings = ", settings);
 			
-			var option_html_template = '<div class="row top-spacer"><div class="col-xs-6">[1]</div><div class="col-xs-4"><input class="form-control" type="text" id="[2]" value="[3]"></div><div class="col-xs-2"></div></div>';
-			
+			var input_template = '<div class="row top-spacer"><div class="col-xs-6">[1]</div><div class="col-xs-4"><input class="form-control" type="text" id="[2]" value="[3]"></div><div class="col-xs-2"></div></div>';
+			var check_template = '<div class="row top-spacer"><div class="col-xs-6">[1]</div><div class="col-xs-4"><input class="form-control" type="checkbox" id="[2]"></div><div class="col-xs-2"></div></div>';
+			var html;
 			for (var key in settings) {
-				var option_html = option_html_template.replace("[1]", key).replace("[2]", key).replace("[3]", settings[key]);				
-				$("#settings-list").append(option_html);
+				
+				//if (typeof settings[key] == 'boolean')
+				//	html = check_template.replace("[1]", key).replace("[2]", key).replace("[3]", settings[key]);
+				//else
+					html = input_template.replace("[1]", key).replace("[2]", key).replace("[3]", settings[key]);		
+				$("#settings-list").append(html);
+				debug(key + " is type " + typeof settings[key]);
 			}
-			
 			$("input").change(function() {
 				server_ajax_request("/save_setting/" + this.id + "/" + this.value);
+			});
+			
+			
+			//
+			// debug mode checkbox
+			//
+			html = check_template.replace("[1]", "Debug Mode").replace("[2]", "debug_mode");
+			$("#settings-list").append(html);
+			if (debug_mode()) {
+				$('#debug_mode').prop('checked', true);
+			}
+			$('#debug_mode').change(function() {
+				debug_mode(this.checked);
+				debug("Debug mode changed: ", this.checked);
 			});
 			
 		});
@@ -82,11 +83,7 @@
 	<div class="container-fluid">
 		<div id="settings-list"></div>
 		<div class="row top-spacer">
-			<div class="col-xs-4">
-				<a href="/utils/">
-					<button type="button" class="btn btn-default btn-block">Utils</button>
-				</a>
-			</div>
+			<div class="col-xs-4"><a href="/utils/"><button type="button" class="btn btn-default btn-block">Utils</button></a></div>
 		</div>
 		<div class="row top-spacer">
 			<div class="col-xs-4"><a href="/logout"><button type="button" class="btn btn-default btn-block">Logout</button></a></div>

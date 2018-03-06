@@ -5,30 +5,30 @@ import time, threading, sys, os
 import BBLed, BBUtils
 
 def wifi_strength(max_strength=70.0):
-#	with open("/proc/net/wireless") as f:
 	try:
-		with open("wireless") as f:
+		with open("wireless") as f:	#open("/proc/net/wireless")
 			f.readline()
 			f.readline()
 			l = f.readline().split()
-			if not l:
-				return 0
-			#return 0
-			return int(100.0 * (float(l[2]) / max_strength))
+			if l:
+				return int(100.0 * (float(l[2]) / max_strength))
 	except IOError:
 		log.warn("Unable to open 'wireless'")
 	return 0
 	
 is_active = False
 
+#
+#
+#
 class BBMonitor(threading.Thread):
 	
 	def __init__(self, led):
 		threading.Thread.__init__(self)
 		self.__led = led
-		self.RECON_ATTEMPTS = 5
-		self.RECON_WAIT_TIME = 20
-		
+		self.RECON_ATTEMPTS = 10
+		self.RECON_WAIT_TIME = 30
+
 	def wait_reconnection(self):
 		for i in range(0, self.RECON_ATTEMPTS):
 			s = wifi_strength()
@@ -54,7 +54,7 @@ class BBMonitor(threading.Thread):
 			s = wifi_strength()
 			log.info("Wifi strength = %d%%", s)
 			if not s > 0:
-				log.warn("Unable to reconnect wifi, rebooting ... ")
+				log.warning("Unable to reconnect wifi, rebooting ... ")
 				BBUtils.sudo_action("reboot")
 		
 		log.info("BBMonitor ended")

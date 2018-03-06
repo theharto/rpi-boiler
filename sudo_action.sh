@@ -22,8 +22,12 @@ while true; do
 		echo "starting network"
 		sudo ip link set wlan0 up
 	
+	elif [[ $r == "rm_var_logs" ]]; then
+		echo "wiping logs"
+		sudo rm /var/log/*
+	
 	else
-		echo -n " Unknown command: "
+		echo -n "Unknown command: "
 		echo $r
 	fi
 done

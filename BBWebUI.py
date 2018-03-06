@@ -1,137 +1,148 @@
 import logging
 log = logging.getLogger(__name__)
 
-import os, bjoern, flask, json, random
-import BBSettings, BBController, BBWebPush, BBUtils
+import os, json, random
+import bjoern
+import bottle
+import BBSettings, BBController, BBWebPush, BBUtils, BBAuth
 
-SESSION_COOKIE_NAME = "rpi-boiler_session"
-SESSION_COOKIE_AGE = 30 * 24 * 60 * 60 # 30 days
+app = bottle.Bottle()
+bottle.debug(True)
 
-class BBWebUI:
-	def __init__(self, controller):
-		self.controller = controller
-		self.app = flask.Flask("BerryBoiler")
-		self.app.config['TEMPLATES_AUTO_RELOAD'] = True		
-		self.authorised_sessions = {}
-		
-		@self.app.before_request
-		def before_request():
-			client_ip = flask.request.environ['HTTP_X_REAL_IP']
-			log.info("%s from %s", str(flask.request), client_ip)
-			
-			if client_ip == "127.0.0.1" or flask.request.path.startswith(("/login", "/static", "/logout")):
-				return None
-			
-			log.info("cookies = %s", str(flask.request.cookies))
-			log.info("auth_sess = %s", str(self.authorised_sessions))
-			
-			session = flask.request.cookies.get(SESSION_COOKIE_NAME)
-			log.info("Session = %s", session)
-			
-			if not session:
-				log.info("No session, redirected")
-				return flask.redirect("/login", code=302)
-			
-			if session not in self.authorised_sessions:
-				log.info("Session not authorised, redirected")
-				return flask.redirect("/login", code=302)
-				
-			if self.authorised_sessions[session] != client_ip:
-				log.info("Client IP does not match login")
-				return flask.redirect("/login")
-			
-			log.info("Authorised " + session)
-		
-		@self.app.route("/login", methods=['GET', 'POST'])
-		def login():
-			context = {}
-			
-			if 'pw' in flask.request.form:
-				if flask.request.form['pw'] == self.controller.settings.get('session_password'):
-					client_ip = flask.request.environ['HTTP_X_REAL_IP']
-					session_hash = BBUtils.session_hash(self.controller.settings.get('crypto_key'), client_ip)
-					self.authorised_sessions[session_hash] = client_ip
-					resp = flask.redirect("/")
-					resp.set_cookie(SESSION_COOKIE_NAME, session_hash, SESSION_COOKIE_AGE)
-					print("resp? = %s", str(resp))
-					return resp
-				else:
-					context['error'] = "Wrong password"
-			
-			return flask.render_template("login.html", **context)
-		
-		@self.app.route("/logout")
-		def logout():
-			self.authorised_sessions = []
-			return flask.redirect("/login")
-		
-		@self.app.route("/sw.js")
-		def server_worker():
-			return flask.send_file("static/sw.js")
-		
-		@self.app.route("/")
-		def index():
-			context = {
-				'json_data' : self.controller.get_status_json(),
-				'json_settings' : self.controller.settings.get_json()
-			}
-			return flask.render_template("index.html", **context)
-		
-		@self.app.route("/settings")
-		def settings():
-			context = {
-				'json_settings' : self.controller.settings.get_json()
-			}
-			return flask.render_template("settings.html", **context)
-			
-		@self.app.route("/save_setting/<string:key>/<value>")
-		def save_setting(key, value):
-			self.controller.settings.set(key, value)
-			return "ok"
-		
-		@self.app.route("/get_status")
-		def get_status():
-			return self.controller.get_status_json()
-		
-		@self.app.route("/set_override_event/<int:start>/<int:end>/<temp>")
-		def set_override_event(start, end, temp):
-			self.controller.set_override_event(start, end, float(temp))
-			return self.controller.get_status_json()
-		
-		@self.app.route("/del_override_event")
-		def del_override_event():
-			self.controller.del_override_event()
-			return self.controller.get_status_json()
-		
-		@self.app.route("/therm/<string:id>/<t>")
-		@self.app.route("/therm/<string:id>/<t>/<h>")
-		def thermostat(id, t, h=0):
-			self.controller.set_therm_temp(float(t))
-			return str(self.controller.settings.get('therm_refresh'))
-		
-		@self.app.route("/shutdown")
-		def shutdown():
-			log.info("Shutdown received")
-			os.kill(os.getpid(), 2) #send SIGINT (ctrl-c) bjoern to shutdown with cleanup
-			return "<p>Shutting down...<p><a href='/'>/index</a><br><a href='/settings'>/settings</a>"
-			
-		@self.app.route("/push_subscribe", methods=['POST'])
-		def push_subscribe():
-			sub = json.loads(flask.request.form['sub_json'])
-			BBWebPush.add_subscription(sub['endpoint'], sub['keys']['auth'], sub['keys']['p256dh'])
-			return "ok"
-		
-		@self.app.route("/button")
-		def button():
-			#BBWebPush.push()
-			return "ok"
-			
-	def start(self):
-		log.info("Starting bjoern server")
-		try:
-			bjoern.run(self.app, "127.0.0.1", 8001)
-		except (KeyboardInterrupt, TypeError):
-			log.info("bjoern received ctrl-c")
-		except Exception as e:
-			log.exception("bjoern threw exception")
-		log.info("Ending bjoern server")
+@app.hook("before_request")
+def before_request():
+	#client_ip = bottle.request.environ['HTTP_X_REAL_IP']
+	client_ip = bottle.request.remote_route[0]
+	log.info("<%s %s> from %s", bottle.request.method, bottle.request.url, client_ip)
+	
+	if client_ip == "127.0.0.1" or bottle.request.path.startswith(("/login", "/static")):
+		return None
+	
+	log.info("cookies = %s", str(bottle.request.cookies.__dict__))
+	log.info("auth_sess = %s", str(app.authorised_sessions))
+	
+	session_key = bottle.request.cookies.get(app.settings.get('cookie_name'))
+	
+	if not session_key:
+		log.info("No session, redirected")
+		return bottle.redirect("/login")
+	
+	if session_key not in app.authorised_sessions:
+		log.info("Session not authorised, redirected")
+		return bottle.redirect("/login")
+	
+	log.info("Authorised " + session_key)
+
+@app.route("/login", method=['GET', 'POST'])
+def login():
+	if 'pw' not in bottle.request.forms:
+		return bottle.template("templates/login.html")
+	
+	if bottle.request.forms['pw'] != app.settings.get('session_password'):
+		return bottle.template("templates/login.html", error="Wrong password")
+	
+	cookie_name = app.settings.get('cookie_name')
+	cookie_ttl = app.settings.get('cookie_ttl')
+	session_key = BBUtils.random_token(32)
+	app.authorised_sessions.append(session_key)	
+	bottle.response.set_cookie(cookie_name, session_key, max_age=cookie_ttl)
+	return bottle.redirect("/")
+
+@app.route("/logout")
+def logout():
+	app.authorised_sessions = []
+	bottle.response.set_cookie(app.settings.get('cookie_name'), "", expires=0)
+	return bottle.redirect("/login")
+
+@app.route('/static/<filepath:path>')
+def static(filepath):
+    return bottle.static_file(filepath, root='static/')
+
+@app.route("/sw.js")
+def server_worker():
+	return bottle.static_file("sw.js", root='static/')
+
+@app.route("/")
+def index():
+	context = {
+		'json_data' : app.controller.get_status_json(),
+		'json_settings' : app.settings.get_json(),
+		'random_token' : BBUtils.random_token(4)
+	}
+	return bottle.template("templates/index.html", **context)
+
+@app.route("/settings")
+def settings():
+	context = {
+		'json_settings' : app.settings.get_json(),
+		'random_token' : BBUtils.random_token(4)
+	}
+	return bottle.template("templates/settings.html", **context)
+
+@app.route("/save_setting/<key>/<value>")
+def save_setting(key, value):
+	app.settings.set(key, value)
+	return "ok"
+
+@app.route("/get_status")
+def get_status():
+	return app.controller.get_status_json()
+
+@app.route("/set_override_event/<start:int>/<end:int>/<temp:float>")
+def set_override_event(start, end, temp):
+	app.controller.set_override_event(start, end, float(temp))
+	return app.controller.get_status_json()
+
+@app.route("/del_override_event")
+def del_override_event():
+	app.controller.del_override_event()
+	return app.controller.get_status_json()
+
+@app.route("/toggle/<i>")
+def toggle(i):
+	app.controller.toggle()
+	return "ok"
+
+@app.route("/therm/<id>/<t>")
+@app.route("/therm/<id>/<t>/<h>")
+def thermostat(id, t, h=0):
+	app.controller.set_therm_temp(float(t))
+	return str(app.settings.get('therm_refresh'))
+
+@app.route("/shutdown")
+def shutdown():
+	log.info("Shutdown received")
+	os.kill(os.getpid(), 2) #send SIGINT (ctrl-c) bjoern to shutdown with cleanup
+	return "<p>Shutting down...<p><a href='/'>/index</a><br><a href='/settings'>/settings</a>"
+
+@app.route("/push_subscribe", methods=['POST'])
+def push_subscribe():
+	sub = json.loads(bottle.request.form['sub_json'])
+	BBWebPush.add_subscription(sub['endpoint'], sub['keys']['auth'], sub['keys']['p256dh'])
+	return "ok"
+
+@app.route("/reset_default_settings")
+def reset_default_settings():
+	app.settings.reset_to_defaults()
+	return "ok"
+
+@app.route("/button")
+def button():
+	#BBWebPush.push()
+	return "ok"
+
+def start(controller):
+	global app
+	
+	app.controller = controller
+	app.settings = controller.settings
+	app.authorised_sessions = []
+	
+	log.info("Starting bjoern server")
+	try:
+		bjoern.run(app, "127.0.0.1", 8001)
+	except (KeyboardInterrupt, TypeError):
+		log.info("bjoern received ctrl-c")
+	except Exception as e:
+		log.exception("bjoern threw exception")
+	log.info("Ending bjoern server")

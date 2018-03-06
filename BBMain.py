@@ -47,15 +47,13 @@ os.chdir(os.path.dirname(os.path.abspath(__file__))) # change wd to location of 
 log.info("dir = %s", os.getcwd())
 
 controller = BBController.BBController()
-wui = BBWebUI.BBWebUI(controller)
-
 controller.start() # runs in new thread
 
 log.info("Threads")
 for t in threading.enumerate():
 	log.info("\t\t" + t.name)
 
-wui.start() # runs in this (main) thread
+BBWebUI.start(controller) # runs in this (main) thread
 controller.shutdown()
 controller.join()
 

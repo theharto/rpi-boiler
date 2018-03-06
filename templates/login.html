@@ -20,12 +20,8 @@
 	<meta http-equiv="Expires" content="0">
 
 	<script src="static/jquery.js"></script>
-	<script src="static/moment.min.js"></script>
 	<script src="static/bootstrap/js/bootstrap.min.js"></script>
-	<script src="static/bootstrap-switch-master/dist/js/bootstrap-switch.min.js"></script>
-	
 	<link  href="static/bootstrap/css/bootstrap-slate.css" rel="stylesheet">
-	<link  href="static/bootstrap-switch-master/dist/css/bootstrap3/bootstrap-switch.min.css" rel="stylesheet">
 	<link  href="static/style.css" rel="stylesheet">
 	
 	<style>
@@ -50,9 +46,9 @@
 
 <body>
 <div class="center-300">
-	{% if error %}
+	% if defined('error'):
 	<div class="error"><br>{{ error }}<br>&nbsp;</div>
-	{% endif %}
+	% end
 	<form action="/login" method="post">
 		<br><br>
 		<input type="password" placeholder="Password" name="pw" class="full-width" autofocus>

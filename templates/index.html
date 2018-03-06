@@ -26,14 +26,16 @@
 	
 	<link  href="static/bootstrap/css/bootstrap-slate.css" rel="stylesheet">
 	<link  href="static/bootstrap-switch-master/dist/css/bootstrap3/bootstrap-switch.min.css" rel="stylesheet">
-	<link  href="static/style.css?{{ range(1, 1000) | random }}" rel="stylesheet">
+	
+	<link  href="static/style.css?{{random_token}}" rel="stylesheet">
+	<script src="static/hf.js"></script>
 </head>
 
 <body>
 	<script>
 		const TIME_FORMAT_STRING = "ddd DD MMM HH:mm:ss";
-		var data = JSON.parse('{{ json_data|safe }}');
-		var settings = JSON.parse('{{ json_settings|safe }}');
+		var data = JSON.parse('{{!json_data}}');
+		var settings = JSON.parse('{{!json_settings}}');
 		var ajax_count = 0;
 		var interval_timer = 0;
 		var swr = null;
@@ -49,22 +51,6 @@
 			var m = parseInt(s / 60);
 			s -= m * 60;
 			return h + ":" + m + ":" + s;
-		}
-
-		function debug() {
-			var t = "";
-			
-			if (!settings.debug_mode) 
-				return;
-
-			for (var i = 0; i < arguments.length; i++) {
-				if (typeof arguments[i] == 'object')
-					t += JSON.stringify(arguments[i]);
-				else
-					t += arguments[i];
-			}
-			$("<div class='debug-text'></div>").text(t).prependTo('#debug');
-			console.log(t);
 		}
 
 		function set_data(json_string) {
@@ -117,15 +103,8 @@
 			}
 		}
 		
-		function urlBase64ToUint8Array(base64String) {
-			const padding = '='.repeat((4 - base64String.length % 4) % 4);
-			const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
-			const rawData = window.atob(base64);
-			return Uint8Array.from([...rawData].map((char) => char.charCodeAt(0)));
-		}
-		
 		$(document).ready(function() {
-			if (settings.debug_mode) {
+			if (debug_mode()) {
 				$("#data").css("display", "block");
 				$("#debug").css("display", "block")
 			}
@@ -228,7 +207,7 @@
 				interval_timer = 0;
 			});
 			
-			set_data('{{ json_data|safe }}');
+			set_data('{{!json_data}}');
 			interval_timer = setInterval(server_ajax_request, 1000 * settings.client_refresh, "/get_status");
 		});
 	</script>
@@ -249,6 +228,7 @@
             	<span id="icon-pending" class="glyphicon glyphicon-time icon"></span>
             </div>
         </div>
+        <!--
         <div class="collapse navbar-collapse" id="navbar-collapse">
             <ul class="nav navbar-nav">
                 <li><a href="/settings">Settings</a></li>
@@ -256,6 +236,7 @@
                 <li><a href="/shutdown">Shutdown</a></li>
             </ul>
         </div>
+        -->
     </nav>
     
     
@@ -306,12 +287,14 @@
 		<div class="row top-spacer">
 			<div class="col-xs-4"><button type="button" id="override-button" class="btn btn-default btn-block">Set override</button></div>
 		</div>
+		<!--
 		<div class="row top-spacer">
 			<div class="col-xs-4"><button type="button" id="test-button" class="btn btn-default btn-block">Test button</button></div>
 		</div>
 		<div class="row top-spacer">
 			<div class="col-xs-4"><button type="button" id="test-button-2" class="btn btn-default btn-block">Test button 2</button></div>
 		</div>
+		-->
 		<div class="row top-spacer">
 			<div class="col-xs-4">
 				<a href="/settings">
@@ -326,6 +309,7 @@
 				<div id="data"></div>
 				<div id="debug"></div>
 			</div>
+		</div>
     </div>
 </body>
 

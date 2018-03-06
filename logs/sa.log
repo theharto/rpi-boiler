@@ -1,1 +1,95 @@
-
+03/02/18 19:56:10  Unknown command: rm_var_logs
+03/02/18 19:56:31 reboot
+03/02/18 20:04:10 wiping logs
+rm: cannot remove '/var/log/apt': Is a directory
+rm: cannot remove '/var/log/nginx': Is a directory
+rm: cannot remove '/var/log/samba': Is a directory
+03/03/18 09:55:15 wiping logs
+rm: cannot remove '/var/log/apt': Is a directory
+rm: cannot remove '/var/log/nginx': Is a directory
+rm: cannot remove '/var/log/samba': Is a directory
+03/04/18 15:04:56 stopping network
+03/04/18 15:05:26 starting network
+03/05/18 09:41:34 wiping logs
+rm: cannot remove '/var/log/apt': Is a directory
+rm: cannot remove '/var/log/nginx': Is a directory
+rm: cannot remove '/var/log/samba': Is a directory
+03/05/18 16:57:33 stopping network
+03/05/18 16:58:03 starting network
+03/05/18 16:58:23 reboot
+03/05/18 17:00:31 stopping network
+03/05/18 17:01:01 starting network
+03/05/18 17:01:22 reboot
+03/05/18 17:03:30 stopping network
+03/05/18 17:04:00 starting network
+03/05/18 17:04:20 reboot
+03/05/18 17:06:28 stopping network
+03/05/18 17:06:58 starting network
+03/05/18 17:07:18 reboot
+03/05/18 17:09:26 stopping network
+03/05/18 17:09:56 starting network
+03/05/18 17:10:16 reboot
+03/05/18 17:12:25 stopping network
+03/05/18 17:12:55 starting network
+03/05/18 17:13:15 reboot
+03/05/18 17:15:35 stopping network
+03/05/18 17:16:05 starting network
+03/05/18 17:16:25 reboot
+03/05/18 17:18:38 stopping network
+03/05/18 17:19:08 starting network
+03/05/18 17:19:28 reboot
+03/05/18 17:21:36 stopping network
+03/05/18 17:22:06 starting network
+03/05/18 17:22:26 reboot
+03/05/18 17:24:39 stopping network
+03/05/18 17:25:09 starting network
+03/05/18 17:25:29 reboot
+03/05/18 17:27:37 stopping network
+03/05/18 17:28:07 starting network
+03/05/18 17:28:27 reboot
+03/05/18 17:30:48 stopping network
+03/05/18 17:31:18 starting network
+03/05/18 17:31:38 reboot
+03/05/18 17:33:46 stopping network
+03/05/18 17:34:16 starting network
+03/05/18 17:34:36 reboot
+03/05/18 17:36:57 stopping network
+03/05/18 17:37:27 starting network
+03/05/18 17:37:47 reboot
+03/05/18 17:39:56 stopping network
+03/05/18 17:40:26 starting network
+03/05/18 17:40:46 reboot
+03/05/18 17:42:54 stopping network
+03/05/18 17:43:24 starting network
+03/05/18 17:43:45 reboot
+03/05/18 17:45:58 stopping network
+03/05/18 17:46:28 starting network
+03/05/18 17:46:48 reboot
+03/05/18 17:48:56 stopping network
+03/05/18 17:49:26 starting network
+03/05/18 17:49:46 reboot
+03/05/18 17:51:54 stopping network
+03/05/18 17:52:24 starting network
+03/05/18 17:52:44 reboot
+03/05/18 17:54:52 stopping network
+03/05/18 17:55:22 starting network
+03/05/18 17:55:42 reboot
+03/05/18 17:57:54 stopping network
+03/05/18 17:58:24 starting network
+03/05/18 17:58:44 reboot
+03/05/18 18:01:06 stopping network
+03/05/18 18:01:36 starting network
+03/05/18 18:01:56 reboot
+03/05/18 18:04:04 stopping network
+03/05/18 18:04:34 starting network
+03/05/18 18:04:54 reboot
+03/05/18 18:07:03 stopping network
+03/05/18 18:07:33 starting network
+03/05/18 18:07:53 reboot
+03/05/18 18:10:05 stopping network
+03/05/18 18:10:35 starting network
+03/05/18 18:10:55 reboot
+03/05/18 18:13:04 stopping network
+03/05/18 18:13:34 starting network
+03/05/18 18:13:54 reboot
+03/06/18 14:55:46 reboot

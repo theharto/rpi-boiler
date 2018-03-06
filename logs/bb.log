@@ -1,7 +1,233 @@
 
-02/12/18 15:09:55 INFO BBController: Tick 0 => 0; wifi = 54%
-02/12/18 15:11:55 INFO BBController: Tick 0 => 0; wifi = 51%
-02/12/18 15:13:55 INFO BBController: Tick 0 => 0; wifi = 55%
-02/12/18 15:15:55 INFO BBController: Tick 0 => 0; wifi = 52%
-02/12/18 15:17:55 INFO BBController: Tick 0 => 0; wifi = 45%
-02/12/18 15:19:55 INFO BBController: Tick 0 => 0; wifi = 58%
+03/06/18 14:56:17 INFO BBMain: *********************
+03/06/18 14:56:17 INFO BBMain: berry boiler starting
+03/06/18 14:56:17 INFO BBMain: *********************
+03/06/18 14:56:17 INFO BBMain: dir = /home/pi/rpi-boiler
+03/06/18 14:56:17 INFO BBSettings: Loaded from settings.json
+03/06/18 14:56:17 INFO BBController: new (BBEvent0 0:0:0, 24:0:0, 0)
+03/06/18 14:56:17 INFO BBController: Controller thread started
+03/06/18 14:56:17 INFO BBMain: Threads
+03/06/18 14:56:17 INFO BBMain: 		MainThread
+03/06/18 14:56:17 INFO BBMain: 		BBController
+03/06/18 14:56:17 INFO BBMain: 		BBLed_21
+03/06/18 14:56:17 INFO BBWebUI: Starting bjoern server
+03/06/18 16:53:11 INFO BBWebUI: <LocalRequest: GET https://homefire.cf/> from 82.132.185.112
+03/06/18 16:53:11 INFO BBWebUI: cookies = {'dict': {'hf-pRm2BzfSyeIB': ['evMar-Sw.QOjZmcURll3qyI9fmA5ZDq6'], 'hf-97ecYgOK': ['9DdxqANkkfEelKqiHROytC4krS3AUUpS']}}
+03/06/18 16:53:11 INFO BBWebUI: auth_sess = []
+03/06/18 16:53:11 INFO BBWebUI: No session, redirected
+03/06/18 16:53:11 INFO BBWebUI: <LocalRequest: GET https://homefire.cf/login> from 82.132.185.112
+03/06/18 16:53:12 INFO BBWebUI: <LocalRequest: GET https://homefire.cf/static/jquery.js> from 82.132.185.112
+03/06/18 16:53:12 INFO BBWebUI: <LocalRequest: GET https://homefire.cf/static/bootstrap/css/bootstrap-slate.css> from 82.132.185.112
+03/06/18 16:53:12 INFO BBWebUI: <LocalRequest: GET https://homefire.cf/static/style.css> from 82.132.185.112
+03/06/18 16:53:12 INFO BBWebUI: <LocalRequest: GET https://homefire.cf/static/bootstrap/js/bootstrap.min.js> from 82.132.185.112
+03/06/18 16:53:21 INFO BBWebUI: <LocalRequest: POST https://homefire.cf/login> from 82.39.96.201
+03/06/18 16:53:21 INFO BBWebUI: <LocalRequest: GET https://homefire.cf/> from 82.39.96.201
+03/06/18 16:53:21 INFO BBWebUI: cookies = {'dict': {'hf-5Y8JcRrQDZsp': ['Fnx40MLDJ1ngFy6X1jypJkqYpVRHC~Go'], 'hf-pRm2BzfSyeIB': ['evMar-Sw.QOjZmcURll3qyI9fmA5ZDq6'], 'hf-97ecYgOK': ['9DdxqANkkfEelKqiHROytC4krS3AUUpS']}}
+03/06/18 16:53:21 INFO BBWebUI: auth_sess = ['Fnx40MLDJ1ngFy6X1jypJkqYpVRHC~Go']
+03/06/18 16:53:21 INFO BBWebUI: Authorised Fnx40MLDJ1ngFy6X1jypJkqYpVRHC~Go
+03/06/18 16:53:21 INFO BBWebUI: <LocalRequest: GET https://homefire.cf/static/moment.min.js> from 82.39.96.201
+03/06/18 16:53:21 INFO BBWebUI: <LocalRequest: GET https://homefire.cf/static/style.css?.m0N> from 82.39.96.201
+03/06/18 16:53:21 INFO BBWebUI: <LocalRequest: GET https://homefire.cf/static/bootstrap-switch-master/dist/css/bootstrap3/bootstrap-switch.min.css> from 82.39.96.201
+03/06/18 16:53:21 INFO BBWebUI: <LocalRequest: GET https://homefire.cf/static/bootstrap-switch-master/dist/js/bootstrap-switch.min.js> from 82.39.96.201
+03/06/18 16:53:21 INFO BBWebUI: <LocalRequest: GET https://homefire.cf/static/hf.js> from 82.39.96.201
+03/06/18 16:53:22 INFO BBWebUI: <LocalRequest: GET https://homefire.cf/static/bootstrap/fonts/glyphicons-halflings-regular.woff2> from 82.39.96.201
+03/06/18 16:53:23 INFO BBWebUI: <LocalRequest: GET https://homefire.cf/settings> from 82.39.96.201
+03/06/18 16:53:23 INFO BBWebUI: cookies = {'dict': {'hf-5Y8JcRrQDZsp': ['Fnx40MLDJ1ngFy6X1jypJkqYpVRHC~Go'], 'hf-pRm2BzfSyeIB': ['evMar-Sw.QOjZmcURll3qyI9fmA5ZDq6'], 'hf-97ecYgOK': ['9DdxqANkkfEelKqiHROytC4krS3AUUpS']}}
+03/06/18 16:53:23 INFO BBWebUI: auth_sess = ['Fnx40MLDJ1ngFy6X1jypJkqYpVRHC~Go']
+03/06/18 16:53:23 INFO BBWebUI: Authorised Fnx40MLDJ1ngFy6X1jypJkqYpVRHC~Go
+03/06/18 16:53:23 INFO BBWebUI: <LocalRequest: GET https://homefire.cf/static/style.css?nG6e> from 82.39.96.201
+03/06/18 16:53:26 INFO BBWebUI: <LocalRequest: GET https://homefire.cf/> from 82.39.96.201
+03/06/18 16:53:26 INFO BBWebUI: cookies = {'dict': {'hf-5Y8JcRrQDZsp': ['Fnx40MLDJ1ngFy6X1jypJkqYpVRHC~Go'], 'hf-debug_mode': ['true'], 'hf-pRm2BzfSyeIB': ['evMar-Sw.QOjZmcURll3qyI9fmA5ZDq6'], 'hf-97ecYgOK': ['9DdxqANkkfEelKqiHROytC4krS3AUUpS']}}
+03/06/18 16:53:26 INFO BBWebUI: auth_sess = ['Fnx40MLDJ1ngFy6X1jypJkqYpVRHC~Go']
+03/06/18 16:53:26 INFO BBWebUI: Authorised Fnx40MLDJ1ngFy6X1jypJkqYpVRHC~Go
+03/06/18 16:53:26 INFO BBWebUI: <LocalRequest: GET https://homefire.cf/static/style.css?ft.p> from 82.39.96.201
+03/06/18 16:53:28 INFO BBWebUI: <LocalRequest: GET https://homefire.cf/settings> from 82.39.96.201
+03/06/18 16:53:28 INFO BBWebUI: cookies = {'dict': {'hf-5Y8JcRrQDZsp': ['Fnx40MLDJ1ngFy6X1jypJkqYpVRHC~Go'], 'hf-debug_mode': ['true'], 'hf-pRm2BzfSyeIB': ['evMar-Sw.QOjZmcURll3qyI9fmA5ZDq6'], 'hf-97ecYgOK': ['9DdxqANkkfEelKqiHROytC4krS3AUUpS']}}
+03/06/18 16:53:28 INFO BBWebUI: auth_sess = ['Fnx40MLDJ1ngFy6X1jypJkqYpVRHC~Go']
+03/06/18 16:53:28 INFO BBWebUI: Authorised Fnx40MLDJ1ngFy6X1jypJkqYpVRHC~Go
+03/06/18 16:53:29 INFO BBWebUI: <LocalRequest: GET https://homefire.cf/static/style.css?Sk97> from 82.39.96.201
+03/06/18 17:45:04 INFO BBWebUI: <LocalRequest: GET http://127.0.0.1/toggle/0> from 127.0.0.1
+03/06/18 17:45:04 INFO BBController: new (BBEvent1 422321:45:4, 422327:45:4, 100)
+03/06/18 18:24:23 INFO BBWebUI: <LocalRequest: GET https://homefire.cf/> from 95.45.252.6
+03/06/18 18:24:23 INFO BBWebUI: cookies = {'dict': {}}
+03/06/18 18:24:23 INFO BBWebUI: auth_sess = ['Fnx40MLDJ1ngFy6X1jypJkqYpVRHC~Go']
+03/06/18 18:24:23 INFO BBWebUI: No session, redirected
+03/06/18 18:24:24 INFO BBWebUI: <LocalRequest: GET https://homefire.cf/login> from 95.45.252.6
+03/06/18 18:37:01 INFO BBWebUI: <LocalRequest: GET https://homefire.cf/> from 89.234.68.82
+03/06/18 18:37:01 INFO BBWebUI: cookies = {'dict': {}}
+03/06/18 18:37:01 INFO BBWebUI: auth_sess = ['Fnx40MLDJ1ngFy6X1jypJkqYpVRHC~Go']
+03/06/18 18:37:01 INFO BBWebUI: No session, redirected
+03/06/18 18:37:02 INFO BBWebUI: <LocalRequest: GET https://homefire.cf/login> from 89.234.68.82
+03/06/18 20:10:31 INFO BBWebUI: <LocalRequest: GET http://192.168.0.16/> from 192.168.0.15
+03/06/18 20:10:31 INFO BBWebUI: cookies = {'dict': {'hf-5jczAJuvvB3y': ['YlDDwHrsBIEmQMbAOneEvINViOBIVMow'], 'JCfQQA7N': ['X6rDLzF95MiOg60wEL8tb3zQ~JRvKhNj'], 'f9c7294bc8f6035df784b56b800b122c': ['6idulmaglm0fq06iknkomtha41']}}
+03/06/18 20:10:31 INFO BBWebUI: auth_sess = ['Fnx40MLDJ1ngFy6X1jypJkqYpVRHC~Go']
+03/06/18 20:10:31 INFO BBWebUI: No session, redirected
+03/06/18 20:10:31 INFO BBWebUI: <LocalRequest: GET http://192.168.0.16/login> from 192.168.0.15
+03/06/18 20:10:31 INFO BBWebUI: <LocalRequest: GET http://192.168.0.16/static/favicon.ico> from 192.168.0.15
+03/06/18 20:10:35 INFO BBWebUI: <LocalRequest: POST http://192.168.0.16/login> from 192.168.0.15
+03/06/18 20:10:35 INFO BBWebUI: <LocalRequest: GET http://192.168.0.16/> from 192.168.0.15
+03/06/18 20:10:35 INFO BBWebUI: cookies = {'dict': {'hf-5jczAJuvvB3y': ['YlDDwHrsBIEmQMbAOneEvINViOBIVMow'], 'hf-5Y8JcRrQDZsp': ['6-9PzL1SjfZu3aSEWuk_pPJ4k4ZpdzGP'], 'JCfQQA7N': ['X6rDLzF95MiOg60wEL8tb3zQ~JRvKhNj'], 'f9c7294bc8f6035df784b56b800b122c': ['6idulmaglm0fq06iknkomtha41']}}
+03/06/18 20:10:35 INFO BBWebUI: auth_sess = ['Fnx40MLDJ1ngFy6X1jypJkqYpVRHC~Go', '6-9PzL1SjfZu3aSEWuk_pPJ4k4ZpdzGP']
+03/06/18 20:10:35 INFO BBWebUI: Authorised 6-9PzL1SjfZu3aSEWuk_pPJ4k4ZpdzGP
+03/06/18 20:10:35 INFO BBWebUI: <LocalRequest: GET http://192.168.0.16/static/style.css?HJqr> from 192.168.0.15
+03/06/18 20:10:35 INFO BBWebUI: <LocalRequest: GET http://192.168.0.16/static/hf.js> from 192.168.0.15
+03/06/18 20:11:05 INFO BBWebUI: <LocalRequest: GET http://192.168.0.16/get_status> from 192.168.0.15
+03/06/18 20:11:05 INFO BBWebUI: cookies = {'dict': {'hf-5jczAJuvvB3y': ['YlDDwHrsBIEmQMbAOneEvINViOBIVMow'], 'hf-5Y8JcRrQDZsp': ['6-9PzL1SjfZu3aSEWuk_pPJ4k4ZpdzGP'], 'JCfQQA7N': ['X6rDLzF95MiOg60wEL8tb3zQ~JRvKhNj'], 'f9c7294bc8f6035df784b56b800b122c': ['6idulmaglm0fq06iknkomtha41']}}
+03/06/18 20:11:05 INFO BBWebUI: auth_sess = ['Fnx40MLDJ1ngFy6X1jypJkqYpVRHC~Go', '6-9PzL1SjfZu3aSEWuk_pPJ4k4ZpdzGP']
+03/06/18 20:11:05 INFO BBWebUI: Authorised 6-9PzL1SjfZu3aSEWuk_pPJ4k4ZpdzGP
+03/06/18 20:11:35 INFO BBWebUI: <LocalRequest: GET http://192.168.0.16/get_status> from 192.168.0.15
+03/06/18 20:11:35 INFO BBWebUI: cookies = {'dict': {'hf-5jczAJuvvB3y': ['YlDDwHrsBIEmQMbAOneEvINViOBIVMow'], 'hf-5Y8JcRrQDZsp': ['6-9PzL1SjfZu3aSEWuk_pPJ4k4ZpdzGP'], 'JCfQQA7N': ['X6rDLzF95MiOg60wEL8tb3zQ~JRvKhNj'], 'f9c7294bc8f6035df784b56b800b122c': ['6idulmaglm0fq06iknkomtha41']}}
+03/06/18 20:11:35 INFO BBWebUI: auth_sess = ['Fnx40MLDJ1ngFy6X1jypJkqYpVRHC~Go', '6-9PzL1SjfZu3aSEWuk_pPJ4k4ZpdzGP']
+03/06/18 20:11:35 INFO BBWebUI: Authorised 6-9PzL1SjfZu3aSEWuk_pPJ4k4ZpdzGP
+03/06/18 20:32:16 INFO BBWebUI: <LocalRequest: GET https://homefire.cf/> from 196.44.131.182
+03/06/18 20:32:16 INFO BBWebUI: cookies = {'dict': {}}
+03/06/18 20:32:16 INFO BBWebUI: auth_sess = ['Fnx40MLDJ1ngFy6X1jypJkqYpVRHC~Go', '6-9PzL1SjfZu3aSEWuk_pPJ4k4ZpdzGP']
+03/06/18 20:32:16 INFO BBWebUI: No session, redirected
+03/06/18 20:32:17 INFO BBWebUI: <LocalRequest: GET https://homefire.cf/login> from 196.44.131.182
+03/06/18 20:32:22 INFO BBWebUI: <LocalRequest: GET http://192.168.0.16/get_status> from 192.168.0.15
+03/06/18 20:32:22 INFO BBWebUI: cookies = {'dict': {'hf-5jczAJuvvB3y': ['YlDDwHrsBIEmQMbAOneEvINViOBIVMow'], 'hf-5Y8JcRrQDZsp': ['6-9PzL1SjfZu3aSEWuk_pPJ4k4ZpdzGP'], 'JCfQQA7N': ['X6rDLzF95MiOg60wEL8tb3zQ~JRvKhNj'], 'f9c7294bc8f6035df784b56b800b122c': ['6idulmaglm0fq06iknkomtha41']}}
+03/06/18 20:32:22 INFO BBWebUI: auth_sess = ['Fnx40MLDJ1ngFy6X1jypJkqYpVRHC~Go', '6-9PzL1SjfZu3aSEWuk_pPJ4k4ZpdzGP']
+03/06/18 20:32:22 INFO BBWebUI: Authorised 6-9PzL1SjfZu3aSEWuk_pPJ4k4ZpdzGP
+03/06/18 20:36:59 INFO BBWebUI: <LocalRequest: GET http://127.0.0.1/shutdown> from 127.0.0.1
+03/06/18 20:36:59 INFO BBWebUI: Shutdown received
+03/06/18 20:36:59 INFO BBWebUI: bjoern received ctrl-c
+03/06/18 20:36:59 INFO BBWebUI: Ending bjoern server
+03/06/18 20:36:59 INFO BBController: Controller thread ended
+03/06/18 20:36:59 INFO BBMain: berry boiler main thread ending
+03/06/18 20:36:59 INFO BBMain: Threads still running:
+03/06/18 20:36:59 INFO BBMain: 		MainThread
+03/06/18 20:37:05 INFO BBMain: *********************
+03/06/18 20:37:05 INFO BBMain: berry boiler starting
+03/06/18 20:37:05 INFO BBMain: *********************
+03/06/18 20:37:05 INFO BBMain: dir = /home/pi/rpi-boiler
+03/06/18 20:37:05 INFO BBSettings: Loaded from settings.json
+03/06/18 20:37:05 INFO BBController: new (BBEvent0 0:0:0, 24:0:0, 0)
+03/06/18 20:37:05 INFO BBController: Controller thread started
+03/06/18 20:37:05 INFO BBMain: Threads
+03/06/18 20:37:05 INFO BBMain: 		MainThread
+03/06/18 20:37:05 INFO BBMain: 		BBController
+03/06/18 20:37:05 INFO BBMain: 		BBLed_21
+03/06/18 20:37:05 INFO BBWebUI: Starting bjoern server
+03/06/18 20:39:24 INFO BBWebUI: <LocalRequest: GET http://192.168.0.16/get_status> from 192.168.0.15
+03/06/18 20:39:25 INFO BBWebUI: cookies = {'dict': {'JCfQQA7N': ['X6rDLzF95MiOg60wEL8tb3zQ~JRvKhNj'], 'hf-5jczAJuvvB3y': ['YlDDwHrsBIEmQMbAOneEvINViOBIVMow'], 'hf-5Y8JcRrQDZsp': ['6-9PzL1SjfZu3aSEWuk_pPJ4k4ZpdzGP'], 'f9c7294bc8f6035df784b56b800b122c': ['6idulmaglm0fq06iknkomtha41']}}
+03/06/18 20:39:25 INFO BBWebUI: auth_sess = []
+03/06/18 20:39:25 INFO BBWebUI: No session, redirected
+03/06/18 20:39:25 INFO BBWebUI: <LocalRequest: GET http://192.168.0.16/login> from 192.168.0.15
+03/06/18 20:39:26 INFO BBWebUI: <LocalRequest: GET http://192.168.0.16/settings> from 192.168.0.15
+03/06/18 20:39:26 INFO BBWebUI: cookies = {'dict': {'JCfQQA7N': ['X6rDLzF95MiOg60wEL8tb3zQ~JRvKhNj'], 'hf-5jczAJuvvB3y': ['YlDDwHrsBIEmQMbAOneEvINViOBIVMow'], 'hf-5Y8JcRrQDZsp': ['6-9PzL1SjfZu3aSEWuk_pPJ4k4ZpdzGP'], 'f9c7294bc8f6035df784b56b800b122c': ['6idulmaglm0fq06iknkomtha41']}}
+03/06/18 20:39:26 INFO BBWebUI: auth_sess = []
+03/06/18 20:39:26 INFO BBWebUI: No session, redirected
+03/06/18 20:39:26 INFO BBWebUI: <LocalRequest: GET http://192.168.0.16/login> from 192.168.0.15
+03/06/18 20:42:57 INFO BBWebUI: <LocalRequest: GET http://127.0.0.1/shutdown> from 127.0.0.1
+03/06/18 20:42:57 INFO BBWebUI: Shutdown received
+03/06/18 20:42:57 INFO BBWebUI: bjoern received ctrl-c
+03/06/18 20:42:57 INFO BBWebUI: Ending bjoern server
+03/06/18 20:42:57 INFO BBController: Controller thread ended
+03/06/18 20:42:57 INFO BBMain: berry boiler main thread ending
+03/06/18 20:42:57 INFO BBMain: Threads still running:
+03/06/18 20:42:57 INFO BBMain: 		MainThread
+03/06/18 20:43:02 INFO BBMain: *********************
+03/06/18 20:43:02 INFO BBMain: berry boiler starting
+03/06/18 20:43:02 INFO BBMain: *********************
+03/06/18 20:43:02 INFO BBMain: dir = /home/pi/rpi-boiler
+03/06/18 20:43:02 INFO BBSettings: Loaded from settings.json
+03/06/18 20:43:02 INFO BBController: new (BBEvent0 0:0:0, 24:0:0, 0)
+03/06/18 20:43:02 INFO BBController: Controller thread started
+03/06/18 20:43:02 INFO BBMain: Threads
+03/06/18 20:43:02 INFO BBMain: 		MainThread
+03/06/18 20:43:02 INFO BBMain: 		BBController
+03/06/18 20:43:02 INFO BBMain: 		BBLed_21
+03/06/18 20:43:02 INFO BBWebUI: Starting bjoern server
+03/06/18 20:43:12 INFO BBWebUI: <GET http://192.168.0.16/> from 192.168.0.15
+03/06/18 20:43:12 INFO BBWebUI: cookies = {'dict': {'hf-5jczAJuvvB3y': ['YlDDwHrsBIEmQMbAOneEvINViOBIVMow'], 'hf-5Y8JcRrQDZsp': ['6-9PzL1SjfZu3aSEWuk_pPJ4k4ZpdzGP'], 'f9c7294bc8f6035df784b56b800b122c': ['6idulmaglm0fq06iknkomtha41'], 'JCfQQA7N': ['X6rDLzF95MiOg60wEL8tb3zQ~JRvKhNj']}}
+03/06/18 20:43:12 INFO BBWebUI: auth_sess = []
+03/06/18 20:43:12 INFO BBWebUI: No session, redirected
+03/06/18 20:43:12 INFO BBWebUI: <GET http://192.168.0.16/login> from 192.168.0.15
+03/06/18 20:43:24 INFO BBWebUI: <GET https://homefire.cf/> from 82.39.96.201
+03/06/18 20:43:24 INFO BBWebUI: cookies = {'dict': {'hf-1H5NoQHNLlbX': ['L0JpD8XAi7yG701i0CJT5e53sOmQAkrW'], 'hf-pRm2BzfSyeIB': ['146YQEOMOica14MC8~WDxpB-IGRcGdRe'], 'debug_mode': ['true']}}
+03/06/18 20:43:24 INFO BBWebUI: auth_sess = []
+03/06/18 20:43:24 INFO BBWebUI: No session, redirected
+03/06/18 20:43:24 INFO BBWebUI: <GET https://homefire.cf/login> from 82.39.96.201
+03/06/18 20:43:24 INFO BBWebUI: <GET https://homefire.cf/static/jquery.js> from 82.39.96.201
+03/06/18 20:43:25 INFO BBWebUI: <GET https://homefire.cf/static/bootstrap/js/bootstrap.min.js> from 82.39.96.201
+03/06/18 20:43:25 INFO BBWebUI: <GET https://homefire.cf/static/bootstrap/css/bootstrap-slate.css> from 82.39.96.201
+03/06/18 20:43:25 INFO BBWebUI: <GET https://homefire.cf/static/style.css> from 82.39.96.201
+03/06/18 20:43:25 INFO BBWebUI: <GET https://homefire.cf/static/favicon-32x32.png> from 82.39.96.201
+03/06/18 20:43:25 INFO BBWebUI: <GET https://homefire.cf/static/favicon-16x16.png> from 82.39.96.201
+03/06/18 20:44:30 INFO BBWebUI: <GET http://127.0.0.1/shutdown> from 127.0.0.1
+03/06/18 20:44:30 INFO BBWebUI: Shutdown received
+03/06/18 20:44:30 INFO BBWebUI: bjoern received ctrl-c
+03/06/18 20:44:30 INFO BBWebUI: Ending bjoern server
+03/06/18 20:44:30 INFO BBController: Controller thread ended
+03/06/18 20:44:30 INFO BBMain: berry boiler main thread ending
+03/06/18 20:44:30 INFO BBMain: Threads still running:
+03/06/18 20:44:30 INFO BBMain: 		MainThread
+03/06/18 20:44:36 INFO BBMain: *********************
+03/06/18 20:44:36 INFO BBMain: berry boiler starting
+03/06/18 20:44:36 INFO BBMain: *********************
+03/06/18 20:44:36 INFO BBMain: dir = /home/pi/rpi-boiler
+03/06/18 20:44:36 INFO BBSettings: Loaded from settings.json
+03/06/18 20:44:36 INFO BBController: new (BBEvent0 0:0:0, 24:0:0, 0)
+03/06/18 20:44:36 INFO BBController: Controller thread started
+03/06/18 20:44:36 INFO BBMain: Threads
+03/06/18 20:44:36 INFO BBMain: 		MainThread
+03/06/18 20:44:36 INFO BBMain: 		BBController
+03/06/18 20:44:36 INFO BBMain: 		BBLed_21
+03/06/18 20:44:36 INFO BBWebUI: Starting bjoern server
+03/06/18 20:44:41 INFO BBWebUI: <GET https://homefire.cf/login> from 82.39.96.201
+03/06/18 20:44:41 INFO BBWebUI: <GET https://homefire.cf/static/favicon-32x32.png> from 82.39.96.201
+03/06/18 20:44:42 INFO BBWebUI: <GET https://homefire.cf/static/favicon.ico> from 82.39.96.201
+03/06/18 20:45:05 INFO BBWebUI: <GET http://192.168.0.16/> from 192.168.0.15
+03/06/18 20:45:05 INFO BBWebUI: cookies = {'dict': {'JCfQQA7N': ['X6rDLzF95MiOg60wEL8tb3zQ~JRvKhNj'], 'f9c7294bc8f6035df784b56b800b122c': ['6idulmaglm0fq06iknkomtha41'], 'hf-5jczAJuvvB3y': ['YlDDwHrsBIEmQMbAOneEvINViOBIVMow'], 'hf-5Y8JcRrQDZsp': ['6-9PzL1SjfZu3aSEWuk_pPJ4k4ZpdzGP']}}
+03/06/18 20:45:05 INFO BBWebUI: auth_sess = []
+03/06/18 20:45:05 INFO BBWebUI: No session, redirected
+03/06/18 20:45:05 INFO BBWebUI: <GET http://192.168.0.16/login> from 192.168.0.15
+03/06/18 20:45:41 INFO BBWebUI: <GET http://127.0.0.1/shutdown> from 127.0.0.1
+03/06/18 20:45:41 INFO BBWebUI: Shutdown received
+03/06/18 20:45:41 INFO BBWebUI: bjoern received ctrl-c
+03/06/18 20:45:41 INFO BBWebUI: Ending bjoern server
+03/06/18 20:45:41 INFO BBController: Controller thread ended
+03/06/18 20:45:41 INFO BBMain: berry boiler main thread ending
+03/06/18 20:45:41 INFO BBMain: Threads still running:
+03/06/18 20:45:41 INFO BBMain: 		MainThread
+03/06/18 20:45:46 INFO BBMain: *********************
+03/06/18 20:45:46 INFO BBMain: berry boiler starting
+03/06/18 20:45:46 INFO BBMain: *********************
+03/06/18 20:45:46 INFO BBMain: dir = /home/pi/rpi-boiler
+03/06/18 20:45:46 INFO BBSettings: Loaded from settings.json
+03/06/18 20:45:46 INFO BBController: new (BBEvent0 0:0:0, 24:0:0, 0)
+03/06/18 20:45:46 INFO BBController: Controller thread started
+03/06/18 20:45:46 INFO BBMain: Threads
+03/06/18 20:45:46 INFO BBMain: 		MainThread
+03/06/18 20:45:46 INFO BBMain: 		BBController
+03/06/18 20:45:46 INFO BBMain: 		BBLed_21
+03/06/18 20:45:46 INFO BBWebUI: Starting bjoern server
+03/06/18 20:45:50 INFO BBWebUI: <GET http://192.168.0.16/login> from ['192.168.0.15']
+03/06/18 20:45:50 INFO BBWebUI: <GET http://192.168.0.16/static/favicon-32x32.png> from ['192.168.0.15']
+03/06/18 20:45:57 INFO BBWebUI: <GET https://homefire.cf/> from ['82.39.96.201']
+03/06/18 20:45:57 INFO BBWebUI: cookies = {'dict': {'hf-pRm2BzfSyeIB': ['146YQEOMOica14MC8~WDxpB-IGRcGdRe'], 'debug_mode': ['true'], 'hf-1H5NoQHNLlbX': ['L0JpD8XAi7yG701i0CJT5e53sOmQAkrW']}}
+03/06/18 20:45:57 INFO BBWebUI: auth_sess = []
+03/06/18 20:45:57 INFO BBWebUI: No session, redirected
+03/06/18 20:45:57 INFO BBWebUI: <GET https://homefire.cf/login> from ['82.39.96.201']
+03/06/18 20:48:26 INFO BBWebUI: <GET http://127.0.0.1/shutdown> from ['127.0.0.1']
+03/06/18 20:48:26 INFO BBWebUI: Shutdown received
+03/06/18 20:48:26 INFO BBWebUI: bjoern received ctrl-c
+03/06/18 20:48:26 INFO BBWebUI: Ending bjoern server
+03/06/18 20:48:26 INFO BBController: Controller thread ended
+03/06/18 20:48:26 INFO BBMain: berry boiler main thread ending
+03/06/18 20:48:26 INFO BBMain: Threads still running:
+03/06/18 20:48:26 INFO BBMain: 		MainThread
+03/06/18 20:48:32 INFO BBMain: *********************
+03/06/18 20:48:32 INFO BBMain: berry boiler starting
+03/06/18 20:48:32 INFO BBMain: *********************
+03/06/18 20:48:32 INFO BBMain: dir = /home/pi/rpi-boiler
+03/06/18 20:48:32 INFO BBSettings: Loaded from settings.json
+03/06/18 20:48:32 INFO BBController: new (BBEvent0 0:0:0, 24:0:0, 0)
+03/06/18 20:48:32 INFO BBController: Controller thread started
+03/06/18 20:48:32 INFO BBMain: Threads
+03/06/18 20:48:32 INFO BBMain: 		MainThread
+03/06/18 20:48:32 INFO BBMain: 		BBController
+03/06/18 20:48:32 INFO BBMain: 		BBLed_21
+03/06/18 20:48:32 INFO BBWebUI: Starting bjoern server
+03/06/18 20:48:36 INFO BBWebUI: <GET https://homefire.cf/login> from 82.39.96.201
+03/06/18 20:48:36 INFO BBWebUI: <GET https://homefire.cf/static/favicon-32x32.png> from 82.39.96.201

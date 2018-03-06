@@ -128,6 +128,17 @@ class BBController(threading.Thread):
 					self.__event_queue.remove(e)
 					self.__evaluate()
 					return
+	
+	#
+	# toggle()
+	#
+	def toggle(self):
+		with self:
+			t = time.time()
+			if self.__boiler_on:
+				self.set_override_event(t, t + tod(6, 0, 0), 0)
+			else:
+				self.set_override_event(t, t + tod(6, 0, 0), 100)
 
 	#
 	# get_status_json()
@@ -237,7 +248,7 @@ class BBController(threading.Thread):
 			if not BBMonitor.is_active:
 				wifi_strength = BBMonitor.wifi_strength()
 				if wifi_strength == 0:
-					log.warn("Wifi signal lost, launching monitor")
+					log.warning("Wifi signal lost, launching monitor")
 					BBMonitor.BBMonitor(self.__led).start()
 			
 			# do stuff inside lock, so that vars cannot be changed while awake
@@ -255,7 +266,8 @@ class BBController(threading.Thread):
 					GPIO.output(self.__relay_pin, (self.RELAY_ON if self.__boiler_on else self.RELAY_OFF))
 				
 				# sleep for tick, but wake up if signalled
-				log.info("Tick %d => %d; wifi = %d%%", prev_boiler_on, self.__boiler_on, wifi_strength)
+				if prev_boiler_on != self.__boiler_on:
+					log.info("Tick %d => %d; wifi = %d%%", prev_boiler_on, self.__boiler_on, wifi_strength)
 				self.__wake_signal.wait(self.settings.get('controller_tick'))
 				
 			"""

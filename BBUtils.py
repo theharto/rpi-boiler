@@ -5,7 +5,7 @@ import logging
 log = logging.getLogger(__name__)
 
 def random_token(n):
-	return ''.join(random.SystemRandom().choice("abcdefghijklmnopqrstuvwxyz0123456789") for _ in range(n))
+	return ''.join(random.SystemRandom().choice("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~") for _ in range(n))
 
 def session_hash(key, ip4):
 	data = (key + ip4).encode()
@@ -38,6 +38,8 @@ class ErrorLogger():
 			logging.error("!!! FLUSH !!!" + self.__cache)
 			self.__cache = ''
 			'''
+	def flush(self):
+		pass
 
 #
 # sudo_action(string)
